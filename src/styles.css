@@ -91,3 +91,38 @@ body{
 @media (max-width:900px){
   .app-shell{grid-template-columns:1fr;grid-auto-rows:auto}
 }
+
+/* Boot sequence overlay */
+.boot-overlay{
+  position:fixed;
+  inset:0;
+  background:#000;
+  color:var(--crt-green);
+  font-family: inherit;
+  padding:28px;
+  z-index:9999;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.boot-line{white-space:pre-wrap;font-size:15px;line-height:1.4}
+.boot-cursor{font-weight:700;opacity:1;animation:blinkCursor 700ms steps(1) infinite}
+@keyframes blinkCursor{50%{opacity:0}100%{opacity:1}}
+.boot-overlay.boot-fade{transition:opacity .42s ease;opacity:0;pointer-events:none}
+.flicker-brief{animation:flickerX .36s ease-in-out}
+@keyframes flickerX{0%{opacity:1}25%{opacity:.2}50%{opacity:1}75%{opacity:.6}100%{opacity:1}}
+.boot-line.warn{color: #ffb86b}
+
+/* small polish: final header centered-ish */
+.boot-overlay .boot-line:last-of-type{margin-bottom:18px}
+
+/* prompt invalid / shake */
+.prompt-line.invalid{outline:2px solid rgba(255,107,107,0.9);box-shadow:0 6px 20px rgba(255,80,80,0.06) inset}
+.prompt-line.shake{animation:shakeX .36s ease-in-out}
+@keyframes shakeX{0%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}100%{transform:translateX(0)}}
+.inline-cursor{font-weight:700;opacity:1;animation:blinkCursor 700ms steps(1) infinite;margin-left:2px}
+.user-input{display:inline-block;min-width:6px}
+
+.debug-token{font-size:12px;opacity:0.18;margin-top:6px}
+.prompt-line.invalid{outline:2px solid rgba(255,107,107,0.9);box-shadow:0 6px 20px rgba(255,80,80,0.06) inset}
