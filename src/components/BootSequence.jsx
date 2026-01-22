@@ -269,15 +269,13 @@ export default function BootSequence({ onFinish }){
       return new Promise(resolve=>{
         const token = String(Math.floor(100000 + Math.random()*900000))
         appendLine('SENDING 2FA TOKEN TO REGISTERED DEVICE...\n', {speed:18}).then(()=>{
-          // show debug token briefly for local testing
-          const dbg = document.createElement('div')
-          dbg.className = 'boot-line debug-token'
-          dbg.textContent = `DEBUG TOKEN: ${token}`
-          dbg.style.opacity = '0.22'
-          container.appendChild(dbg)
-          container.scrollTop = container.scrollHeight
-          const t = setTimeout(()=>{ dbg.remove() }, 2800)
-          timers.current.push(t)
+            // show debug token for local testing (keep until flow completes to avoid timing issues)
+            const dbg = document.createElement('div')
+            dbg.className = 'boot-line debug-token'
+            dbg.textContent = `DEBUG TOKEN: ${token}`
+            dbg.style.opacity = '0.32'
+            container.appendChild(dbg)
+            container.scrollTop = container.scrollHeight
 
           // then prompt user
           const promptLine = document.createElement('div')
@@ -304,14 +302,32 @@ export default function BootSequence({ onFinish }){
               window.removeEventListener('keydown', onKey)
               promptLine.textContent = `ENTER 6-DIGIT 2FA CODE: ${entry}\n`
               container.scrollTop = container.scrollHeight
-              if(entry === token){ appendLine('2FA VERIFIED\n', {speed:18}).then(()=>resolve({success:true})) }
-              else {
+              if(entry === token){
+                appendLine('2FA VERIFIED\n', {speed:18}).then(()=>{
+                  if(dbg && dbg.parentNode) dbg.remove()
+                  resolve({success:true})
+                })
+              } else {
                 attempts++
                 promptLine.classList.add('invalid')
                 appendLine('INVALID TOKEN\n', {speed:18, className:'warn'}).then(()=>{
                   promptLine.classList.remove('invalid')
-                  if(attempts >= maxAttempts){ appendLine('TOKEN EXPIRED\n', {speed:18, className:'warn'}).then(()=>resolve({success:false})) }
-                  else { setTimeout(()=>{ buffer=''; const nl = document.createElement('div'); nl.className='boot-line'; nl.textContent='RETRY 2FA'; container.appendChild(nl); const t2 = setTimeout(()=>{ promptFor2FA().then(resolve) }, 260); timers.current.push(t2) }, 260) }
+                  if(attempts >= maxAttempts){
+                    appendLine('TOKEN EXPIRED\n', {speed:18, className:'warn'}).then(()=>{
+                      if(dbg && dbg.parentNode) dbg.remove()
+                      resolve({success:false})
+                    })
+                  } else {
+                    setTimeout(()=>{
+                      buffer=''
+                      const nl = document.createElement('div'); nl.className='boot-line'; nl.textContent='RETRY 2FA'; container.appendChild(nl)
+                      const t2 = setTimeout(()=>{ promptFor2FA().then(res=>{
+                        if(dbg && dbg.parentNode) dbg.remove()
+                        resolve(res)
+                      }) }, 260)
+                      timers.current.push(t2)
+                    }, 260)
+                  }
                 })
               }
               return
