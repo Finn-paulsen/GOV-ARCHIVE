@@ -1,0 +1,8 @@
+{
+  "summary": "Dr. Jane Doe — Senior Analyst. Verifizierte Daten: Ausbildung, Dienstzeiten, bestätigte Veröffentlichungen.",
+  "details": {
+    "born": "1978-04-12",
+    "role": "Senior Analyst",
+    "affiliations": ["Gov Dept.", "Research Lab"]
+  }
+}
