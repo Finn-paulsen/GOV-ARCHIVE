@@ -9,6 +9,8 @@ export default function Desktop({ view, onChange, bootComplete }){
   const [windows, setWindows] = useState([])
   const [zCounter, setZCounter] = useState(10)
   const [archive, setArchive] = useState([])
+    const [desktopItems, setDesktopItems] = useState([])
+    const [dragging, setDragging] = useState(null) // {id, offsetX, offsetY}
 
   useEffect(()=>{
     // load archive from localStorage
@@ -17,6 +19,10 @@ export default function Desktop({ view, onChange, bootComplete }){
       const list = JSON.parse(raw)
       setArchive(list)
     }catch(e){setArchive([])}
+      try {
+        const rawD = localStorage.getItem('desktopItems') || '[]'
+        setDesktopItems(JSON.parse(rawD))
+      } catch (e) { setDesktopItems([]) }
   },[])
 
   function openWindow(opts){
@@ -34,7 +40,54 @@ export default function Desktop({ view, onChange, bootComplete }){
     setWindows(ws=>ws.filter(w=>w.id!==id))
   }
 
-  function focusWindow(id){
+function pinToDesktop(entry) {
+  const item = { id: entry.id || makeId(), title: entry.url, content: entry.html }
+  const next = [item, ...desktopItems]
+  setDesktopItems(next)
+  localStorage.setItem('desktopItems', JSON.stringify(next))
+  alert(`${entry.url} auf Desktop gepinnt`)
+}
+
+function focusWindow(id) {
+  setZCounter(z => {
+    const newZ = z + 1
+    setWindows(ws =>
+      ws.map(w =>
+        w.id === id ? { ...w, z: newZ, minimized: false } : w
+      )
+    )
+    return newZ
+  })
+}
+
+  
+    // dragging handlers
+ useEffect(() => {
+  function onMove(e) {
+    if (!dragging) return
+    const { id, offsetX, offsetY } = dragging
+    const clientX = e.clientX
+    const clientY = e.clientY
+    setWindows(ws =>
+      ws.map(w =>
+        w.id === id ? { ...w, x: clientX - offsetX, y: clientY - offsetY } : w
+      )
+    )
+  }
+
+  function onUp() {
+    setDragging(null)
+  }
+
+  window.addEventListener('mousemove', onMove)
+  window.addEventListener('mouseup', onUp)
+
+  return () => {
+    window.removeEventListener('mousemove', onMove)
+    window.removeEventListener('mouseup', onUp)
+  }
+}, [dragging])
+
     setZCounter(z=>z+1)
     setWindows(ws=>ws.map(w=> w.id===id? {...w, z: zCounter+1, minimized:false}: w))
   }
@@ -124,4 +177,4 @@ export default function Desktop({ view, onChange, bootComplete }){
       </div>
     </div>
   )
-}
+
