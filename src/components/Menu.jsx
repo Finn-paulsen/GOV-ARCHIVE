@@ -6,6 +6,7 @@ const items = [
   {id:'trials', label:'Gerichtsverfahren'},
   {id:'network', label:'Netzwerk'},
   {id:'sources', label:'Quellen'},
+  {id:'browser', label:'Browser'},
 ]
 
 export default function Menu({ current, onChange }){

@@ -5,6 +5,8 @@ import SwitchPanel from './components/SwitchPanel'
 import Timeline from './components/Timeline'
 import NetworkGraph from './components/NetworkGraph'
 import BootSequence from './components/BootSequence'
+import Browser from './components/Browser'
+import Desktop from './components/Desktop'
 
 export default function App() {
   const [view, setView] = useState('bio')
@@ -21,15 +23,8 @@ export default function App() {
       </aside>
 
       <main className="right-panel">
-        <Menu current={view} onChange={setView} />
-
-        <section className="content-area">
-          {view === 'bio' && <div className="card"><h2>Biografie</h2><p>Beispielinhalt hier.</p></div>}
-          {view === 'timeline' && <Timeline />}
-          {view === 'trials' && <div className="card"><h2>Gerichtsverfahren</h2><p>Beispielliste...</p></div>}
-          {view === 'network' && <NetworkGraph />}
-          {view === 'sources' && <div className="card"><h2>Quellen</h2><p>Quellenangaben...</p></div>}
-        </section>
+        {/* Desktop replaces the previous menu + content area to provide a logged-in desktop experience */}
+        <Desktop view={view} onChange={setView} bootComplete={bootComplete} />
       </main>
     </div>
   )
