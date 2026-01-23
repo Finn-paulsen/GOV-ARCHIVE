@@ -88,9 +88,7 @@ function focusWindow(id) {
   }
 }, [dragging])
 
-    setZCounter(z=>z+1)
-    setWindows(ws=>ws.map(w=> w.id===id? {...w, z: zCounter+1, minimized:false}: w))
-  }
+    
 
   function toggleMinimize(id){
     setWindows(ws=>ws.map(w=> w.id===id? {...w, minimized: !w.minimized}: w))
@@ -177,4 +175,4 @@ function focusWindow(id) {
       </div>
     </div>
   )
-
+  }
