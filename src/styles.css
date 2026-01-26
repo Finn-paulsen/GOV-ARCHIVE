@@ -13,36 +13,7 @@ body{
   font-family: 'Inconsolata', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
 }
 .app-shell{
-  display:grid;
-  grid-template-columns: 420px 1fr;
-  gap:18px;
-  height:100vh;
-  padding:20px;
-}
-.left-panel{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-.terminal-wrapper{
-  background:linear-gradient(180deg,#041018 0%, #081018 100%);
-  border-radius:6px;
-  padding:14px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(85,255,170,0.03);
-  position:relative;
-  min-height:420px;
-}
-.terminal-screen{
-  background: radial-gradient(circle at 10% 10%, rgba(80,255,160,0.03), transparent 15%), transparent;
-  color:var(--crt-green);
-  padding:18px;
-  border-radius:4px;
-  height:100%;
-  overflow:auto;
-  font-size:14px;
-  line-height:1.4;
-  position:relative;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 40px rgba(85,255,170,0.02) inset;
+  height:100vh; /* simplified shell: Desktop handles its own layout */
 }
 
 /* scanlines */
@@ -68,18 +39,9 @@ body{
   100%{opacity:1}
 }
 
-.switch-panel{display:flex;gap:10px;align-items:center}
-.btn-physical{
-  background:linear-gradient(180deg,#1a2b2b,#051414);
-  border:2px solid rgba(120,255,200,0.08);
-  padding:8px 12px;
-  border-radius:6px;
-  color:var(--crt-green);
-  box-shadow: 0 6px 0 rgba(0,0,0,0.6), 0 0 12px rgba(85,255,170,0.04) inset;
-  cursor:pointer;
-}
+.switch-panel{display:none}
 
-.right-panel{display:flex;flex-direction:column;gap:12px}
+.right-panel{display:block}
 .content-area{background:var(--panel);padding:18px;border-radius:6px;min-height:400px}
 .card{background:rgba(255,255,255,0.01);padding:12px;border-radius:6px}
 

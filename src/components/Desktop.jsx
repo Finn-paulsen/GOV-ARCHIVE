@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Timeline from './Timeline'
-import NetworkGraph from './NetworkGraph'
-import Browser from './Browser'
+// Note: legacy app components removed — the full desktop UI is provided
+// via the embedded static demo (iframe) in the authenticated state.
 
 function makeId(){return Math.random().toString(36).slice(2,9)}
 

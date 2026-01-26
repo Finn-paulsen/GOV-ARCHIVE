@@ -1,48 +1,67 @@
 :root{
-  --bg:#0078d7;
-  --panel:#d0d0d0;
-  --edge-dark:#808080;
-  --edge-light:#ffffff;
-  --taskbar:#c0c0c0;
+  /* Government / retro palette */
+  --bg: #052b22; /* deep teal/green wallpaper */
+  --panel: #e6e1d8; /* parchment-like panel */
+  --edge-dark: #384235; /* dark green border */
+  --edge-light: #f7f3ea; /* light edge */
+  --taskbar: #c9c5b8; /* muted beige */
+  --accent: #9fbf8f; /* official accent green */
   --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --mono: 'Courier New', Courier, monospace;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:var(--font)}
-body{background:var(--bg)}
+body{background:var(--bg); color:var(--edge-light)}
 
-#wallpaper{position:fixed;inset:0;background:linear-gradient(180deg,#2b65b6 0%, #003a6b 100%);}
+#wallpaper{position:fixed;inset:0;background:
+  linear-gradient(180deg,#073c31 0%, #01261e 60%),
+  radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 10%);
+}
 
-#desktop{position:absolute;left:20px;top:20px;right:20px;bottom:50px;padding:10px;color:#000}
+/* decorative government badge in the top-right of the wallpaper */
+#wallpaper::after{
+  content: "GOV";
+  position:fixed; right:22px; top:18px;
+  background:linear-gradient(180deg,var(--panel),#d7d3c6);
+  color:#052b22; font-weight:700; padding:8px 12px; border-radius:6px;
+  border:2px solid var(--edge-dark); box-shadow:2px 2px 0 rgba(0,0,0,0.35);
+  font-family:var(--font); letter-spacing:1px;
+}
+
+#desktop{position:absolute;left:20px;top:20px;right:20px;bottom:50px;padding:18px;color:var(--edge-dark)}
 .icon{width:90px;text-align:center;margin:6px;display:inline-block;cursor:default}
-.icon-img{font-size:36px;background:transparent;padding:6px;border-radius:6px}
-.icon-label{font-size:12px;margin-top:6px;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,0.6)}
+.icon-img{font-size:36px;background:linear-gradient(180deg,rgba(0,0,0,0.06),transparent);padding:6px;border-radius:8px;border:1px solid rgba(0,0,0,0.15)}
+.icon-label{font-size:12px;margin-top:6px;color:var(--panel);text-shadow:0 1px 0 rgba(0,0,0,0.4);background:transparent}
+
+/* subtle desktop vignette */
+#desktop::before{content:'';position:absolute;inset:0;border-radius:4px;box-shadow:inset 0 80px 120px rgba(0,0,0,0.25)}
 
 /* Taskbar */
-#taskbar{position:fixed;left:0;right:0;bottom:0;height:40px;background:linear-gradient(#e0e0e0,#bfbfbf);display:flex;align-items:center;padding:4px 6px;border-top:2px solid var(--edge-dark)}
-#start-button{width:88px;height:32px;background:linear-gradient(#f5f5f5,#d5d5d5);border:2px solid var(--edge-dark);box-shadow:inset 0 1px 0 var(--edge-light);font-weight:bold;cursor:pointer}
-#taskbar-windows{flex:1;display:flex;gap:6px;padding-left:8px}
-.tb-item{padding:4px 8px;background:#efefef;border:1px solid #9a9a9a;border-radius:3px;cursor:pointer}
-#tray{display:flex;align-items:center;gap:10px}
-#clock{min-width:80px;text-align:center;background:transparent;color:#000}
+#taskbar{position:fixed;left:0;right:0;bottom:0;height:46px;background:linear-gradient(180deg,var(--taskbar),#bfb7a3);display:flex;align-items:center;padding:6px 10px;border-top:3px solid var(--edge-dark)}
+#start-button{width:110px;height:34px;background:linear-gradient(#f8f4ea,#e6dfc9);border:2px solid var(--edge-dark);box-shadow:inset 0 1px 0 var(--edge-light);font-weight:700;cursor:pointer;color:var(--edge-dark)}
+#taskbar-windows{flex:1;display:flex;gap:8px;padding-left:12px}
+.tb-item{padding:6px 10px;background:linear-gradient(180deg,#f7f3ea,#efe9d6);border:1px solid rgba(0,0,0,0.12);border-radius:4px;cursor:pointer;color:var(--edge-dark);font-weight:600}
+#tray{display:flex;align-items:center;gap:12px}
+#clock{min-width:90px;text-align:center;background:transparent;color:var(--edge-dark);font-weight:600}
 
 #start-menu{position:fixed;left:8px;bottom:48px;width:220px;background:var(--panel);border:2px solid var(--edge-dark);box-shadow:2px 2px 0 rgba(0,0,0,0.4);padding:8px}
 .hidden{display:none}
 .start-item{display:block;width:100%;text-align:left;padding:6px;border:none;background:transparent;cursor:pointer}
 
 /* Windows */
-.window{position:fixed;width:420px;height:260px;background:#fff;border:2px solid var(--edge-dark);box-shadow:4px 4px 0 rgba(0,0,0,0.3);}
-.titlebar{height:28px;background:linear-gradient(#000080,#00006a);color:#fff;padding:4px 8px;display:flex;align-items:center;justify-content:space-between;cursor:move}
-.titlebar .title{font-weight:bold}
-.titlebar .controls{display:flex;gap:4px}
-.titlebar button{background:#c0c0c0;border:2px solid #808080;padding:2px 6px;cursor:pointer}
-.content{padding:12px;font-size:14px}
+.window{position:fixed;width:460px;height:300px;background:linear-gradient(180deg,var(--panel),#efe9d6);border:3px solid var(--edge-dark);box-shadow:6px 6px 0 rgba(0,0,0,0.35)}
+.titlebar{height:34px;background:linear-gradient(180deg,#2b4a3f,#163428);color:var(--panel);padding:6px 10px;display:flex;align-items:center;justify-content:space-between;cursor:move;border-bottom:2px solid rgba(0,0,0,0.12)}
+.titlebar .title{font-weight:700;color:var(--panel);font-family:var(--font)}
+.titlebar .controls{display:flex;gap:8px}
+.titlebar button{background:linear-gradient(180deg,#dcd6c3,#c9c2ad);border:2px solid var(--edge-dark);padding:4px 8px;cursor:pointer;color:var(--edge-dark);font-weight:700}
+.content{padding:14px;font-size:14px;color:var(--edge-dark);font-family:var(--mono)}
 
 /* Login overlay */
-#login-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center}
-.login-box{width:340px;background:linear-gradient(#f3f3f3,#dedede);border:2px solid #9a9a9a;padding:18px;border-radius:4px}
-.login-box h2{margin:0 0 12px 0}
-.login-box label{display:block;margin-bottom:10px;font-size:14px}
-.login-box input{width:100%;padding:8px;border:2px solid #b0b0b0}
+.login-overlay{position:fixed;inset:0;background:linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75));display:flex;align-items:center;justify-content:center}
+.login-box{width:380px;background:linear-gradient(180deg,#f6f1e6,#efe7d2);border:3px solid var(--edge-dark);padding:20px;border-radius:6px;box-shadow:4px 4px 0 rgba(0,0,0,0.36)}
+.login-box h2{margin:0 0 12px 0;color:var(--edge-dark)}
+.login-box label{display:block;margin-bottom:10px;font-size:14px;color:var(--edge-dark)}
+.login-box input{width:100%;padding:8px;border:2px solid rgba(0,0,0,0.12);background:#fff}
 .login-actions{text-align:right}
 
 /* hidden until authenticated */
@@ -52,7 +71,7 @@ body:not(.authenticated) #taskbar,
 body:not(.authenticated) #start-menu{
   opacity: 0;
   visibility: hidden;
-  transform: scale(0.98);
+  transform: translateY(6px) scale(0.995);
   pointer-events: none;
 }
 
@@ -65,4 +84,10 @@ body.authenticated #start-menu{
   visibility: visible;
   transform: none;
   pointer-events: auto;
+}
+
+/* small responsive tweak */
+@media (max-width:640px){
+  .window{width:90%;height:60%}
+  #start-button{width:84px}
 }
