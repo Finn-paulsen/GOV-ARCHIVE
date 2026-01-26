@@ -104,6 +104,19 @@ function focusWindow(id) {
     openWindow({type:'archive',title:entry.url,content:entry.html})
   }
 
+  // If boot is complete, render the external desktop demo as full-screen
+  if (bootComplete) {
+    return (
+      <div style={{position:'fixed', top:0, left:0, right:0, bottom:0}}>
+        <iframe
+          title="Retro Desktop"
+          src="/desktop/index.html?auth=1"
+          style={{border:0, width:'100%', height:'100%'}}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="desktop-root">
       <div className="desktop-icons" role="toolbar" aria-label="Desktop Icons">
@@ -135,44 +148,14 @@ function focusWindow(id) {
       <div className="desktop-window" style={{position:'relative'}}>
         {!bootComplete && <div className="card"><h3>Login erforderlich</h3></div>}
         {bootComplete && (
-          <div className="window-inner">
-            {/* render windows */}
-            {windows.sort((a,b)=>a.z-b.z).map(w=> (
-              <div key={w.id} className={`window ${w.minimized? 'minimized':''}`} style={{zIndex:w.z}} onMouseDown={()=>focusWindow(w.id)}>
-                <div className="window-titlebar">
-                  <div className="title-left">
-                    <button className="win-btn" onClick={(e)=>{e.stopPropagation(); toggleMinimize(w.id)}}>▁</button>
-                    <button className="win-btn close" onClick={(e)=>{e.stopPropagation(); closeWindow(w.id)}}>✕</button>
-                  </div>
-                  <div className="title-center">{w.title}</div>
-                  <div className="title-right">{new Date(w.z*1).toLocaleTimeString()}</div>
-                </div>
-                <div className="window-body">
-                  {w.type==='app' && w.app==='browser' && <Browser />}
-                  {w.type==='app' && w.app==='timeline' && <Timeline />}
-                  {w.type==='app' && w.app==='network' && <NetworkGraph />}
-                  {w.type==='archive' && <div dangerouslySetInnerHTML={{__html: w.content}} />}
-                  {w.type==='viewer' && <div dangerouslySetInnerHTML={{__html: w.content}} />}
-                </div>
-              </div>
-            ))}
-          </div>
+          // Render the 1:1 desktop UI inside an isolated iframe so styles and scripts don't collide
+          <iframe
+            title="Retro Desktop"
+            src="/desktop/index.html?auth=1"
+            style={{position:'absolute', left:0, top:0, width:'100%', height:'100%', border:0}}
+          />
         )}
-
-        {/* taskbar */}
-        <div className="taskbar">
-          <div className="taskbar-left">GOV‑ARCHIVE</div>
-          <div className="taskbar-center">
-            {windows.map(w=> (
-              <button key={w.id} className={`task-btn ${w.minimized? 'minimized':''}`} onClick={()=>{
-                if(w.minimized) focusWindow(w.id)
-                else toggleMinimize(w.id)
-              }}>{w.title}</button>
-            ))}
-          </div>
-          <div className="taskbar-right">{new Date().toLocaleTimeString()}</div>
-        </div>
       </div>
     </div>
   )
-  }
+}

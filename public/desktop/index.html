@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Desktop — Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="wallpaper"></div>
+
+    <div id="desktop">
+      <div class="icon" data-app="my-computer">
+        <div class="icon-img">🖥️</div>
+        <div class="icon-label">Mein Rechner</div>
+      </div>
+      <div class="icon" data-app="documents">
+        <div class="icon-img">📁</div>
+        <div class="icon-label">Dokumente</div>
+      </div>
+      <div class="icon" data-app="recycle">
+        <div class="icon-img">🗑️</div>
+        <div class="icon-label">Papierkorb</div>
+      </div>
+    </div>
+
+    <div id="taskbar">
+      <button id="start-button">Start ▾</button>
+      <div id="taskbar-windows"></div>
+      <div id="tray">
+        <div id="clock"></div>
+      </div>
+    </div>
+
+    <div id="start-menu" class="hidden">
+      <div class="start-section">
+        <button class="start-item" data-action="open-about">Über dieses System</button>
+        <button class="start-item" data-action="open-terminal">Terminal</button>
+        <button class="start-item" data-action="logout">Abmelden</button>
+      </div>
+    </div>
+
+    <!-- Login overlay (simulierte Anmeldung) -->
+    <div id="login-overlay">
+      <div class="login-box">
+        <h2>Anmeldung</h2>
+        <form id="login-form">
+          <label>Benutzername
+            <input id="username" type="text" autocomplete="username" />
+          </label>
+          <label>Passwort
+            <input id="password" type="password" autocomplete="current-password" />
+          </label>
+          <div class="login-actions">
+            <button type="submit">Anmelden</button>
+          </div>
+        </form>
+        <small>Benutze irgendeinen Namen — dies ist eine Demo</small>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
