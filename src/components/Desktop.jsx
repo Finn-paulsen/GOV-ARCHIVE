@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 function makeId(){return Math.random().toString(36).slice(2,9)}
 
 export default function Desktop({ view, onChange, bootComplete }){
+  const [iframeLoaded, setIframeLoaded] = useState(false)
   const [windows, setWindows] = useState([])
   const [zCounter, setZCounter] = useState(10)
   const [archive, setArchive] = useState([])
@@ -102,59 +103,46 @@ function focusWindow(id) {
   function openArchiveEntry(entry){
     openWindow({type:'archive',title:entry.url,content:entry.html})
   }
+  // While boot is running we render nothing here — BootSequence covers the screen.
+  if (!bootComplete) return null
 
-  // If boot is complete, render the external desktop demo as full-screen
-  if (bootComplete) {
-    return (
-      <div style={{position:'fixed', top:0, left:0, right:0, bottom:0}}>
-        <iframe
-          title="Retro Desktop"
-          src="/desktop/index.html?auth=1"
-          style={{border:0, width:'100%', height:'100%'}}
-        />
-      </div>
-    )
+  // After boot completes render the desktop demo as fullscreen iframe only.
+  function handleIFrameLoad(){
+    // small delay to allow inner styles to paint, then hide overlay
+    setTimeout(()=> setIframeLoaded(true), 80)
   }
 
   return (
-    <div className="desktop-root">
-      <div className="desktop-icons" role="toolbar" aria-label="Desktop Icons">
-        <button className="desktop-icon" onDoubleClick={()=>openApp('browser')} onClick={()=>openApp('browser')}>
-          <div className="icon-plate">🌐</div>
-          <div className="icon-label">Browser</div>
-        </button>
-        <button className="desktop-icon" onClick={()=>openApp('timeline')}>
-          <div className="icon-plate">📜</div>
-          <div className="icon-label">Timeline</div>
-        </button>
-        <button className="desktop-icon" onClick={()=>openApp('network')}>
-          <div className="icon-plate">🔗</div>
-          <div className="icon-label">Network</div>
-        </button>
-        <div style={{height:8}} />
-        <div className="archive-section">
-          <div style={{fontSize:12,opacity:0.9,marginBottom:6}}>Archiv</div>
-          {archive.length===0 && <div style={{fontSize:12,opacity:0.6}}>leer</div>}
-          {archive.slice(0,6).map(a=> (
-            <button key={a.id || a.ts} className="desktop-icon archive-icon" onClick={()=>openArchiveEntry(a)}>
-              <div className="icon-plate">�</div>
-              <div className="icon-label">{a.url}</div>
-            </button>
-          ))}
+    <div style={{position:'fixed', top:0, left:0, right:0, bottom:0}}>
+      {/* loading overlay covers the screen until iframe reports loaded */}
+      <div
+        aria-hidden={iframeLoaded}
+        style={{
+          position:'absolute', inset:0, background:'#011217',
+          display:'flex', alignItems:'center', justifyContent:'center',
+          color:'#cfeadf', fontFamily:'sans-serif', fontSize:16,
+          transition:'opacity 320ms ease',
+          opacity: iframeLoaded? 0 : 1,
+          pointerEvents: iframeLoaded? 'none' : 'auto',
+          zIndex: 99999
+        }}
+      >
+        <div style={{textAlign:'center'}}>
+          <div style={{fontWeight:700, marginBottom:8}}>GOV‑ARCHIVE — Desktop wird geladen…</div>
+          <div style={{width:220, height:8, background:'rgba(255,255,255,0.06)', borderRadius:6, overflow:'hidden'}}>
+            <div style={{width: '28%', height:'100%', background:'linear-gradient(90deg,#9fbf8f,#cfeadf)', animation:'loadBar 1.6s linear infinite'}} />
+          </div>
         </div>
       </div>
 
-      <div className="desktop-window" style={{position:'relative'}}>
-        {!bootComplete && <div className="card"><h3>Login erforderlich</h3></div>}
-        {bootComplete && (
-          // Render the 1:1 desktop UI inside an isolated iframe so styles and scripts don't collide
-          <iframe
-            title="Retro Desktop"
-            src="/desktop/index.html?auth=1"
-            style={{position:'absolute', left:0, top:0, width:'100%', height:'100%', border:0}}
-          />
-        )}
-      </div>
+      <iframe
+        title="Retro Desktop"
+        src="/desktop/index.html?auth=1"
+        onLoad={handleIFrameLoad}
+        style={{border:0, width:'100%', height:'100%'}}
+      />
+
+      <style>{`@keyframes loadBar{0%{transform:translateX(-10%)}100%{transform:translateX(220%)}}`}</style>
     </div>
   )
 }
