@@ -103,7 +103,7 @@ function focusWindow(id) {
   function openArchiveEntry(entry){
     openWindow({type:'archive',title:entry.url,content:entry.html})
   }
-  // While boot is running we render nothing here — BootSequence covers the screen.
+  // ...existing code...
   if (!bootComplete) return null
 
   // After boot completes render the desktop demo as fullscreen iframe only.

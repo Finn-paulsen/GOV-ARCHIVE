@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
-import BootSequence from './components/BootSequence'
-import Desktop from './components/Desktop'
+
+import React, { useState } from 'react';
+// BootSequence entfernt
+import Desktop from './components/Desktop';
+import LoginModal from './components/LoginModal';
 
 export default function App() {
-  const [view, setView] = useState('bio')
-  const [bootComplete, setBootComplete] = useState(false)
+  const [view, setView] = useState('bio');
+  const [loginComplete, setLoginComplete] = useState(false);
 
   return (
     <div className="app-shell">
-      {/* Keep BootSequence until boot completes; Desktop handles fullscreen rendering when ready */}
-      <BootSequence onFinish={()=>setBootComplete(true)} />
-      <Desktop view={view} onChange={setView} bootComplete={bootComplete} />
+      {/* Login-Dialog */}
+      {!loginComplete && (
+        <LoginModal onSuccess={() => setLoginComplete(true)} />
+      )}
+
+      {/* Desktop nach Login */}
+      {loginComplete && (
+        <Desktop view={view} onChange={setView} bootComplete={true} />
+      )}
     </div>
-  )
+  );
 }
