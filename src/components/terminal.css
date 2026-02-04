@@ -1,3 +1,310 @@
+	/* Archiv-Tabellen-Layout */
+	.archive-table {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin-top: 8px;
+	}
+	.archive-table-head {
+		display: flex;
+		font-weight: 900;
+		color: #ffbf47;
+		border-bottom: 1px solid #ffbf47;
+		padding-bottom: 2px;
+		gap: 12px;
+	}
+	.archive-table-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: #181818;
+		border: 1px solid #ffbf47;
+		padding: 6px 0 6px 0;
+	}
+	.archive-table-cell {
+		flex: 1 1 0;
+		padding: 0 8px;
+		font-size: 1.01rem;
+	}
+	.archive-time-btn {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 0.98rem;
+		padding: 2px 10px;
+		margin-right: 4px;
+		margin-bottom: 2px;
+		cursor: pointer;
+		border-radius: 0;
+		font-weight: 700;
+		transition: background 0.15s;
+	}
+	.archive-time-btn:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
+	/* Archiv-Viewer */
+	.archive-viewer {
+		background: #232323;
+		color: #f4f4e6;
+		font-family: inherit;
+		min-width: 540px;
+		max-width: 900px;
+		min-height: 420px;
+		padding: 18px 18px 12px 18px;
+		border-radius: 2px;
+		display: flex;
+		flex-direction: column;
+	}
+	.archive-header {
+		font-size: 1.18rem;
+		font-weight: 900;
+		color: #ffbf47;
+		margin-bottom: 12px;
+		letter-spacing: 0.09em;
+	}
+	.archive-main {
+		display: flex;
+		gap: 24px;
+		flex: 1 1 auto;
+	}
+	.archive-nav {
+		min-width: 140px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.archive-nav-section {
+		margin-bottom: 8px;
+	}
+	.archive-nav select, .archive-nav input {
+		width: 100%;
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1rem;
+		padding: 4px 6px;
+		margin-top: 2px;
+	}
+	.archive-nav button {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1rem;
+		padding: 4px 12px;
+		margin-top: 6px;
+		cursor: pointer;
+		border-radius: 0;
+		font-weight: 700;
+	}
+	.archive-nav button:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
+	.archive-results {
+		flex: 1 1 auto;
+		min-width: 260px;
+		max-width: 600px;
+		display: flex;
+		flex-direction: column;
+	}
+	.archive-hint {
+		color: #888;
+		font-size: 1.01rem;
+		margin-top: 24px;
+	}
+	.archive-list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-top: 8px;
+	}
+	.archive-list-item {
+		background: #181818;
+		border: 1px solid #ffbf47;
+		padding: 8px 12px;
+		cursor: pointer;
+		transition: background 0.15s, border 0.15s;
+	}
+	.archive-list-item:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
+	.archive-player {
+		margin-top: 12px;
+		background: #181818;
+		border: 1px solid #ffbf47;
+		padding: 12px 16px 16px 16px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.archive-player-meta {
+		font-size: 1.01rem;
+		color: #ffbf47;
+		margin-bottom: 8px;
+	}
+	.archive-player-feed {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 10px;
+	}
+	.archive-player-controls {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+	}
+	.archive-player-controls button {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1.2rem;
+		padding: 4px 10px;
+		cursor: pointer;
+		border-radius: 0;
+		font-weight: 700;
+	}
+	.archive-player-controls button:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
+	/* Überwachungszentrale: Raster und Einzelansicht */
+	.surveillance-grid {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		grid-template-rows: repeat(6, 1fr);
+		gap: 10px;
+		justify-items: center;
+		align-items: center;
+		margin: 0 auto;
+		max-width: 720px;
+		min-width: 320px;
+		min-height: 420px;
+	}
+	.surveillance-tile {
+		background: #181818;
+		border: 1px solid #ffbf47;
+		width: 100px;
+		height: 70px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		cursor: pointer;
+		box-shadow: 0 2px 8px #2a1a00;
+		transition: box-shadow 0.15s, border 0.15s;
+	}
+	.surveillance-tile:hover {
+		border: 2px solid #ffbf47;
+		box-shadow: 0 4px 16px #ffbf47;
+	}
+	.surveillance-tile-name {
+		font-size: 0.92rem;
+		color: #ffbf47;
+		font-weight: 700;
+		margin: 2px 0 2px 0;
+		text-align: center;
+		width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.surveillance-tile-feed {
+		width: 92px;
+		height: 48px;
+		background: #232323;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.surveillance-feed-large {
+		min-height: 220px;
+		max-height: 340px;
+		margin-bottom: 12px;
+	}
+	.surveillance-back {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1.1rem;
+		font-weight: 900;
+		margin-right: 12px;
+		padding: 2px 10px;
+		cursor: pointer;
+		border-radius: 0;
+		transition: background 0.15s;
+	}
+	.surveillance-back:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
+	/* Überwachungszentrale */
+	.surveillance-center {
+		background: #232323;
+		color: #f4f4e6;
+		font-family: inherit;
+		min-width: 320px;
+		max-width: 420px;
+		padding: 18px 18px 12px 18px;
+		border-radius: 2px;
+	}
+	.surveillance-header {
+		font-size: 1.18rem;
+		font-weight: 900;
+		color: #ffbf47;
+		margin-bottom: 12px;
+		letter-spacing: 0.09em;
+	}
+	.surveillance-camlist {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 12px;
+	}
+	.surveillance-camlist button {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1rem;
+		padding: 4px 12px;
+		cursor: pointer;
+		border-radius: 0;
+		font-weight: 700;
+	}
+	.surveillance-camlist button.active {
+		background: #ffbf47;
+		color: #232323;
+	}
+	.surveillance-feed {
+		background: #181818;
+		border: 1px solid #ffbf47;
+		min-height: 120px;
+		margin-bottom: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.surveillance-controls {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		margin-top: 8px;
+	}
+	.surveillance-controls button {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1.2rem;
+		padding: 4px 10px;
+		cursor: pointer;
+		border-radius: 0;
+		font-weight: 700;
+	}
+	.surveillance-controls button:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
 	/* Startmenü und Modal für Systemaktionen */
 	.gov-startmenu {
 		position: fixed;

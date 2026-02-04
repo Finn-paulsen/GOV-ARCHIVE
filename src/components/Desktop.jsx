@@ -1,5 +1,7 @@
 
 import React, { useState, useEffect } from 'react'
+import SurveillanceCenter from './SurveillanceCenter'
+import ArchiveViewer from './ArchiveViewer'
 
 function makeId(){return Math.random().toString(36).slice(2,9)}
 
@@ -84,10 +86,20 @@ export default function Desktop({ bootComplete, onLogout }) {
     <div className="gov-desktop-bg">
       {/* Desktop Icons (optional) */}
       <div className="gov-desktop-icons">
-        {/* Beispiel-Icon: */}
+        {/* Texteditor-Icon */}
         <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Texteditor', content: 'Willkommen im Bundesarchiv-Terminal.' })}>
           <span className="gov-icon-symbol">■</span>
           <span className="gov-icon-label">Texteditor</span>
+        </div>
+        {/* Kamera-Icon */}
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Überwachungszentrale', content: <SurveillanceCenter /> })}>
+          <span className="gov-icon-symbol">📷</span>
+          <span className="gov-icon-label">Überwachung</span>
+        </div>
+        {/* Archiv-Icon */}
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Videoarchiv', content: <ArchiveViewer /> })}>
+          <span className="gov-icon-symbol">🗄️</span>
+          <span className="gov-icon-label">Archiv</span>
         </div>
       </div>
 
