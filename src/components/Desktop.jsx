@@ -1,7 +1,16 @@
+  // Öffnet Datei in Editor-Fenster
+  function handleOpenFile({ name, path, content }) {
+    openWindow({
+      title: name,
+      content: <FileEditor name={name} content={content} />,
+    })
+  }
 
 import React, { useState, useEffect } from 'react'
 import SurveillanceCenter from './SurveillanceCenter'
 import ArchiveViewer from './ArchiveViewer'
+import FileExplorer from './FileExplorer'
+import FileEditor from './FileEditor'
 
 function makeId(){return Math.random().toString(36).slice(2,9)}
 
@@ -101,6 +110,12 @@ export default function Desktop({ bootComplete, onLogout }) {
           <span className="gov-icon-symbol">🗄️</span>
           <span className="gov-icon-label">Archiv</span>
         </div>
+        {/* Datei-Explorer-Icon */}
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Datei-Explorer', content: <FileExplorer onOpenFile={handleOpenFile} /> })}>
+          <span className="gov-icon-symbol">📁</span>
+          <span className="gov-icon-label">Dateien</span>
+        </div>
+        
       </div>
 
       {/* Fenster */}

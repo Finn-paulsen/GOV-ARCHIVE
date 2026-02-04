@@ -1,3 +1,146 @@
+	/* Datei-Explorer */
+	.file-explorer {
+		background: #232323;
+		color: #f4f4e6;
+		font-family: inherit;
+		min-width: 540px;
+		max-width: 900px;
+		min-height: 420px;
+		padding: 18px 18px 12px 18px;
+		border-radius: 2px;
+		display: flex;
+		flex-direction: column;
+	}
+	.file-explorer-header {
+		font-size: 1.18rem;
+		font-weight: 900;
+		color: #ffbf47;
+		margin-bottom: 12px;
+		letter-spacing: 0.09em;
+	}
+	.file-explorer-main {
+		display: flex;
+		gap: 24px;
+		flex: 1 1 auto;
+	}
+	.file-explorer-tree {
+		min-width: 140px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.file-explorer-path {
+		font-size: 0.98rem;
+		color: #ffbf47;
+		margin-bottom: 8px;
+	}
+	.file-explorer-list {
+		flex: 1 1 auto;
+		min-width: 260px;
+		max-width: 600px;
+		display: flex;
+		flex-direction: column;
+	}
+	.file-explorer-table {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin-top: 8px;
+	}
+	.file-explorer-table-head {
+		display: flex;
+		font-weight: 900;
+		color: #ffbf47;
+		border-bottom: 1px solid #ffbf47;
+		padding-bottom: 2px;
+		gap: 12px;
+	}
+	.file-explorer-table-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: #181818;
+		border: 1px solid #ffbf47;
+		padding: 6px 0 6px 0;
+	 	transition: background 0.15s, box-shadow 0.15s;
+	}
+	.file-explorer-table-row.drag-over {
+	  background: #2a2a1a;
+	  box-shadow: 0 0 0 2px #ffbf47;
+	}
+	.file-explorer-table-row.dragged {
+	  opacity: 0.5;
+	}
+	.file-explorer-table-cell {
+		flex: 1 1 0;
+		padding: 0 8px;
+		font-size: 1.01rem;
+	}
+	.file-explorer-name {
+		cursor: pointer;
+		font-weight: 700;
+	  user-select: none;
+	}
+	.file-explorer-inline-edit {
+		background: #232323;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1rem;
+		padding: 2px 6px;
+		width: 70%;
+	}
+	.file-explorer-table-row button {
+		background: #181818;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 0.98rem;
+		padding: 2px 10px;
+		margin-right: 4px;
+		margin-bottom: 2px;
+		cursor: pointer;
+		border-radius: 0;
+		font-weight: 700;
+		transition: background 0.15s;
+	}
+	.file-explorer-table-row button:hover {
+		background: #ffbf47;
+		color: #232323;
+	}
+	.file-explorer-modal {
+		background: #181818;
+		border: 1px solid #ffbf47;
+		padding: 12px 16px;
+		margin-bottom: 8px;
+		display: flex;
+		gap: 8px;
+		align-items: center;
+	}
+	.file-explorer-modal input {
+		background: #232323;
+		color: #ffbf47;
+		border: 1px solid #ffbf47;
+		font-size: 1rem;
+		padding: 4px 6px;
+	}
+	.file-explorer-fileview {
+		margin-top: 12px;
+		background: #181818;
+		border: 1px solid #ffbf47;
+		padding: 12px 16px 16px 16px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.file-explorer-fileview-head {
+		font-size: 1.09rem;
+		color: #ffbf47;
+		font-weight: 900;
+		margin-bottom: 8px;
+	}
+	.file-explorer-fileview-content {
+		font-size: 1.01rem;
+		margin-bottom: 10px;
+	}
 	/* Archiv-Tabellen-Layout */
 	.archive-table {
 		display: flex;
