@@ -1,148 +1,168 @@
+
 import React, { useState, useEffect } from 'react'
-// Note: legacy app components removed — the full desktop UI is provided
-// via the embedded static demo (iframe) in the authenticated state.
 
 function makeId(){return Math.random().toString(36).slice(2,9)}
 
-export default function Desktop({ view, onChange, bootComplete }){
-  const [iframeLoaded, setIframeLoaded] = useState(false)
+export default function Desktop({ bootComplete, onLogout }) {
   const [windows, setWindows] = useState([])
   const [zCounter, setZCounter] = useState(10)
-  const [archive, setArchive] = useState([])
-    const [desktopItems, setDesktopItems] = useState([])
-    const [dragging, setDragging] = useState(null) // {id, offsetX, offsetY}
+  const [clock, setClock] = useState(new Date())
+  const [showStart, setShowStart] = useState(false)
+  const [modal, setModal] = useState(null) // {type: 'shutdown'|'restart'}
 
-  useEffect(()=>{
-    // load archive from localStorage
-    try{
-      const raw = localStorage.getItem('browserArchive') || '[]'
-      const list = JSON.parse(raw)
-      setArchive(list)
-    }catch(e){setArchive([])}
-      try {
-        const rawD = localStorage.getItem('desktopItems') || '[]'
-        setDesktopItems(JSON.parse(rawD))
-      } catch (e) { setDesktopItems([]) }
-  },[])
+  useEffect(() => {
+    const timer = setInterval(() => setClock(new Date()), 1000)
+    return () => clearInterval(timer)
+  }, [])
 
-  function openWindow(opts){
+  function openWindow(opts) {
     const id = makeId()
     const z = zCounter + 1
     setZCounter(z)
     const w = {
-      id, title: opts.title || 'Fenster', type: opts.type || 'viewer', app: opts.app, content: opts.content || '', minimized:false, z
+      id,
+      title: opts.title || 'Fenster',
+      content: opts.content || '',
+      minimized: false,
+      z,
     }
-    setWindows(ws=>[...ws, w])
+    setWindows(ws => [...ws, w])
     return id
   }
 
-  function closeWindow(id){
-    setWindows(ws=>ws.filter(w=>w.id!==id))
+  function closeWindow(id) {
+    setWindows(ws => ws.filter(w => w.id !== id))
   }
 
-function pinToDesktop(entry) {
-  const item = { id: entry.id || makeId(), title: entry.url, content: entry.html }
-  const next = [item, ...desktopItems]
-  setDesktopItems(next)
-  localStorage.setItem('desktopItems', JSON.stringify(next))
-  alert(`${entry.url} auf Desktop gepinnt`)
-}
-
-function focusWindow(id) {
-  setZCounter(z => {
-    const newZ = z + 1
-    setWindows(ws =>
-      ws.map(w =>
-        w.id === id ? { ...w, z: newZ, minimized: false } : w
+  function focusWindow(id) {
+    setZCounter(z => {
+      const newZ = z + 1
+      setWindows(ws =>
+        ws.map(w =>
+          w.id === id ? { ...w, z: newZ, minimized: false } : w
+        )
       )
-    )
-    return newZ
-  })
-}
-
-  
-    // dragging handlers
- useEffect(() => {
-  function onMove(e) {
-    if (!dragging) return
-    const { id, offsetX, offsetY } = dragging
-    const clientX = e.clientX
-    const clientY = e.clientY
-    setWindows(ws =>
-      ws.map(w =>
-        w.id === id ? { ...w, x: clientX - offsetX, y: clientY - offsetY } : w
-      )
-    )
+      return newZ
+    })
   }
 
-  function onUp() {
-    setDragging(null)
+  function toggleMinimize(id) {
+    setWindows(ws => ws.map(w => w.id === id ? { ...w, minimized: !w.minimized } : w))
   }
 
-  window.addEventListener('mousemove', onMove)
-  window.addEventListener('mouseup', onUp)
-
-  return () => {
-    window.removeEventListener('mousemove', onMove)
-    window.removeEventListener('mouseup', onUp)
-  }
-}, [dragging])
-
-    
-
-  function toggleMinimize(id){
-    setWindows(ws=>ws.map(w=> w.id===id? {...w, minimized: !w.minimized}: w))
+  function handleLogout() {
+    setShowStart(false)
+    if (onLogout) onLogout()
   }
 
-  function openApp(app){
-    if(app==='browser') openWindow({type:'app',app:'browser',title:'Browser'})
-    if(app==='timeline') openWindow({type:'app',app:'timeline',title:'Timeline'})
-    if(app==='network') openWindow({type:'app',app:'network',title:'Network'})
+  function handleRestart() {
+    setShowStart(false)
+    setModal({ type: 'restart' })
   }
 
-  function openArchiveEntry(entry){
-    openWindow({type:'archive',title:entry.url,content:entry.html})
+  function handleShutdown() {
+    setShowStart(false)
+    setModal({ type: 'shutdown' })
   }
-  // ...existing code...
+
+  function confirmRestart() {
+    setModal(null)
+    window.location.reload()
+  }
+
+  function confirmShutdown() {
+    setModal(null)
+    // Versuche Fenster zu schließen, falls nicht möglich: Heruntergefahren-Bildschirm anzeigen
+    if (window.close) window.close()
+    // Fallback: Bildschirm anzeigen
+    document.body.innerHTML = '<div style="background:#181818;color:#ffbf47;display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;font-family:monospace;">System wurde heruntergefahren.</div>'
+  }
+
   if (!bootComplete) return null
 
-  // After boot completes render the desktop demo as fullscreen iframe only.
-  function handleIFrameLoad(){
-    // small delay to allow inner styles to paint, then hide overlay
-    setTimeout(()=> setIframeLoaded(true), 80)
-  }
-
   return (
-    <div style={{position:'fixed', top:0, left:0, right:0, bottom:0}}>
-      {/* loading overlay covers the screen until iframe reports loaded */}
-      <div
-        aria-hidden={iframeLoaded}
-        style={{
-          position:'absolute', inset:0, background:'#011217',
-          display:'flex', alignItems:'center', justifyContent:'center',
-          color:'#cfeadf', fontFamily:'sans-serif', fontSize:16,
-          transition:'opacity 320ms ease',
-          opacity: iframeLoaded? 0 : 1,
-          pointerEvents: iframeLoaded? 'none' : 'auto',
-          zIndex: 99999
-        }}
-      >
-        <div style={{textAlign:'center'}}>
-          <div style={{fontWeight:700, marginBottom:8}}>GOV‑ARCHIVE — Desktop wird geladen…</div>
-          <div style={{width:220, height:8, background:'rgba(255,255,255,0.06)', borderRadius:6, overflow:'hidden'}}>
-            <div style={{width: '28%', height:'100%', background:'linear-gradient(90deg,#9fbf8f,#cfeadf)', animation:'loadBar 1.6s linear infinite'}} />
-          </div>
+    <div className="gov-desktop-bg">
+      {/* Desktop Icons (optional) */}
+      <div className="gov-desktop-icons">
+        {/* Beispiel-Icon: */}
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Texteditor', content: 'Willkommen im Bundesarchiv-Terminal.' })}>
+          <span className="gov-icon-symbol">■</span>
+          <span className="gov-icon-label">Texteditor</span>
         </div>
       </div>
 
-      <iframe
-        title="Retro Desktop"
-        src="/desktop/index.html?auth=1"
-        onLoad={handleIFrameLoad}
-        style={{border:0, width:'100%', height:'100%'}}
-      />
+      {/* Fenster */}
+      {windows.map(w => !w.minimized && (
+        <div
+          key={w.id}
+          className="gov-window"
+          style={{ zIndex: w.z }}
+          onMouseDown={() => focusWindow(w.id)}
+        >
+          <div className="gov-window-titlebar">
+            <span className="gov-window-title">{w.title}</span>
+            <div className="gov-window-controls">
+              <button onClick={() => toggleMinimize(w.id)} title="Minimieren">_</button>
+              <button onClick={() => closeWindow(w.id)} title="Schließen">×</button>
+            </div>
+          </div>
+          <div className="gov-window-content">{w.content}</div>
+        </div>
+      ))}
 
-      <style>{`@keyframes loadBar{0%{transform:translateX(-10%)}100%{transform:translateX(220%)}}`}</style>
+      {/* Startmenü */}
+      {showStart && (
+        <div className="gov-startmenu">
+          <button onClick={handleLogout}>Abmelden</button>
+          <button onClick={handleRestart}>Neustarten</button>
+          <button onClick={handleShutdown}>Herunterfahren</button>
+        </div>
+      )}
+
+      {/* Modale Fenster für Neustart/Shutdown */}
+      {modal?.type === 'restart' && (
+        <div className="gov-modal-bg">
+          <div className="gov-modal">
+            <div className="gov-modal-title">Systemneustart</div>
+            <div className="gov-modal-content">Das System wird neu gestartet. Nicht gespeicherte Daten gehen verloren.<br />Fortfahren?</div>
+            <div className="gov-modal-actions">
+              <button onClick={confirmRestart}>Neustart</button>
+              <button onClick={() => setModal(null)}>Abbrechen</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {modal?.type === 'shutdown' && (
+        <div className="gov-modal-bg">
+          <div className="gov-modal">
+            <div className="gov-modal-title">System herunterfahren</div>
+            <div className="gov-modal-content">Das System wird heruntergefahren.<br />Fortfahren?</div>
+            <div className="gov-modal-actions">
+              <button onClick={confirmShutdown}>Herunterfahren</button>
+              <button onClick={() => setModal(null)}>Abbrechen</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Taskbar */}
+      <div className="gov-taskbar">
+        <div className="gov-taskbar-left">
+          <button className="gov-taskbar-menu" onClick={() => setShowStart(s => !s)}>Start</button>
+        </div>
+        <div className="gov-taskbar-windows">
+          {windows.map(w => (
+            <button
+              key={w.id}
+              className={`gov-taskbar-window-btn${w.minimized ? ' minimized' : ''}`}
+              onClick={() => toggleMinimize(w.id)}
+            >{w.title}</button>
+          ))}
+        </div>
+        <div className="gov-taskbar-clock">
+          {clock.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+        </div>
+      </div>
     </div>
   )
 }

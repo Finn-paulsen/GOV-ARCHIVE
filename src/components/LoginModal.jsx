@@ -137,54 +137,40 @@ export default function LoginModal({ onSuccess }) {
 
   return (
     <div className="login-overlay" role="dialog" aria-modal="true">
-      <ToastContainer />
-      <motion.div className="login-modal" initial={{ scale: 0.98, opacity: 0.8 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }}>
-        <img src={seal} alt="Bundessiegel" className="login-seal" style={{width: 72, marginBottom: 18}} />
-        <div className="login-header" style={{textAlign: 'center', marginBottom: 18}}>
-          <div className="login-org" style={{fontWeight: 700, fontSize: '1.25rem', letterSpacing: '0.08em', color: '#cfeadf'}}>BUNDESREPUBLIK DEUTSCHLAND</div>
-          <div className="login-title" style={{fontWeight: 900, fontSize: '1.09rem', letterSpacing: '0.13em', color: '#e0e0e0', marginTop: 2}}>REGIERUNGSARCHIV — ZUGANGSKONTROLLE</div>
-          <div className="login-meta" style={{marginTop: 8, fontSize: '0.97rem', color: '#b0b0b0'}}>
-            <span className="login-session">Session-ID: {sessionId.current}</span> &nbsp;|&nbsp;
-            <span className="login-time">{format(now, 'dd.MM.yyyy HH:mm:ss')}</span>
+      <div className="terminal-login-box">
+        <div className="terminal-header">
+          <div className="terminal-title">BUNDESARCHIV</div>
+          <div className="terminal-subtitle">Zugangskontrolle</div>
+          <div className="terminal-meta">
+            <span>Session: {sessionId.current}</span> | <span>{format(now, 'dd.MM.yyyy HH:mm:ss')}</span>
           </div>
         </div>
-        <div className="login-warning" style={{background: '#1a232b', border: '2px solid #cfeadf', borderRadius: 6, padding: '18px 22px', marginBottom: 18, color: '#e0e0e0', fontSize: '1.01rem', boxShadow: '0 2px 18px #011217'}}>
-          <div style={{fontWeight: 900, fontSize: '1.09rem', color: '#cfeadf', marginBottom: 8, letterSpacing: '0.09em'}}>ZUTRITT NUR FÜR AUTORISIERTE PERSONEN</div>
-          <div style={{marginBottom: 8}}>
-            <strong>Hinweis:</strong> Unbefugter Zugriff auf dieses System ist strengstens untersagt.<br />
-            Jeder Anmeldeversuch, jede Eingabe und jede Benutzeraktivität wird protokolliert und überprüft.<br />
-            Verstöße gegen <strong>§202 StGB</strong> (Computerkriminalität) und Bundesrecht werden strafrechtlich verfolgt.<br />
+        <div className="terminal-warning">
+          <div className="terminal-warning-title">ZUTRITT NUR FÜR AUTORISIERTE PERSONEN</div>
+          <div className="terminal-warning-text">
+            Jeder Zugriff wird protokolliert und überprüft.<br />
+            Unbefugte Nutzung ist strafbar (§202 StGB).
           </div>
-          <div style={{fontSize: '0.97rem', color: '#b0b0b0', marginBottom: 6}}>
-            <span>IP-Adresse: <span style={{color:'#cfeadf', fontWeight:700}}>192.168.0.1</span></span> &nbsp;|&nbsp;
-            <span>Standort: <span style={{color:'#cfeadf', fontWeight:700}}>DEU</span></span>
-          </div>
-          <div style={{fontSize: '0.99rem', color: '#cfeadf', fontWeight:700, marginTop: 8}}>
-            Verbindung: <span style={{background:'#cfeadf', color:'#011217', padding:'2px 8px', borderRadius:4, fontWeight:900, margin:'0 2px'}}>Verschlüsselt</span>
-          </div>
-          <div className={`login-countdown${lockdown ? ' login-countdown-alarm' : ''}`} style={{marginTop: 10}}>
-            Zugang wird nach <span className="login-countdown-timer">{3 - failCount}</span> Fehlversuchen gesperrt
-          </div>
-          {lockdown && (
-            <motion.div className="login-lockdown" initial={{ scale: 0.95, opacity: 0.7 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.4 }}>
-              <span className="login-lockdown-title">SICHERHEITSALARM</span>
-              <span className="login-lockdown-msg">{alertMsg}</span>
-            </motion.div>
-          )}
         </div>
-        {!lockdown && (
-          <form onSubmit={handleSubmit} className="login-form">
-            <label className="login-label">Benutzername</label>
-            <input ref={userRef} className="login-input" value={user} onChange={e => { setUser(e.target.value); playKey() }} disabled={busy} />
-            <label className="login-label">Passwort</label>
-            <input type="password" className="login-input" value={pass} onChange={e => { setPass(e.target.value); playKey() }} disabled={busy} />
-            <div className="login-actions">
-              <button className="login-btn" type="submit" disabled={busy || !user || !pass}>Anmelden</button>
-            </div>
+        {!lockdown ? (
+          <form onSubmit={handleSubmit} className="terminal-login-form">
+            <label className="terminal-label">Benutzername</label>
+            <input ref={userRef} className="terminal-input" value={user} onChange={e => { setUser(e.target.value); playKey() }} disabled={busy} autoComplete="username" />
+            <label className="terminal-label">Passwort</label>
+            <input type="password" className="terminal-input" value={pass} onChange={e => { setPass(e.target.value); playKey() }} disabled={busy} autoComplete="current-password" />
+            <button className="terminal-btn" type="submit" disabled={busy || !user || !pass}>ANMELDEN</button>
           </form>
+        ) : (
+          <div className="terminal-lockdown">
+            <div className="terminal-lockdown-title">SICHERHEITSALARM</div>
+            <div className="terminal-lockdown-msg">{alertMsg}</div>
+          </div>
         )}
-        <div className="login-message">{message}</div>
-      </motion.div>
+        <div className="terminal-message">{message}</div>
+        <div className="terminal-countdown">
+          {lockdown ? "Zugang gesperrt" : `Sperre nach ${3 - failCount} Fehlversuchen`}
+        </div>
+      </div>
     </div>
   )
 }

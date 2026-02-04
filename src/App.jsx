@@ -8,6 +8,10 @@ export default function App() {
   const [view, setView] = useState('bio');
   const [loginComplete, setLoginComplete] = useState(false);
 
+  function handleLogout() {
+    setLoginComplete(false);
+  }
+
   return (
     <div className="app-shell">
       {/* Login-Dialog */}
@@ -17,7 +21,7 @@ export default function App() {
 
       {/* Desktop nach Login */}
       {loginComplete && (
-        <Desktop view={view} onChange={setView} bootComplete={true} />
+        <Desktop view={view} onChange={setView} bootComplete={true} onLogout={handleLogout} />
       )}
     </div>
   );
