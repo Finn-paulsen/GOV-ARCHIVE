@@ -1,21 +1,15 @@
-  // Öffnet Datei in Editor-Fenster
-  function handleOpenFile({ name, path, content }) {
-    openWindow({
-      title: name,
-      content: <FileEditor name={name} content={content} />,
-    })
-  }
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '../store'
 import SurveillanceCenter from './SurveillanceCenter'
 import ArchiveViewer from './ArchiveViewer'
-import FileExplorer from './FileExplorer'
+import Explorer from './Explorer'
 import FileEditor from './FileEditor'
 
 function makeId(){return Math.random().toString(36).slice(2,9)}
 
+export default function Desktop({ bootComplete, onLogout }) {
   const [windows, setWindows] = useState([])
   const [zCounter, setZCounter] = useState(10)
   const [clock, setClock] = useState(new Date())
@@ -42,6 +36,14 @@ function makeId(){return Math.random().toString(36).slice(2,9)}
     }
     setWindows(ws => [...ws, w])
     return id
+  }
+
+  // Öffnet Datei in Editor-Fenster
+  function handleOpenFile({ name, path, content }) {
+    openWindow({
+      title: name,
+      content: <FileEditor name={name} content={content} />,
+    })
   }
 
   function closeWindow(id) {
@@ -115,7 +117,7 @@ function makeId(){return Math.random().toString(36).slice(2,9)}
           <span className="gov-icon-label">Archiv</span>
         </div>
         {/* Datei-Explorer-Icon */}
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Datei-Explorer', content: <FileExplorer onOpenFile={handleOpenFile} /> })}>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Datei-Explorer', content: <Explorer /> })}>
           <span className="gov-icon-symbol">📁</span>
           <span className="gov-icon-label">Dateien</span>
         </div>

@@ -810,7 +810,7 @@
 	margin-top: 12px;
 	padding: 8px 14px;
 	border-radius: 4px;
-}
+/* } entfernt: Überflüssige Klammer, die einen Syntaxfehler verursacht hat */
 .login-lockdown {
 	background: linear-gradient(90deg, #a10000 80%, #ff2d2d 100%);
 	color: #fff;
