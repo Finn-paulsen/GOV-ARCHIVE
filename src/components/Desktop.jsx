@@ -7,6 +7,8 @@
   }
 
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useAppStore } from '../store'
 import SurveillanceCenter from './SurveillanceCenter'
 import ArchiveViewer from './ArchiveViewer'
 import FileExplorer from './FileExplorer'
@@ -14,12 +16,13 @@ import FileEditor from './FileEditor'
 
 function makeId(){return Math.random().toString(36).slice(2,9)}
 
-export default function Desktop({ bootComplete, onLogout }) {
   const [windows, setWindows] = useState([])
   const [zCounter, setZCounter] = useState(10)
   const [clock, setClock] = useState(new Date())
   const [showStart, setShowStart] = useState(false)
-  const [modal, setModal] = useState(null) // {type: 'shutdown'|'restart'}
+  const [modal, setModal] = useState(null)
+  const view = useAppStore(s => s.view)
+  const setView = useAppStore(s => s.setView)
 
   useEffect(() => {
     const timer = setInterval(() => setClock(new Date()), 1000)
@@ -64,6 +67,7 @@ export default function Desktop({ bootComplete, onLogout }) {
   function handleLogout() {
     setShowStart(false)
     if (onLogout) onLogout()
+    setView('bio')
   }
 
   function handleRestart() {
@@ -118,24 +122,30 @@ export default function Desktop({ bootComplete, onLogout }) {
         
       </div>
 
-      {/* Fenster */}
-      {windows.map(w => !w.minimized && (
-        <div
-          key={w.id}
-          className="gov-window"
-          style={{ zIndex: w.z }}
-          onMouseDown={() => focusWindow(w.id)}
-        >
-          <div className="gov-window-titlebar">
-            <span className="gov-window-title">{w.title}</span>
-            <div className="gov-window-controls">
-              <button onClick={() => toggleMinimize(w.id)} title="Minimieren">_</button>
-              <button onClick={() => closeWindow(w.id)} title="Schließen">×</button>
+      {/* Fenster (mit Framer Motion Animation) */}
+      <AnimatePresence>
+        {windows.map(w => !w.minimized && (
+          <motion.div
+            key={w.id}
+            className="gov-window"
+            style={{ zIndex: w.z, position: 'absolute' }}
+            onMouseDown={() => focusWindow(w.id)}
+            initial={{ opacity: 0, scale: 0.92, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 40 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+          >
+            <div className="gov-window-titlebar">
+              <span className="gov-window-title">{w.title}</span>
+              <div className="gov-window-controls">
+                <button onClick={() => toggleMinimize(w.id)} title="Minimieren">_</button>
+                <button onClick={() => closeWindow(w.id)} title="Schließen">×</button>
+              </div>
             </div>
-          </div>
-          <div className="gov-window-content">{w.content}</div>
-        </div>
-      ))}
+            <div className="gov-window-content">{w.content}</div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
 
       {/* Startmenü */}
       {showStart && (

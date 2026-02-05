@@ -1,15 +1,18 @@
 
-import React, { useState } from 'react';
-// BootSequence entfernt
+
+import React from 'react';
 import Desktop from './components/Desktop';
 import LoginModal from './components/LoginModal';
+import { useAppStore } from './store';
 
 export default function App() {
-  const [view, setView] = useState('bio');
-  const [loginComplete, setLoginComplete] = useState(false);
+  const loginComplete = useAppStore(s => s.loginComplete)
+  const setLoginComplete = useAppStore(s => s.setLoginComplete)
+  const view = useAppStore(s => s.view)
+  const setView = useAppStore(s => s.setView)
 
   function handleLogout() {
-    setLoginComplete(false);
+    setLoginComplete(false)
   }
 
   return (
@@ -24,5 +27,5 @@ export default function App() {
         <Desktop view={view} onChange={setView} bootComplete={true} onLogout={handleLogout} />
       )}
     </div>
-  );
+  )
 }

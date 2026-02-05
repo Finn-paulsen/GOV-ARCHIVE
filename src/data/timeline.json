@@ -1,5 +1,4 @@
-[
-  {"year":"1998","title":"Abschluss Universität","desc":"B.Sc. in Politikwissenschaften."},
-  {"year":"2005","title":"Erste Veröffentlichung","desc":"Peer-reviewed Artikel zu Regierungsarchitektur."},
-  {"year":"2018","title":"Beförderung","desc":"Leitung der Abteilung für digitale Archive."}
-]
+// Automatisch generierbar mit faker.js
+// import { generateFakeTimeline } from '../utils/fakerDemo'
+// JSON.stringify(generateFakeTimeline(20), null, 2)
+[]

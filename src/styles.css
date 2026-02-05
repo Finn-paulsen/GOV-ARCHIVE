@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CRT-Styles und Variablen erhalten */
 :root{
   --bg:#020202;
   --crt-green:#7fffd4;

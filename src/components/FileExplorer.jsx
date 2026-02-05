@@ -1,7 +1,11 @@
 
+
 import { useEffect, useRef, useState } from 'react'
+import Fuse from 'fuse.js'
 
 export default function FileExplorer({ onOpenFile }) {
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState([])
   const [cwd, setCWD] = useState('/')
   const [selected, setSelected] = useState(null)
   const [newName, setNewName] = useState('')
@@ -68,6 +72,23 @@ export default function FileExplorer({ onOpenFile }) {
     return all.sort((a, b) => a.type === b.type ? a.name.localeCompare(b.name) : a.type === 'folder' ? -1 : 1)
   }
   const entries = fsReady ? listDir(cwd) : []
+
+  // Fuse.js Setup für fuzzy search
+  const fuse = fsReady && entries.length > 0 ? new Fuse(entries, {
+    keys: ['name'],
+    threshold: 0.4,
+    minMatchCharLength: 2,
+  }) : null
+
+  function handleSearchInput(e) {
+    const value = e.target.value
+    setSearch(value)
+    if (fuse && value.trim().length > 1) {
+      setSearchResults(fuse.search(value).map(r => r.item))
+    } else {
+      setSearchResults([])
+    }
+  }
 
   function handleOpen(name) {
     if (!fsRef.current) return
@@ -219,6 +240,13 @@ export default function FileExplorer({ onOpenFile }) {
           <div className="file-explorer-path">{cwd}</div>
           <button onClick={() => handleNew('newFile')}>Neue Datei</button>
           <button onClick={() => handleNew('newFolder')}>Neuer Ordner</button>
+          <input
+            type="text"
+            placeholder="Suchen..."
+            value={search}
+            onChange={handleSearchInput}
+            style={{margin:'8px 0',width:'100%'}}
+          />
         </div>
         <div className="file-explorer-list">
           {mode === 'newFile' && (
@@ -241,7 +269,7 @@ export default function FileExplorer({ onOpenFile }) {
               <div>Typ</div>
               <div>Aktionen</div>
             </div>
-            {entries.map(entry => (
+            {(search.trim().length > 1 ? searchResults : entries).map(entry => (
               <div
                 className="file-explorer-table-row"
                 key={entry.name}

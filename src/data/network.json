@@ -1,13 +1,7 @@
+// Automatisch generierbar mit faker.js
+// import { generateFakeNetwork } from '../utils/fakerDemo'
+// JSON.stringify(generateFakeNetwork(12), null, 2)
 {
-  "nodes": [
-    {"id":"Jane Doe","group":1,"size":10},
-    {"id":"Dept. A","group":2,"size":8},
-    {"id":"Research Lab","group":2,"size":6},
-    {"id":"Publication X","group":3,"size":5}
-  ],
-  "links": [
-    {"source":"Jane Doe","target":"Dept. A","value":2},
-    {"source":"Jane Doe","target":"Research Lab","value":1},
-    {"source":"Jane Doe","target":"Publication X","value":1}
-  ]
+  "nodes": [],
+  "links": []
 }

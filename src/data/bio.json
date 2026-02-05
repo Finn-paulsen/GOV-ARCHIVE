@@ -1,8 +1,7 @@
+// Automatisch generierbar mit faker.js
+// import { generateFakeBio } from '../utils/fakerDemo'
+// JSON.stringify(generateFakeBio(), null, 2)
 {
-  "summary": "Dr. Jane Doe — Senior Analyst. Verifizierte Daten: Ausbildung, Dienstzeiten, bestätigte Veröffentlichungen.",
-  "details": {
-    "born": "1978-04-12",
-    "role": "Senior Analyst",
-    "affiliations": ["Gov Dept.", "Research Lab"]
-  }
+  "summary": "Demo: faker.js generiert hier realistische Biografie-Daten.",
+  "details": {}
 }
