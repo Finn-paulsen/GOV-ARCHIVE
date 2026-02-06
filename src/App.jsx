@@ -1,18 +1,17 @@
 
 
-import React from 'react';
-import Desktop from './components/Desktop';
+import React, { useState } from 'react';
+import FensterManager from './components/FensterManager';
 import LoginModal from './components/LoginModal';
-import { useAppStore } from './store';
+// import { useAppStore } from './store';
 
 export default function App() {
-  const loginComplete = useAppStore(s => s.loginComplete)
-  const setLoginComplete = useAppStore(s => s.setLoginComplete)
-  const view = useAppStore(s => s.view)
-  const setView = useAppStore(s => s.setView)
+  // Lokale States für Login und View
+  const [loginComplete, setLoginComplete] = useState(false);
+  const [view, setView] = useState('desktop');
 
   function handleLogout() {
-    setLoginComplete(false)
+    setLoginComplete(false);
   }
 
   return (
@@ -24,8 +23,8 @@ export default function App() {
 
       {/* Desktop nach Login */}
       {loginComplete && (
-        <Desktop view={view} onChange={setView} bootComplete={true} onLogout={handleLogout} />
+        <FensterManager view={view} onChange={setView} bootComplete={true} onLogout={handleLogout} />
       )}
     </div>
-  )
+  );
 }

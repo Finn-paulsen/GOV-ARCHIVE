@@ -1,0 +1,265 @@
+// React und Hooks nur einmal importieren!
+import { motion, AnimatePresence } from 'framer-motion';
+// Zustand-Store entfernt
+import SurveillanceCenter from './SurveillanceCenter';
+import ArchiveViewer from './ArchiveViewer';
+import FileExplorer from './FileExplorer';
+import FileEditor from './FileEditor';
+import React, { useState, useRef, useEffect } from 'react';
+// motion nur einmal importieren!
+
+function makeId() { return Math.random().toString(36).slice(2, 9); }
+
+export default function FensterManager({ bootComplete, onLogout }) {
+  const [windows, setWindows] = useState([]);
+  const [zCounter, setZCounter] = useState(10);
+  const [clock, setClock] = useState(new Date());
+  const [showStart, setShowStart] = useState(false);
+  const [modal, setModal] = useState(null);
+
+  const [explorerData, setExplorerData] = useState(() => {
+    const saved = localStorage.getItem('fileexplorer-data');
+    if (saved) {
+      try { return JSON.parse(saved); } catch { return null; }
+    }
+    return null;
+  });
+
+  // Datei in Papierkorb verschieben
+  // moveToTrash jetzt lokal
+
+  useEffect(() => {
+    const timer = setInterval(() => setClock(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  function openWindow(opts) {
+    const newWindow = {
+      id: makeId(),
+      title: opts.title,
+      content: opts.content,
+      pos: { x: 100, y: 100 },
+      z: zCounter,
+      minimized: false,
+    };
+    setWindows([...windows, newWindow]);
+    setZCounter(zCounter + 1);
+  }
+
+  function closeWindow(id) {
+    setWindows(windows.filter(w => w.id !== id));
+  }
+
+  function focusWindow(id) {
+    setWindows(ws => ws.map(w => w.id === id ? { ...w, z: zCounter } : w));
+    setZCounter(zCounter + 1);
+  }
+
+  function toggleMinimize(id) {
+    setWindows(ws => ws.map(w => w.id === id ? { ...w, minimized: !w.minimized } : w));
+  }
+
+  // Dateiinhalt im Explorer-State aktualisieren
+  function updateFileContent(file, newContent) {
+    function updateNode(node, path = 'root') {
+      const currentPath = path;
+      if (node.name === file.name && currentPath === file.path) {
+        return { ...node, content: newContent };
+      }
+      if (node.type === 'folder' && node.children) {
+        return { ...node, children: node.children.map((child, i) => updateNode(child, currentPath + '/' + child.name)) };
+      }
+      return node;
+    }
+    const newData = updateNode(explorerData);
+    setExplorerData(newData);
+  }
+
+  function handleOpenFile(file) {
+    openWindow({
+      title: `Datei: ${file.name}`,
+      content: <FileEditor name={file.name} content={file.content || ''} onSave={content => updateFileContent(file, content)} />
+    });
+  }
+
+  function handleLogout() { onLogout(); }
+  function handleRestart() { setModal({ type: 'restart' }); }
+  function handleShutdown() { setModal({ type: 'shutdown' }); }
+  function confirmRestart() { setModal(null); window.location.reload(); }
+  function confirmShutdown() {
+    setModal(null);
+    if (window.close) window.close();
+    document.body.innerHTML = '<div style="background:#181818;color:#ffbf47;display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;font-family:monospace;">System wurde heruntergefahren.</div>';
+  }
+
+  if (!bootComplete) return null;
+
+  return (
+    <div className="gov-desktop-bg">
+      <div className="gov-desktop-icons">
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Texteditor', content: 'Willkommen im Bundesarchiv-Terminal.' })}>
+          <span className="gov-icon-symbol">■</span>
+          <span className="gov-icon-label">Texteditor</span>
+        </div>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Überwachungszentrale', content: <SurveillanceCenter /> })}>
+          <span className="gov-icon-symbol">📷</span>
+          <span className="gov-icon-label">Überwachung</span>
+        </div>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Videoarchiv', content: <ArchiveViewer /> })}>
+          <span className="gov-icon-symbol">🗄️</span>
+          <span className="gov-icon-label">Archiv</span>
+        </div>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Datei-Explorer', content: <FileExplorer onOpenFile={handleOpenFile} data={explorerData} setData={setExplorerData} /> })}>
+          <span className="gov-icon-symbol">📁</span>
+          <span className="gov-icon-label">Dateien</span>
+        </div>
+
+      </div>
+      <AnimatePresence>
+        {windows.map(w => !w.minimized && (
+          <DraggableWindow
+            key={w.id}
+            window={{
+              ...w,
+              content: typeof w.content === 'function' ? w.content() : w.content
+            }}
+            onFocus={() => focusWindow(w.id)}
+            onMove={pos => setWindows(ws => ws.map(win => win.id === w.id ? { ...win, pos } : win))}
+            onClose={() => closeWindow(w.id)}
+            onMinimize={() => toggleMinimize(w.id)}
+            z={w.z}
+          />
+        ))}
+
+
+
+        
+      </AnimatePresence>
+      {showStart && (
+        <div className="gov-startmenu">
+          <button onClick={handleLogout}>Abmelden</button>
+          <button onClick={handleRestart}>Neustarten</button>
+          <button onClick={handleShutdown}>Herunterfahren</button>
+        </div>
+      )}
+      {modal?.type === 'restart' && (
+        <div className="gov-modal-bg">
+          <div className="gov-modal">
+            <div className="gov-modal-title">Systemneustart</div>
+            <div className="gov-modal-content">Das System wird neu gestartet. Nicht gespeicherte Daten gehen verloren.<br />Fortfahren?</div>
+            <div className="gov-modal-actions">
+              <button onClick={confirmRestart}>Neustart</button>
+              <button onClick={() => setModal(null)}>Abbrechen</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {modal?.type === 'shutdown' && (
+        <div className="gov-modal-bg">
+          <div className="gov-modal">
+            <div className="gov-modal-title">System herunterfahren</div>
+            <div className="gov-modal-content">Das System wird heruntergefahren.<br />Fortfahren?</div>
+            <div className="gov-modal-actions">
+              <button onClick={confirmShutdown}>Herunterfahren</button>
+              <button onClick={() => setModal(null)}>Abbrechen</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="gov-taskbar">
+        <div className="gov-taskbar-left">
+          <button className="gov-taskbar-menu" onClick={() => setShowStart(s => !s)}>Start</button>
+        </div>
+        <div className="gov-taskbar-windows">
+          {windows.map(w => (
+            <button
+              key={w.id}
+              className={`gov-taskbar-window-btn${w.minimized ? ' minimized' : ''}`}
+              onClick={() => toggleMinimize(w.id)}
+            >{w.title}</button>
+          ))}
+        </div>
+        <div className="gov-taskbar-clock">
+          {clock.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+// --- Datei aus Papierkorb wiederherstellen ---
+
+
+
+
+function DraggableWindow({ window, onFocus, onMove, onClose, onMinimize, z }) {
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const nodeRef = useRef();
+
+  function handleMouseDown(e) {
+    if (e.button !== 0) return;
+    setDragging(true);
+    setOffset({
+      x: e.clientX - (window.pos?.x || 0),
+      y: e.clientY - (window.pos?.y || 0),
+    });
+    if (onFocus) onFocus();
+    e.stopPropagation();
+  }
+
+  function handleMouseMove(e) {
+    if (!dragging) return;
+    onMove({
+      x: e.clientX - offset.x,
+      y: e.clientY - offset.y,
+    });
+  }
+
+  function handleMouseUp() {
+    setDragging(false);
+  }
+
+  useEffect(() => {
+    if (dragging) {
+      globalThis.addEventListener('mousemove', handleMouseMove);
+      globalThis.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        globalThis.removeEventListener('mousemove', handleMouseMove);
+        globalThis.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  });
+
+  return (
+    <motion.div
+      ref={nodeRef}
+      className="gov-window"
+      style={{
+        zIndex: z,
+        position: 'absolute',
+        left: window.pos?.x || 100,
+        top: window.pos?.y || 100,
+        cursor: dragging ? 'grabbing' : 'default',
+        minWidth: 320,
+        minHeight: 180,
+      }}
+      onMouseDown={onFocus}
+      initial={{ opacity: 0, scale: 0.92, y: 40 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.92, y: 40 }}
+      transition={{ duration: 0.22, ease: 'easeOut' }}
+    >
+      <div className="gov-window-titlebar" onMouseDown={handleMouseDown} style={{ cursor: 'grab', userSelect: 'none' }}>
+        <span className="gov-window-title">{window.title}</span>
+        <div className="gov-window-controls">
+          <button onClick={onMinimize} title="Minimieren">_</button>
+          <button onClick={onClose} title="Schließen">×</button>
+        </div>
+      </div>
+      <div className="gov-window-content">{window.content}</div>
+    </motion.div>
+  );
+}
