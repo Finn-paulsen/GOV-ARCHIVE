@@ -1,126 +1,175 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef } from "react";
+import "./SurveillanceCenter.css";
 
-
-// 36 Kameras mit realistischen Namen und Platzhalter-Feeds
+// --- KAMERALISTE ---
 const CAMS = [
-  { name: 'Treppenhaus', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Fahrstuhl', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Parkplatz', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Hausflur', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Garten', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Lobby', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Kantine', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Serverraum', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Empfang', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Archiv', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Straßenkreuzung', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Bushaltestelle', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'U-Bahn', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Büro', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Lager', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Werkstatt', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Keller', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Dach', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Innenhof', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Garage', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Supermarkt', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Eingang', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Ausgang', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Brücke', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Tunnel', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Kreisel', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Ampel', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Schule', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Spielplatz', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Park', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Tankstelle', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Bäckerei', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Bank', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' },
-  { name: 'Apotheke', src: 'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif', type: 'gif' },
-  { name: 'Krankenhaus', src: 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', type: 'gif' },
-  { name: 'Polizei', src: 'https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif', type: 'gif' }
-]
+  { name: "Treppenhaus", src: "...", type: "gif", status: "online" },
+  { name: "Fahrstuhl", src: "...", type: "gif", status: "online" },
+  { name: "Parkplatz", src: "...", type: "gif", status: "online" },
+  { name: "Hausflur", src: "...", type: "gif", status: "online" },
+  { name: "Garten", src: "...", type: "gif", status: "online" },
+  { name: "Lobby", src: "...", type: "gif", status: "online" },
 
+  { name: "Kantine", src: "...", type: "gif", status: "online" },
+  { name: "Serverraum", src: "...", type: "gif", status: "online" },
+  { name: "Empfang", src: "...", type: "gif", status: "online" },
+  { name: "Archiv", src: "...", type: "gif", status: "online" },
+  { name: "Straßenkreuzung", src: "...", type: "gif", status: "online" },
+  { name: "Bushaltestelle", src: "...", type: "gif", status: "online" },
+
+  { name: "U-Bahn", src: "...", type: "gif", status: "online" },
+  { name: "Büro", src: "...", type: "gif", status: "online" },
+  { name: "Lager", src: "...", type: "gif", status: "online" },
+  { name: "Werkstatt", src: "...", type: "gif", status: "online" },
+  { name: "Keller", src: "...", type: "gif", status: "online" },
+  { name: "Dach", src: "...", type: "gif", status: "online" },
+
+  { name: "Innenhof", src: "...", type: "gif", status: "online" },
+  { name: "Garage", src: "...", type: "gif", status: "online" },
+  { name: "Supermarkt", src: "...", type: "gif", status: "online" },
+  { name: "Eingang", src: "...", type: "gif", status: "online" },
+  { name: "Ausgang", src: "...", type: "gif", status: "online" },
+  { name: "Brücke", src: "...", type: "gif", status: "online" },
+
+  { name: "Tunnel", src: "...", type: "gif", status: "online" },
+  { name: "Kreisel", src: "...", type: "gif", status: "online" },
+  { name: "Ampel", src: "...", type: "gif", status: "online" },
+  { name: "Schule", src: "...", type: "gif", status: "online" },
+  { name: "Spielplatz", src: "...", type: "gif", status: "online" },
+  { name: "Park", src: "...", type: "gif", status: "online" },
+
+  { name: "Tankstelle", src: "...", type: "gif", status: "online" },
+  { name: "Bahnhof", src: "...", type: "gif", status: "online" },
+  { name: "Hafen", src: "...", type: "gif", status: "online" },
+  { name: "Zolltor", src: "...", type: "gif", status: "online" },
+  { name: "Grenzposten", src: "...", type: "gif", status: "online" },
+  { name: "Kontrollpunkt", src: "...", type: "gif", status: "online" },
+];
 
 export default function SurveillanceCenter() {
-  const [selected, setSelected] = useState(null) // Index der ausgewählten Kamera oder null für Raster
-  const [playing, setPlaying] = useState(true)
-  const videoRef = useRef(null)
+  const [selected, setSelected] = useState(null);
+  const [zoom, setZoom] = useState(false);
+  const videoRef = useRef(null);
 
-  // Controls für Einzelansicht
-  function handlePlay() {
-    setPlaying(true)
-    if (videoRef.current) videoRef.current.play()
-  }
-  function handlePause() {
-    setPlaying(false)
-    if (videoRef.current) videoRef.current.pause()
-  }
-  function handleStop() {
-    setPlaying(false)
-    if (videoRef.current) {
-      videoRef.current.pause()
-      videoRef.current.currentTime = 0
-    }
-  }
-  function handleRewind() {
-    if (videoRef.current) videoRef.current.currentTime = 0
-  }
-  function handleForward() {
-    if (videoRef.current) videoRef.current.currentTime += 5
-  }
-  function handleLive() {
-    if (videoRef.current) videoRef.current.currentTime = videoRef.current.duration || 0
-    setPlaying(true)
-    if (videoRef.current) videoRef.current.play()
-  }
-  function handleSave() {
-    alert('Speichern-Funktion ist in dieser Demo nicht implementiert.')
-  }
+  // --- VIDEO CONTROLS ---
+  const play = () => videoRef.current?.play();
+  const pause = () => videoRef.current?.pause();
+  const stop = () => {
+    if (!videoRef.current) return;
+    videoRef.current.pause();
+    videoRef.current.currentTime = 0;
+  };
+  const rewind = () => {
+    if (videoRef.current) videoRef.current.currentTime -= 5;
+  };
+  const forward = () => {
+    if (videoRef.current) videoRef.current.currentTime += 5;
+  };
+  const live = () => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime = videoRef.current.duration || 0;
+    videoRef.current.play();
+  };
 
-  // Rasteransicht
+  // --- RASTERANSICHT ---
   if (selected === null) {
     return (
-      <div className="surveillance-center">
-        <div className="surveillance-header">ÜBERWACHUNGSZENTRALE</div>
-        <div className="surveillance-grid">
-          {CAMS.map((cam, i) => (
-            <div className="surveillance-tile" key={cam.name} onClick={() => setSelected(i)}>
-              <div className="surveillance-tile-name">{cam.name}</div>
-              <div className="surveillance-tile-feed">
-                <img src={cam.src} alt={cam.name} style={{width:'100%',height:'100%',objectFit:'cover',background:'#232323'}} />
-              </div>
+      <div className="surveillance-grid">
+        {CAMS.map((cam, i) => (
+          <div
+            key={i}
+            className="surveillance-tile"
+            onClick={() => setSelected(i)}
+          >
+            <div className={`surveillance-led ${cam.status}`}></div>
+
+            <div className="surveillance-hud">
+              <span className="hud-id">#{String(i + 1).padStart(2, '0')}</span>
+              <span className="hud-dot" />
+              <span className="hud-fps">24 FPS</span>
+              <span className="hud-dot" />
+              <span className="hud-bitrate">2.1 Mbps</span>
             </div>
-          ))}
-        </div>
+
+            <div className="surveillance-tile-feed">
+              <img
+                src={cam.src}
+                alt={cam.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  filter: "contrast(1.15) brightness(0.9)",
+                }}
+              />
+            </div>
+
+            {cam.status === "offline" && (
+              <div className="signal-lost">SIGNAL LOST</div>
+            )}
+
+            <div className="surveillance-tile-name">{cam.name}</div>
+          </div>
+        ))}
       </div>
-    )
+    );
   }
 
-  // Einzelansicht
-  const cam = CAMS[selected]
+  // --- EINZELANSICHT ---
+  const cam = CAMS[selected];
+
   return (
     <div className="surveillance-center">
       <div className="surveillance-header">
-        <button className="surveillance-back" onClick={() => setSelected(null)} title="Zurück zum Raster">←</button>
+        <button className="surveillance-back" onClick={() => setSelected(null)}>
+          ← Zurück
+        </button>
         {cam.name}
       </div>
-      <div className="surveillance-feed surveillance-feed-large">
-        {cam.type === 'gif' ? (
-          <img src={cam.src} alt={cam.name} style={{width:'100%',maxHeight:340,objectFit:'cover',background:'#232323'}} />
+
+      <div
+        className={`zoomable ${zoom ? "zoomed" : ""}`}
+        onDoubleClick={() => setZoom(z => !z)}
+        onWheel={(e) => {
+          if (e.deltaY < 0) setZoom(true);
+          else setZoom(false);
+        }}
+      >
+        {cam.type === "gif" ? (
+          <img
+            src={cam.src}
+            alt={cam.name}
+            style={{
+              width: "100%",
+              maxHeight: 380,
+              objectFit: "cover",
+              background: "#232323",
+            }}
+          />
         ) : (
-          <video ref={videoRef} src={cam.src} controls={false} autoPlay={playing} loop style={{width:'100%',maxHeight:340,objectFit:'cover',background:'#232323'}} />
+          <video
+            ref={videoRef}
+            src={cam.src}
+            autoPlay
+            loop
+            style={{
+              width: "100%",
+              maxHeight: 380,
+              objectFit: "cover",
+              background: "#232323",
+            }}
+          />
         )}
       </div>
+
       <div className="surveillance-controls">
-        <button onClick={handlePlay}>▶</button>
-        <button onClick={handlePause}>⏸</button>
-        <button onClick={handleStop}>⏹</button>
-        <button onClick={handleRewind}>⏪</button>
-        <button onClick={handleForward}>⏩</button>
-        <button onClick={handleLive}>Live</button>
-        <button onClick={handleSave}>Speichern</button>
+        <button onClick={play}>▶</button>
+        <button onClick={pause}>⏸</button>
+        <button onClick={stop}>⏹</button>
+        <button onClick={rewind}>⏪</button>
+        <button onClick={forward}>⏩</button>
+        <button onClick={live}>LIVE</button>
       </div>
     </div>
-  )
+  );
 }
