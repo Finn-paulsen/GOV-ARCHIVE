@@ -29,7 +29,7 @@ const initialData = {
   ]
 };
 
-function Folder({ explorer, onAdd, onOpenFile, onContextMenu, renderLabel }) {
+function Folder({ explorer, onAdd, onOpenFile, onContextMenu, renderLabel, selectedIds = [], handleSelect, handleKeyDownSelect }) {
   const [expanded, setExpanded] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -99,15 +99,18 @@ function Folder({ explorer, onAdd, onOpenFile, onContextMenu, renderLabel }) {
           <div className="gov-folder-children">
             {explorer.items.map((item) =>
               item.isFolder ? (
-                <Folder key={item.id} explorer={item} onAdd={onAdd} onOpenFile={onOpenFile} onContextMenu={onContextMenu} renderLabel={renderLabel} />
+                <Folder key={item.id} explorer={item} onAdd={onAdd} onOpenFile={onOpenFile} onContextMenu={onContextMenu} renderLabel={renderLabel} selectedIds={selectedIds} handleSelect={handleSelect} handleKeyDownSelect={handleKeyDownSelect} />
               ) : (
                 <div
-                  className="gov-file"
+                  className={`gov-file${selectedIds.includes(item.id) ? ' gov-file-selected' : ''}`}
                   key={item.id}
+                  tabIndex={0}
                   onDoubleClick={() => handleFileDoubleClick(item)}
                   title={/\.(txt|html?)$/i.test(item.name) ? 'Bearbeiten' : ''}
                   style={{ cursor: /\.(txt|html?)$/i.test(item.name) ? 'pointer' : 'default' }}
                   onContextMenu={onContextMenu ? (e) => { e.stopPropagation(); onContextMenu(e, item); } : undefined}
+                  onClick={handleSelect ? handleSelect(item.id, explorer) : undefined}
+                  onKeyDown={handleKeyDownSelect ? handleKeyDownSelect(explorer) : undefined}
                 >
                   {renderLabel ? renderLabel(item, <>🗄 {item.name}</>) : <>🗄 {item.name}</>}
                 </div>
@@ -259,8 +262,9 @@ export default function FileExplorer() {
     };
   }
 
-  // Kopieren/Einfügen-Logik
-  const [clipboard, setClipboard] = useState(null); // {node, isFolder}
+  // Kopieren/Einfügen-Logik für Mehrfachauswahl
+  // clipboard: Array von Knoten (Dateien/Ordner)
+  const [clipboard, setClipboard] = useState([]); // Array von Knoten
   // Neu-Funktion: Status für Zielordner, Typ und Input
   const [newTarget, setNewTarget] = useState(null); // {id, isFolder}
   const [newType, setNewType] = useState(null); // 'file' | 'folder'
@@ -325,8 +329,21 @@ export default function FileExplorer() {
     {
       label: 'Kopieren',
       onClick: () => {
-        const node = findNode(explorerData, contextMenu.target.id);
-        if (node) setClipboard(node);
+        // Wenn Mehrfachauswahl, alle ausgewählten Knoten kopieren, sonst nur das Target
+        let nodesToCopy = [];
+        if (selectedIds.length > 1) {
+          // Alle ausgewählten Knoten suchen (nur Dateien/Folders auf dieser Ebene)
+          function collectNodesByIds(tree, ids, acc = []) {
+            if (ids.includes(tree.id)) acc.push(tree);
+            if (tree.items) tree.items.forEach(item => collectNodesByIds(item, ids, acc));
+            return acc;
+          }
+          nodesToCopy = collectNodesByIds(explorerData, selectedIds, []);
+        } else {
+          const node = findNode(explorerData, contextMenu.target.id);
+          if (node) nodesToCopy = [node];
+        }
+        setClipboard(nodesToCopy);
         closeContextMenu();
       },
       disabled: false,
@@ -334,13 +351,17 @@ export default function FileExplorer() {
     {
       label: 'Einfügen',
       onClick: () => {
-        if (clipboard && contextMenu.target.isFolder) {
-          const nodeCopy = deepCopyWithNewIds(clipboard);
-          setExplorerData((prev) => insertNodeCopy(prev, contextMenu.target.id, nodeCopy));
+        if (clipboard.length && contextMenu.target.isFolder) {
+          let updated = explorerData;
+          clipboard.forEach(node => {
+            const nodeCopy = deepCopyWithNewIds(node);
+            updated = insertNodeCopy(updated, contextMenu.target.id, nodeCopy);
+          });
+          setExplorerData(updated);
         }
         closeContextMenu();
       },
-      disabled: !(clipboard && contextMenu.target && contextMenu.target.isFolder),
+      disabled: !(clipboard.length && contextMenu.target && contextMenu.target.isFolder),
     },
     {
       label: 'Neu',
@@ -415,6 +436,50 @@ export default function FileExplorer() {
     return defaultLabel;
   };
 
+  // Mehrfachauswahl-Logik
+  const [selectedIds, setSelectedIds] = useState([]); // Array von Datei-IDs
+  const [lastSelectedId, setLastSelectedId] = useState(null);
+
+  function getFlatFileList(folder) {
+    return folder.items.filter(item => !item.isFolder);
+  }
+
+  // Handler für Auswahl mit Shift+Pfeiltasten und Klick
+  const handleSelect = (fileId, folder) => (e) => {
+    if (e.shiftKey && lastSelectedId) {
+      const files = getFlatFileList(folder);
+      const idx1 = files.findIndex(f => f.id === lastSelectedId);
+      const idx2 = files.findIndex(f => f.id === fileId);
+      if (idx1 !== -1 && idx2 !== -1) {
+        const [start, end] = [Math.min(idx1, idx2), Math.max(idx1, idx2)];
+        const rangeIds = files.slice(start, end + 1).map(f => f.id);
+        setSelectedIds(rangeIds);
+      }
+    } else {
+      setSelectedIds([fileId]);
+      setLastSelectedId(fileId);
+    }
+  };
+
+  const handleKeyDownSelect = (folder) => (e) => {
+    if (!selectedIds.length) return;
+    const files = getFlatFileList(folder);
+    const currentIdx = files.findIndex(f => f.id === selectedIds[selectedIds.length - 1]);
+    let nextIdx = currentIdx;
+    if (e.key === "ArrowDown") nextIdx = Math.min(files.length - 1, currentIdx + 1);
+    if (e.key === "ArrowUp") nextIdx = Math.max(0, currentIdx - 1);
+    if (nextIdx !== currentIdx) {
+      if (e.shiftKey) {
+        const [start, end] = [Math.min(currentIdx, nextIdx), Math.max(currentIdx, nextIdx)];
+        const rangeIds = files.slice(start, end + 1).map(f => f.id);
+        setSelectedIds(rangeIds);
+      } else {
+        setSelectedIds([files[nextIdx].id]);
+        setLastSelectedId(files[nextIdx].id);
+      }
+    }
+  };
+
   return (
     <div className="gov-explorer-container">
       {editorFile ? (
@@ -431,6 +496,9 @@ export default function FileExplorer() {
           onOpenFile={handleOpenFile}
           onContextMenu={handleContextMenu}
           renderLabel={renderLabel}
+          selectedIds={selectedIds}
+          handleSelect={handleSelect}
+          handleKeyDownSelect={handleKeyDownSelect}
         />
       )}
       {contextMenu && (

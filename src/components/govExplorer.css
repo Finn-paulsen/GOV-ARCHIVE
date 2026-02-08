@@ -50,6 +50,11 @@
     background: #2d2d38;
     color: #fff;
   }
+  .gov-file-selected {
+    background: #2d6cdf;
+    color: #fff;
+    border-radius: 4px;
+  }
   .gov-btn {
     background: #39394a;
     color: #e3e3e3;
