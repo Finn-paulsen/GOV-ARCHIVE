@@ -259,6 +259,51 @@ export default function FileExplorer() {
     };
   }
 
+  // Kopieren/Einfügen-Logik
+  const [clipboard, setClipboard] = useState(null); // {node, isFolder}
+
+  // Hilfsfunktion: Knoten im Baum suchen
+  function findNode(tree, id) {
+    if (tree.id === id) return tree;
+    if (!tree.items) return null;
+    for (const item of tree.items) {
+      const found = item.isFolder ? findNode(item, id) : (item.id === id ? item : null);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  // Hilfsfunktion: Tiefe Kopie mit neuem ID
+  function deepCopyWithNewIds(node) {
+    const newId = Date.now().toString() + Math.random().toString(36).slice(2, 7);
+    if (node.isFolder) {
+      return {
+        ...node,
+        id: newId,
+        name: node.name + '_copy',
+        items: node.items ? node.items.map(deepCopyWithNewIds) : []
+      };
+    } else {
+      return { ...node, id: newId, name: node.name + '_copy' };
+    }
+  }
+
+  // Hilfsfunktion: Einfügen in Ordner
+  function insertNodeCopy(tree, folderId, nodeCopy) {
+    if (tree.id === folderId && tree.isFolder) {
+      return {
+        ...tree,
+        items: [...tree.items, nodeCopy]
+      };
+    }
+    return {
+      ...tree,
+      items: tree.items.map((item) =>
+        item.isFolder ? insertNodeCopy(item, folderId, nodeCopy) : item
+      )
+    };
+  }
+
   const contextOptions = contextMenu && contextMenu.target ? [
     {
       label: 'Umbenennen',
@@ -276,7 +321,8 @@ export default function FileExplorer() {
     {
       label: 'Kopieren',
       onClick: () => {
-        // TODO: Kopieren-Logik
+        const node = findNode(explorerData, contextMenu.target.id);
+        if (node) setClipboard(node);
         closeContextMenu();
       },
       disabled: false,
@@ -284,10 +330,13 @@ export default function FileExplorer() {
     {
       label: 'Einfügen',
       onClick: () => {
-        // TODO: Einfügen-Logik
+        if (clipboard && contextMenu.target.isFolder) {
+          const nodeCopy = deepCopyWithNewIds(clipboard);
+          setExplorerData((prev) => insertNodeCopy(prev, contextMenu.target.id, nodeCopy));
+        }
         closeContextMenu();
       },
-      disabled: false,
+      disabled: !(clipboard && contextMenu.target && contextMenu.target.isFolder),
     },
     {
       label: 'Neu',
