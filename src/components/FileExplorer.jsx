@@ -15,17 +15,18 @@ export default function FileExplorer({
     onMove,
     dragOverPath,
     setDragOverPath,
+    openFolders: propsOpenFolders,
+    setOpenFolders: propsSetOpenFolders,
   }) {
     if (!node) return null;
     const path = parentPath ? parentPath + "/" + node.name : node.name;
-    // Highlight nur für exakt dieses Element
     const isFocused = focusedPath === path;
     const isDragOver = dragOverPath === path;
-    // Windows/Linux-like Highlight
+    // Dezentes Highlight (Windows-ähnlich, nicht grell)
     const highlightColor = isFocused
-      ? "linear-gradient(90deg, #cce6ff 0%, #b3d1ff 100%)" // Windows-like
+      ? "rgba(0, 120, 215, 0.2)"
       : isDragOver
-        ? "#ffeeba"
+        ? "rgba(0, 120, 215, 0.12)"
         : undefined;
 
     const handleClick = (e) => {
@@ -38,9 +39,12 @@ export default function FileExplorer({
       e.stopPropagation();
       onFileDoubleClick && onFileDoubleClick(node);
     };
-    // Ordner öffnen/schließen
-    const [openFolders, setOpenFolders] = React.useState([]);
+
+    const [localOpenFolders, setLocalOpenFolders] = React.useState([]);
+    const openFolders = propsOpenFolders !== undefined ? propsOpenFolders : localOpenFolders;
+    const setOpenFolders = propsSetOpenFolders !== undefined ? propsSetOpenFolders : setLocalOpenFolders;
     const isOpen = node.type === "folder" && openFolders.includes(path);
+
     return (
       <div>
         <div
@@ -49,14 +53,15 @@ export default function FileExplorer({
             background: highlightColor,
             cursor: "pointer",
             fontWeight: node.type === "folder" ? "bold" : "normal",
-            borderRadius: isFocused ? 4 : 0,
-            color: isFocused ? "#1a1a1a" : undefined,
-            boxShadow: isFocused ? "0 0 0 2px #3399ff33" : undefined,
-            transition: "background 0.2s, box-shadow 0.2s",
+            borderRadius: isFocused ? 2 : 0,
+            color: isFocused ? "#e3e3e3" : undefined,
+            outline: isFocused ? "1px solid rgba(0, 120, 215, 0.5)" : "none",
+            transition: "background 0.15s, outline 0.15s",
           }}
           tabIndex={0}
           onClick={handleClick}
           onDoubleClick={(e) => {
+            e.stopPropagation();
             handleDoubleClick(e);
             if (node.type === "folder") {
               if (isOpen) {
@@ -143,32 +148,75 @@ export default function FileExplorer({
       { name: "info.txt", type: "file" },
     ],
   };
-  function FileExplorer({
-    onOpenFile,
-    data: propsData,
-    setData: propsSetData,
-  }) {
-    const [editorFile, setEditorFile] = useState(null);
-    function handleNewFile() {
-      const folderPath = getCurrentFolderPath();
-      const name = prompt("Dateiname?");
-      if (!name) return;
-      // Deep copy
-      let newTree = JSON.parse(JSON.stringify(data));
-      function insertFile(node, path) {
-        const currentPath = node.name === "root" ? "root" : path;
-        if (currentPath === folderPath && node.type === "folder") {
-          node.children = node.children || [];
-          node.children.push({ name, type: "file" });
-        } else if (node.type === "folder" && node.children) {
-          node.children.forEach((child) =>
-            insertFile(child, currentPath + "/" + child.name),
-          );
+  // Aktueller Ordner: Fokus ist Ordner → dieser; ist Datei → übergeordneter Ordner
+  function getCurrentFolderPath() {
+    if (!focusedPath || focusedPath === "root") return "root";
+    const node = (function find(n, path, parent) {
+      const current = parent ? parent + "/" + n.name : n.name;
+      if (current === focusedPath) return n;
+      if (n.type === "folder" && n.children) {
+        for (const c of n.children) {
+          const found = find(c, path, current);
+          if (found) return found;
         }
       }
-      insertFile(newTree, "root");
-      setData(newTree);
+      return null;
+    })(data, focusedPath, "");
+    if (!node) return "root";
+    if (node.type === "folder") return focusedPath;
+    return focusedPath.split("/").slice(0, -1).join("/") || "root";
+  }
+
+  const [editorFile, setEditorFile] = useState(null);
+
+  function doInsertNewItem(name, type) {
+    const folderPath = getCurrentFolderPath();
+    const trimmed = (name || "").trim();
+    if (!trimmed) return;
+    const sourceTree = data && data.name ? data : defaultData;
+    let newTree = JSON.parse(JSON.stringify(sourceTree));
+    function insertItem(node, path) {
+      const currentPath = node.name === "root" ? "root" : path;
+      if (currentPath === folderPath && node.type === "folder") {
+        node.children = node.children || [];
+        node.children.push(
+          type === "file"
+            ? { name: trimmed, type: "file" }
+            : { name: trimmed, type: "folder", children: [] }
+        );
+        return true;
+      }
+      if (node.type === "folder" && node.children) {
+        for (const child of node.children) {
+          if (insertItem(child, currentPath + "/" + child.name)) return true;
+        }
+      }
+      return false;
     }
+    if (insertItem(newTree, "root")) {
+      setData(newTree);
+      if (propsSetData === undefined) {
+        localStorage.setItem("fileexplorer-data", JSON.stringify(newTree));
+      }
+    }
+    setNewItemMode(null);
+    setNewItemName("");
+  }
+
+  function handleNewFile() {
+    setNewItemMode("file");
+    setNewItemName("");
+  }
+
+  function handleNewFolder() {
+    setNewItemMode("folder");
+    setNewItemName("");
+  }
+
+  function confirmNewItem() {
+    if (!newItemName.trim()) return;
+    doInsertNewItem(newItemName, newItemMode);
+  }
     // Drag & Drop: Datei/Ordner verschieben
     function moveNode(fromPath, toPath) {
       if (fromPath === toPath) return;
@@ -195,20 +243,26 @@ export default function FileExplorer({
         }
         return null;
       }
-      function insertNode(node, path, insertNode) {
-        const currentPath = node.name;
-        if (currentPath === path && node.type === "folder") {
-          node.children = node.children || [];
-          node.children.push(insertNode);
-        } else if (node.type === "folder" && node.children) {
-          node.children.forEach((child) => insertNode(child, path, insertNode));
+      function insertAtPath(treeNode, currentPath, targetPath, nodeToInsert) {
+        if (currentPath === targetPath && treeNode.type === "folder") {
+          treeNode.children = treeNode.children || [];
+          treeNode.children.push(nodeToInsert);
+        } else if (treeNode.type === "folder" && treeNode.children) {
+          treeNode.children.forEach((child) =>
+            insertAtPath(
+              child,
+              currentPath + "/" + child.name,
+              targetPath,
+              nodeToInsert
+            )
+          );
         }
       }
-      // Deep copy
       let newTree = JSON.parse(JSON.stringify(data));
       const movingNode = findNode(newTree, fromPath);
+      if (!movingNode) return;
       newTree = removeNode(newTree, fromPath);
-      insertNode(newTree, toPath, movingNode);
+      insertAtPath(newTree, "root", toPath, movingNode);
       setData(newTree);
     }
     // Tastatur-Navigation (global für Explorer)
@@ -241,7 +295,9 @@ export default function FileExplorer({
       }
       return defaultData;
     });
-    const data = propsData !== undefined ? propsData : internalData;
+    const rawData = propsData !== undefined ? propsData : internalData;
+    // Immer einen gültigen Baum haben (null/undefined → defaultData)
+    const data = rawData && rawData.name ? rawData : defaultData;
     const setData = propsSetData !== undefined ? propsSetData : internalSetData;
 
     const [selectedFilePath, setSelectedFilePath] = useState(null);
@@ -270,6 +326,9 @@ export default function FileExplorer({
     const [clipboard, setClipboard] = useState(null); // { node, type: 'copy'|'cut', fromPath }
     const [renameMode, setRenameMode] = useState(false);
     const [renameValue, setRenameValue] = useState("");
+    const [listKey, setListKey] = useState(0);
+    const [newItemMode, setNewItemMode] = useState(null); // null | 'file' | 'folder'
+    const [newItemName, setNewItemName] = useState("");
 
     // Flache Liste aller sichtbaren Pfade für Tastatur-Navigation
     function flattenTree(node, parentPath = "") {
@@ -291,60 +350,88 @@ export default function FileExplorer({
 
     // ...existing code...
 
-    function handleCopy() {
-      if (!selectedFile) return;
-      setClipboard({ node: selectedFile, type: "copy", fromPath: focusedPath });
-    }
-    function handleCut() {
-      if (!selectedFile) return;
-      setClipboard({ node: selectedFile, type: "cut", fromPath: focusedPath });
-    }
+  function handleCopy() {
+    if (!selectedFile) return;
+    setClipboard({
+      node: JSON.parse(JSON.stringify(selectedFile)),
+      type: "copy",
+      fromPath: focusedPath,
+    });
+  }
+  function handleCut() {
+    if (!selectedFile) return;
+    setClipboard({
+      node: JSON.parse(JSON.stringify(selectedFile)),
+      type: "cut",
+      fromPath: focusedPath,
+    });
+  }
 
-    function handlePaste() {
-      if (!clipboard) return;
-      const folderPath = getCurrentFolderPath();
-      let newTree = JSON.parse(JSON.stringify(data));
-      // Füge node in Zielordner ein
-      function insertNode(node, path, insertNode) {
-        if (
-          node.name === "root"
-            ? "root"
-            : path === folderPath && node.type === "folder"
-        ) {
-          node.children = node.children || [];
-          // Bei Copy: neuen Namen, falls schon vorhanden
-          let baseName = insertNode.name;
-          let name = baseName;
-          let i = 1;
-          while (node.children.some((child) => child.name === name)) {
-            name = baseName + " (" + i + ")";
-            i++;
-          }
-          node.children.push({ ...insertNode, name });
-        } else if (node.type === "folder" && node.children) {
-          node.children.forEach((child) =>
-            insertNode(child, path + "/" + child.name, insertNode),
-          );
+  function handlePaste() {
+    if (!clipboard) return;
+    const folderPath = getCurrentFolderPath();
+    let newTree = JSON.parse(JSON.stringify(data));
+    function insertAtPath(treeNode, currentPath, targetPath, nodeToInsert) {
+      if (currentPath === targetPath && treeNode.type === "folder") {
+        treeNode.children = treeNode.children || [];
+        let baseName = nodeToInsert.name;
+        let name = baseName;
+        let i = 1;
+        while (treeNode.children.some((c) => c.name === name)) {
+          name = baseName + " (" + i + ")";
+          i++;
         }
+        treeNode.children.push(
+          JSON.parse(JSON.stringify({ ...nodeToInsert, name }))
+        );
+      } else if (treeNode.type === "folder" && treeNode.children) {
+        treeNode.children.forEach((child) =>
+          insertAtPath(
+            child,
+            currentPath + "/" + child.name,
+            targetPath,
+            nodeToInsert
+          )
+        );
       }
-      insertNode(newTree, "root", clipboard.node);
-      // Bei Cut: Original entfernen
-      if (clipboard.type === "cut") {
-        function removeNode(node, path, parent = null) {
-          const currentPath = parent ? parent + "/" + node.name : node.name;
-          if (currentPath === clipboard.fromPath) return null;
-          if (node.type === "folder" && node.children) {
-            node.children = node.children
-              .map((child) => removeNode(child, currentPath))
-              .filter(Boolean);
-          }
-          return node;
-        }
-        newTree = removeNode(newTree, "root");
-      }
-      setData(newTree);
-      setClipboard(null);
     }
+    insertAtPath(newTree, "root", folderPath, clipboard.node);
+    if (clipboard.type === "cut") {
+      function removeNodeAt(treeNode, pathToRemove, parent = null) {
+        const currentPath = parent ? parent + "/" + treeNode.name : treeNode.name;
+        if (currentPath === pathToRemove) return null;
+        if (treeNode.type === "folder" && treeNode.children) {
+          treeNode.children = treeNode.children
+            .map((child) => removeNodeAt(child, pathToRemove, currentPath))
+            .filter(Boolean);
+        }
+        return treeNode;
+      }
+      newTree = removeNodeAt(newTree, clipboard.fromPath, null);
+    }
+    setData(newTree);
+    setClipboard(null);
+  }
+
+  function handleDelete() {
+    if (!selectedFile || !focusedPath || focusedPath === "root") return;
+    if (!confirm(`"${selectedFile.name}" wirklich löschen?`)) return;
+    let newTree = JSON.parse(JSON.stringify(data));
+    function removeNodeAt(treeNode, pathToRemove, parent = null) {
+      const currentPath = parent ? parent + "/" + treeNode.name : treeNode.name;
+      if (currentPath === pathToRemove) return null;
+      if (treeNode.type === "folder" && treeNode.children) {
+        treeNode.children = treeNode.children
+          .map((child) => removeNodeAt(child, pathToRemove, currentPath))
+          .filter(Boolean);
+      }
+      return treeNode;
+    }
+    newTree = removeNodeAt(newTree, focusedPath, null);
+    setData(newTree);
+    setSelectedFilePath(null);
+    setFocusedPath("root");
+  }
 
     function handleRename() {
       if (!selectedFile) return;
@@ -387,8 +474,7 @@ export default function FileExplorer({
           }
           return null;
         }
-        const updatedFile = findNode(newTree, newPath);
-        setSelectedFile(updatedFile);
+        setSelectedFilePath(newPath);
       }
     }
 
@@ -413,14 +499,14 @@ export default function FileExplorer({
           style={{ maxWidth: 220 }}
         />
 
-<div className="gov-explorer-list">
+<div className="gov-explorer-list" key={listKey}>
   <FileNode
     node={filteredTree}
-    onFileClick={(path, node) => {
+    onFileClick={(path) => {
       setSelectedFilePath(path);
     }}
     onFileDoubleClick={(node) => {
-      if (node.type === "file") {
+      if (node.type === "file" && onOpenFile) {
         function findPath(n, target, path = "root") {
           if (n === target) return path;
           if (n.type === "folder" && n.children) {
@@ -431,16 +517,12 @@ export default function FileExplorer({
           }
           return null;
         }
-
         const filePath = findPath(data, node);
-
-        if (onOpenFile) {
-          onOpenFile({
-            name: node.name,
-            path: filePath,
-            content: node.content || "",
-          });
-        }
+        onOpenFile({
+          name: node.name,
+          path: filePath,
+          content: node.content || "",
+        });
       }
     }}
     focusedPath={focusedPath}
@@ -449,16 +531,42 @@ export default function FileExplorer({
     onMove={moveNode}
     dragOverPath={dragOverPath}
     setDragOverPath={setDragOverPath}
+    openFolders={openFolders}
+    setOpenFolders={setOpenFolders}
   />
 </div>
 
-<div className="gov-explorer-actions">
-  <button className="gov-btn" onClick={handleNewFile}>Neue Datei</button>
-  <button className="gov-btn" onClick={handleCopy} disabled={!selectedFile}>Kopieren</button>
-  <button className="gov-btn" onClick={handleCut} disabled={!selectedFile}>Ausschneiden</button>
-  <button className="gov-btn" onClick={handlePaste} disabled={!clipboard}>Einfügen</button>
-  <button className="gov-btn" onClick={handleRename} disabled={!selectedFile}>Umbenennen</button>
+<div className="gov-explorer-actions" role="toolbar" aria-label="Aktionen">
+  <button type="button" className="gov-btn" onClick={handleNewFile} title="Neue Datei erstellen">Neue Datei</button>
+  <button type="button" className="gov-btn" onClick={handleNewFolder} title="Neuen Ordner erstellen">Neuer Ordner</button>
+  <button type="button" className="gov-btn" onClick={handleCopy} disabled={!selectedFile} title="Kopieren">Kopieren</button>
+  <button type="button" className="gov-btn" onClick={handleCut} disabled={!selectedFile} title="Ausschneiden">Ausschneiden</button>
+  <button type="button" className="gov-btn" onClick={handlePaste} disabled={!clipboard} title="Einfügen">Einfügen</button>
+  <button type="button" className="gov-btn" onClick={handleDelete} disabled={!selectedFile || focusedPath === "root"} title="Löschen">Löschen</button>
+  <button type="button" className="gov-btn" onClick={handleRename} disabled={!selectedFile} title="Umbenennen">Umbenennen</button>
+  <button type="button" className="gov-btn" onClick={() => setListKey((k) => k + 1)} title="Ansicht aktualisieren">Aktualisieren</button>
 </div>
+
+{newItemMode && (
+  <div className="gov-explorer-rename">
+    <span className="gov-explorer-rename-label">
+      {newItemMode === "file" ? "Dateiname:" : "Ordnername:"}
+    </span>
+    <input
+      className="gov-explorer-search"
+      value={newItemName}
+      onChange={(e) => setNewItemName(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") confirmNewItem();
+        if (e.key === "Escape") setNewItemMode(null);
+      }}
+      placeholder={newItemMode === "file" ? "z.B. readme.txt" : "z.B. Neuer Ordner"}
+      autoFocus
+    />
+    <button type="button" className="gov-btn" onClick={confirmNewItem}>OK</button>
+    <button type="button" className="gov-btn" onClick={() => { setNewItemMode(null); setNewItemName(""); }}>Abbrechen</button>
+  </div>
+)}
 
 {renameMode && (
   <div className="gov-explorer-rename">
@@ -467,8 +575,8 @@ export default function FileExplorer({
       value={renameValue}
       onChange={(e) => setRenameValue(e.target.value)}
     />
-    <button className="gov-btn" onClick={confirmRename}>OK</button>
-    <button className="gov-btn" onClick={() => setRenameMode(false)}>Abbrechen</button>
+    <button type="button" className="gov-btn" onClick={confirmRename}>OK</button>
+    <button type="button" className="gov-btn" onClick={() => setRenameMode(false)}>Abbrechen</button>
   </div>
 )}
 
@@ -480,5 +588,4 @@ export default function FileExplorer({
 )}
 </div>
 );
-}
 }

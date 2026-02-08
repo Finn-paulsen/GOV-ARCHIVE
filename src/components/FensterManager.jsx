@@ -26,6 +26,14 @@ export default function FensterManager({ bootComplete, onLogout }) {
     return null;
   });
 
+  // Wrapper für setExplorerData, der auch localStorage aktualisiert
+  const updateExplorerData = (newData) => {
+    setExplorerData(newData);
+    if (newData) {
+      localStorage.setItem('fileexplorer-data', JSON.stringify(newData));
+    }
+  };
+
   // Datei in Papierkorb verschieben
   // moveToTrash jetzt lokal
 
@@ -38,6 +46,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
     const newWindow = {
       id: makeId(),
       title: opts.title,
+      type: opts.type ?? 'custom',
       content: opts.content,
       pos: { x: 100, y: 100 },
       z: zCounter,
@@ -45,6 +54,15 @@ export default function FensterManager({ bootComplete, onLogout }) {
     };
     setWindows([...windows, newWindow]);
     setZCounter(zCounter + 1);
+  }
+
+  function getWindowContent(w) {
+    if (w.type === 'explorer') {
+      return <FileExplorer onOpenFile={handleOpenFile} data={explorerData} setData={updateExplorerData} />;
+    }
+    if (w.type === 'surveillance') return <SurveillanceCenter />;
+    if (w.type === 'archive') return <ArchiveViewer />;
+    return typeof w.content === 'function' ? w.content() : w.content;
   }
 
   function closeWindow(id) {
@@ -73,7 +91,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
       return node;
     }
     const newData = updateNode(explorerData);
-    setExplorerData(newData);
+    updateExplorerData(newData);
   }
 
   function handleOpenFile(file) {
@@ -98,15 +116,15 @@ export default function FensterManager({ bootComplete, onLogout }) {
   return (
     <div className="gov-desktop-bg">
       <div className="gov-desktop-icons">
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Überwachungszentrale', content: <SurveillanceCenter /> })}>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Überwachungszentrale', type: 'surveillance' })}>
           <span className="gov-icon-symbol">📷</span>
           <span className="gov-icon-label">Überwachung</span>
         </div>
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Videoarchiv', content: <ArchiveViewer /> })}>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Videoarchiv', type: 'archive' })}>
           <span className="gov-icon-symbol">🗄️</span>
           <span className="gov-icon-label">Archiv</span>
         </div>
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Datei-Explorer', content: <FileExplorer onOpenFile={handleOpenFile} data={explorerData} setData={setExplorerData} /> })}>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Datei-Explorer', type: 'explorer' })}>
           <span className="gov-icon-symbol">📁</span>
           <span className="gov-icon-label">Dateien</span>
         </div>
@@ -118,7 +136,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
             key={w.id}
             window={{
               ...w,
-              content: typeof w.content === 'function' ? w.content() : w.content
+              content: getWindowContent(w)
             }}
             onFocus={() => focusWindow(w.id)}
             onMove={pos => setWindows(ws => ws.map(win => win.id === w.id ? { ...win, pos } : win))}

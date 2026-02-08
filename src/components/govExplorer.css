@@ -50,6 +50,7 @@
 }
 .gov-explorer-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
 }
@@ -74,9 +75,14 @@
 }
 .gov-explorer-rename {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
   margin-top: 8px;
+}
+.gov-explorer-rename-label {
+  color: #b3d1ff;
+  font-size: 0.95rem;
 }
 .gov-explorer-selected {
   margin-top: 16px;

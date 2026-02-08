@@ -582,6 +582,11 @@
 		background: #181818;
 		padding: 4px 8px;
 		border-bottom: 1px solid #ffbf47;
+		user-select: none;
+		cursor: grab;
+	}
+	.gov-window-titlebar:active {
+		cursor: grabbing;
 	}
 	.gov-window-title {
 		font-weight: 900;

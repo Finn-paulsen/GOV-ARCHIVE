@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function DraggableWindow({
@@ -9,33 +9,47 @@ export default function DraggableWindow({
   onMinimize,
   z
 }) {
+  const startPosRef = useRef(window.pos);
+
+  useEffect(() => {
+    startPosRef.current = window.pos;
+  }, [window.pos]);
+
   return (
-    <motion.div
+    <div
       className="gov-window"
       style={{
         position: "absolute",
-        top: window.pos.y,
         left: window.pos.x,
+        top: window.pos.y,
         zIndex: z,
-      }}
-      drag
-      dragMomentum={false}
-      onDragEnd={(e, info) => {
-        onMove({ x: info.point.x, y: info.point.y });
       }}
       onMouseDown={onFocus}
     >
-      <div className="gov-window-titlebar">
+      <motion.div
+        className="gov-window-titlebar"
+        style={{ cursor: "grab" }}
+        drag
+        dragMomentum={false}
+        onDragStart={() => {
+          startPosRef.current = { ...window.pos };
+        }}
+        onDragEnd={(event, info) => {
+          const newX = startPosRef.current.x + info.offset.x;
+          const newY = startPosRef.current.y + info.offset.y;
+          onMove({ x: newX, y: newY });
+        }}
+      >
         <span className="gov-window-title">{window.title}</span>
         <div className="gov-window-buttons">
-          <button onClick={onMinimize}>_</button>
-          <button onClick={onClose}>X</button>
+          <button type="button" onClick={onMinimize}>_</button>
+          <button type="button" onClick={onClose}>X</button>
         </div>
-      </div>
+      </motion.div>
 
       <div className="gov-window-content">
         {window.content}
       </div>
-    </motion.div>
+    </div>
   );
 }
