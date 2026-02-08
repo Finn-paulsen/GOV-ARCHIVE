@@ -6,6 +6,7 @@ import ArchiveViewer from './ArchiveViewer';
 import FileExplorer from './FileExplorer';
 import FileEditor from './FileEditor';
 import React, { useState, useRef, useEffect } from 'react';
+import DraggableWindow from './DraggableWindow';
 // motion nur einmal importieren!
 
 function makeId() { return Math.random().toString(36).slice(2, 9); }
@@ -97,10 +98,6 @@ export default function FensterManager({ bootComplete, onLogout }) {
   return (
     <div className="gov-desktop-bg">
       <div className="gov-desktop-icons">
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Texteditor', content: 'Willkommen im Bundesarchiv-Terminal.' })}>
-          <span className="gov-icon-symbol">■</span>
-          <span className="gov-icon-label">Texteditor</span>
-        </div>
         <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Überwachungszentrale', content: <SurveillanceCenter /> })}>
           <span className="gov-icon-symbol">📷</span>
           <span className="gov-icon-label">Überwachung</span>
@@ -189,77 +186,3 @@ export default function FensterManager({ bootComplete, onLogout }) {
 
 
 
-// --- Datei aus Papierkorb wiederherstellen ---
-
-
-
-
-function DraggableWindow({ window, onFocus, onMove, onClose, onMinimize, z }) {
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const nodeRef = useRef();
-
-  function handleMouseDown(e) {
-    if (e.button !== 0) return;
-    setDragging(true);
-    setOffset({
-      x: e.clientX - (window.pos?.x || 0),
-      y: e.clientY - (window.pos?.y || 0),
-    });
-    if (onFocus) onFocus();
-    e.stopPropagation();
-  }
-
-  function handleMouseMove(e) {
-    if (!dragging) return;
-    onMove({
-      x: e.clientX - offset.x,
-      y: e.clientY - offset.y,
-    });
-  }
-
-  function handleMouseUp() {
-    setDragging(false);
-  }
-
-  useEffect(() => {
-    if (dragging) {
-      globalThis.addEventListener('mousemove', handleMouseMove);
-      globalThis.addEventListener('mouseup', handleMouseUp);
-      return () => {
-        globalThis.removeEventListener('mousemove', handleMouseMove);
-        globalThis.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  });
-
-  return (
-    <motion.div
-      ref={nodeRef}
-      className="gov-window"
-      style={{
-        zIndex: z,
-        position: 'absolute',
-        left: window.pos?.x || 100,
-        top: window.pos?.y || 100,
-        cursor: dragging ? 'grabbing' : 'default',
-        minWidth: 320,
-        minHeight: 180,
-      }}
-      onMouseDown={onFocus}
-      initial={{ opacity: 0, scale: 0.92, y: 40 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.92, y: 40 }}
-      transition={{ duration: 0.22, ease: 'easeOut' }}
-    >
-      <div className="gov-window-titlebar" onMouseDown={handleMouseDown} style={{ cursor: 'grab', userSelect: 'none' }}>
-        <span className="gov-window-title">{window.title}</span>
-        <div className="gov-window-controls">
-          <button onClick={onMinimize} title="Minimieren">_</button>
-          <button onClick={onClose} title="Schließen">×</button>
-        </div>
-      </div>
-      <div className="gov-window-content">{window.content}</div>
-    </motion.div>
-  );
-}

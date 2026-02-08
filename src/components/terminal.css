@@ -800,16 +800,7 @@
 		font-weight: 700;
 		letter-spacing: 0.09em;
 	}
-	background: #a10000;
-	color: #fff;
-	border: 2px solid #ff2d2d;
-	animation: blink 0.7s steps(2, start) infinite;
-	font-size: 1.09rem;
-	font-weight: 900;
-	box-shadow: 0 0 12px #ff2d2d;
-	margin-top: 12px;
-	padding: 8px 14px;
-	border-radius: 4px;
+	
 /* } entfernt: Überflüssige Klammer, die einen Syntaxfehler verursacht hat */
 .login-lockdown {
 	background: linear-gradient(90deg, #a10000 80%, #ff2d2d 100%);
@@ -1467,6 +1458,13 @@
 }
 .login-hint {
 	display: none;
+}
+
+.gov-window-content {
+  min-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 
