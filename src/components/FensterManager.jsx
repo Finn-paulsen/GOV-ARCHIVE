@@ -5,8 +5,10 @@ import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
+import Terminal from './Terminal';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
+import terminalIcon from './assets/terminal-icon.png';
 // motion nur einmal importieren!
 
 function makeId() { return Math.random().toString(36).slice(2, 9); }
@@ -53,6 +55,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
+    if (w.type === 'terminal') return <Terminal onClose={() => closeWindow(w.id)} />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
@@ -119,7 +122,10 @@ export default function FensterManager({ bootComplete, onLogout }) {
           <span className="gov-icon-symbol">📁</span>
           <span className="gov-icon-label">Dateien</span>
         </div>
-
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'GOV-Terminal', type: 'terminal' })}>
+          <img src={terminalIcon} alt="Terminal" style={{ width: 32, height: 32, display: 'block', margin: '0 auto' }} />
+          <span className="gov-icon-label">Terminal</span>
+        </div>
       </div>
       <AnimatePresence>
         {windows.map(w => !w.minimized && (
