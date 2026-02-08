@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Zustand-Store entfernt
 import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
-import FileExplorer from './FileExplorer';
 import FileEditor from './FileEditor';
+import FileExplorer from './FileExplorer';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 // motion nur einmal importieren!
@@ -18,19 +18,12 @@ export default function FensterManager({ bootComplete, onLogout }) {
   const [showStart, setShowStart] = useState(false);
   const [modal, setModal] = useState(null);
 
-  const [explorerData, setExplorerData] = useState(() => {
-    const saved = localStorage.getItem('fileexplorer-data');
-    if (saved) {
-      try { return JSON.parse(saved); } catch { return null; }
-    }
-    return null;
-  });
+  const [explorerData, setExplorerData] = useState(null);
 
   // Wrapper für setExplorerData, der auch localStorage aktualisiert
   const updateExplorerData = (newData) => {
     setExplorerData(newData);
     if (newData) {
-      localStorage.setItem('fileexplorer-data', JSON.stringify(newData));
     }
   };
 
@@ -57,9 +50,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
   }
 
   function getWindowContent(w) {
-    if (w.type === 'explorer') {
-      return <FileExplorer onOpenFile={handleOpenFile} data={explorerData} setData={updateExplorerData} />;
-    }
+    if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
     return typeof w.content === 'function' ? w.content() : w.content;

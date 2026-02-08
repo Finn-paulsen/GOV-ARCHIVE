@@ -1,0 +1,53 @@
+.create-file-container {
+	position: relative;
+	margin-bottom: 18px;
+}
+.create-file-container > button {
+	background: #ffbf47;
+	color: #23272e;
+	border: none;
+	border-radius: 6px;
+	padding: 10px 28px;
+	font-size: 1.08rem;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0 1px 4px #0002;
+	margin-bottom: 0;
+	transition: background 0.18s, color 0.18s;
+}
+.create-file-container > button:hover {
+	background: #b3d1ff;
+	color: #23272e;
+}
+.create-options {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background: #23272e;
+	border-radius: 8px;
+	box-shadow: 0 2px 12px #00000044;
+	padding: 10px 0;
+	z-index: 10;
+	min-width: 140px;
+}
+.create-options button {
+	display: block;
+	width: 100%;
+	margin-bottom: 6px;
+	background: #ffbf47;
+	color: #23272e;
+	border: none;
+	border-radius: 4px;
+	padding: 10px 0;
+	font-size: 1.05rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+}
+.create-options button:hover {
+	background: #b3d1ff;
+	color: #23272e;
+}
+.create-options button:last-child {
+	margin-bottom: 0;
+}

@@ -1,14 +1,15 @@
 // Echter Editor für Dateiinhalt mit Speichern
 import React, { useState } from 'react';
 
-export default function FileEditor({ name, content, onSave }) {
+export default function FileEditor({ name, content, onSave, onBack }) {
   const [value, setValue] = useState(content || '');
 
-  // Speichere sofort beim Tippen
   function handleChange(e) {
-    const newValue = e.target.value;
-    setValue(newValue);
-    if (onSave) onSave(newValue);
+    setValue(e.target.value);
+  }
+
+  function handleSave() {
+    if (onSave) onSave(value);
   }
 
   return (
@@ -19,9 +20,14 @@ export default function FileEditor({ name, content, onSave }) {
         value={value}
         onChange={handleChange}
       />
-      <button className="btn btn-primary mt-2" onClick={() => onSave && onSave(value)}>
-        Speichern
-      </button>
+      <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+        <button className="btn btn-primary" onClick={handleSave}>
+          Speichern
+        </button>
+        <button className="btn btn-secondary" onClick={onBack}>
+          Zurück
+        </button>
+      </div>
     </div>
   );
 }

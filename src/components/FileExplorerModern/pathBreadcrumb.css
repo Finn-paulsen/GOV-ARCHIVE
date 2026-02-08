@@ -1,0 +1,19 @@
+.path-breadcrumb {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 18px;
+	color: #b3d1ff;
+	font-size: 1.08rem;
+	align-items: center;
+}
+.path-breadcrumb span {
+	cursor: pointer;
+	text-decoration: underline;
+	padding: 4px 10px;
+	border-radius: 4px;
+	transition: background 0.15s, color 0.15s;
+}
+.path-breadcrumb span:hover {
+	background: #ffbf47;
+	color: #23272e;
+}

@@ -1,0 +1,12 @@
+.empty-state {
+	color: #b3d1ff;
+	text-align: center;
+	padding: 48px 0;
+	font-size: 1.22rem;
+	font-weight: 500;
+	letter-spacing: 0.02em;
+	background: #181a1f;
+	border-radius: 12px;
+	margin: 24px 0;
+	box-shadow: 0 1px 4px #0002;
+}

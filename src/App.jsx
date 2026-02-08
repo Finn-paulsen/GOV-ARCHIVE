@@ -1,9 +1,6 @@
-
-
 import React, { useState } from 'react';
 import FensterManager from './components/FensterManager';
 import LoginModal from './components/LoginModal';
-// import { useAppStore } from './store';
 
 export default function App() {
   // Lokale States für Login und View
@@ -15,7 +12,7 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-container">
       {/* Login-Dialog */}
       {!loginComplete && (
         <LoginModal onSuccess={() => setLoginComplete(true)} />

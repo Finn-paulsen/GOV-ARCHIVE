@@ -1,0 +1,20 @@
+.details-panel {
+	background: #23272e;
+	border-left: 3px solid #ffbf47;
+	padding: 24px 18px;
+	min-width: 220px;
+	border-radius: 0 12px 12px 0;
+	box-shadow: 0 2px 8px #0002;
+	margin-top: 18px;
+}
+.details-title {
+	font-weight: bold;
+	color: #ffbf47;
+	margin-bottom: 14px;
+	font-size: 1.18rem;
+	letter-spacing: 0.03em;
+}
+.details-content {
+	color: #b3d1ff;
+	font-size: 1.05rem;
+}
