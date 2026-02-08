@@ -261,6 +261,10 @@ export default function FileExplorer() {
 
   // Kopieren/Einfügen-Logik
   const [clipboard, setClipboard] = useState(null); // {node, isFolder}
+  // Neu-Funktion: Status für Zielordner, Typ und Input
+  const [newTarget, setNewTarget] = useState(null); // {id, isFolder}
+  const [newType, setNewType] = useState(null); // 'file' | 'folder'
+  const [newInputValue, setNewInputValue] = useState("");
 
   // Hilfsfunktion: Knoten im Baum suchen
   function findNode(tree, id) {
@@ -341,15 +345,17 @@ export default function FileExplorer() {
     {
       label: 'Neu',
       onClick: () => {
-        // TODO: Neu-Logik (Datei/Ordner)
+        // Auswahl: Datei oder Ordner
+        setNewTarget(contextMenu.target);
         closeContextMenu();
       },
-      disabled: false,
+      disabled: !(contextMenu.target && contextMenu.target.isFolder),
     },
   ] : [];
 
-  // Label-Renderer für Umbenennen-Input überall
+  // Label-Renderer für Umbenennen- und Neu-Input überall
   const renderLabel = (item, defaultLabel) => {
+    // Umbenennen
     if (renameTarget && renameTarget.id === item.id) {
       return (
         <input
@@ -361,6 +367,49 @@ export default function FileExplorer() {
           onKeyDown={handleRenameKeyDown}
           style={{ width: Math.max(80, renameValue.length * 8) }}
         />
+      );
+    }
+    // Neu
+    if (newTarget && newTarget.id === item.id && item.isFolder) {
+      if (newType) {
+        return (
+          <input
+            className="gov-input gov-rename-input"
+            autoFocus
+            placeholder={newType === 'folder' ? 'Neuer Ordner' : 'Neue Datei.txt'}
+            value={newInputValue}
+            onChange={e => setNewInputValue(e.target.value)}
+            onBlur={() => {
+              if (newInputValue.trim()) {
+                handleAdd(item.id, newInputValue, newType === 'folder');
+              }
+              setNewInputValue("");
+              setNewTarget(null);
+              setNewType(null);
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && newInputValue.trim()) {
+                handleAdd(item.id, newInputValue, newType === 'folder');
+                setNewInputValue("");
+                setNewTarget(null);
+                setNewType(null);
+              }
+              if (e.key === 'Escape') {
+                setNewInputValue("");
+                setNewTarget(null);
+                setNewType(null);
+              }
+            }}
+            style={{ width: Math.max(80, newInputValue.length * 8) }}
+          />
+        );
+      }
+      // Auswahl Buttons
+      return (
+        <span>
+          <button className="gov-btn" onClick={e => { e.stopPropagation(); setNewType('file'); setNewInputValue(""); }}>+ Datei</button>
+          <button className="gov-btn" onClick={e => { e.stopPropagation(); setNewType('folder'); setNewInputValue(""); }}>+ Ordner</button>
+        </span>
       );
     }
     return defaultLabel;
