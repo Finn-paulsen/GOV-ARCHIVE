@@ -37,37 +37,12 @@ const ARCHIVE = generateArchive()
 
 
 export default function ArchiveViewer() {
-  const [search, setSearch] = useState('')
-  const [results, setResults] = useState([])
   const [selected, setSelected] = useState(null)
 
   // Aufnahmeintervall (Demo: alle 4-6 Stunden)
   const aufnahmeIntervall = 'alle 6 Stunden'
 
-  // Automatische Formatierung DD.MM.YYYY
-  function handleInput(e) {
-    let v = e.target.value.replace(/[^0-9]/g, '')
-    if (v.length > 2) v = v.slice(0,2) + '.' + v.slice(2)
-    if (v.length > 5) v = v.slice(0,5) + '.' + v.slice(5)
-    if (v.length > 10) v = v.slice(0,10)
-    setSearch(v)
-  }
-
-  function handleSearch(e) {
-    e.preventDefault()
-    // Suche nach DD.MM.YYYY
-    let found = []
-    const match = search.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
-    if (match) {
-      const d = String(match[1]).padStart(2,'0')
-      const m = String(match[2]).padStart(2,'0')
-      const y = match[3]
-      const dateStr = `${y}-${m}-${d}`
-      const recs = ARCHIVE[y]?.[Number(m)]?.[Number(d)]
-      if (recs) found = recs
-    }
-    setResults(found)
-  }
+  // ...existing code...
 
   // Player-Controls (wie SurveillanceCenter, Demo)
   function handlePlay() {}
@@ -81,13 +56,7 @@ export default function ArchiveViewer() {
       <div className="archive-header">VIDEOARCHIV</div>
       <div className="archive-main">
         <div className="archive-nav">
-          <div className="archive-nav-section">
-            <div>Datum (TT.MM.JJJJ)</div>
-            <form onSubmit={handleSearch}>
-              <input value={search} onChange={handleInput} placeholder="z.B. 01.03.2022" maxLength={10} />
-              <button type="submit">Suchen</button>
-            </form>
-          </div>
+          {/* Suchfeld entfernt */}
           <div className="archive-nav-section" style={{marginTop:12}}>
             <div>Aufnahmeintervall:</div>
             <div style={{color:'#ffbf47',fontWeight:700}}>{aufnahmeIntervall}</div>

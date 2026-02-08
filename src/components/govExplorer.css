@@ -12,18 +12,7 @@
   flex-direction: column;
   padding: 16px;
 }
-.gov-explorer-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 12px;
-  background: #1a1d22;
-  border-bottom: 2px solid #6c757d;
-  padding: 6px 0;
-}
-.gov-explorer-icon {
+/* .gov-explorer-search entfernt, da Suchfeld nicht mehr vorhanden */
   font-size: 1.4rem;
 }
 .gov-explorer-title {

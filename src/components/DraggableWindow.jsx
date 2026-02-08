@@ -16,7 +16,7 @@ export default function DraggableWindow({
   }, [window.pos]);
 
   return (
-    <div
+    <motion.div
       className="gov-window"
       style={{
         position: "absolute",
@@ -25,31 +25,28 @@ export default function DraggableWindow({
         zIndex: z,
       }}
       onMouseDown={onFocus}
+      drag
+      dragMomentum={false}
+      onDragStart={() => {
+        startPosRef.current = { ...window.pos };
+      }}
+      onDragEnd={(event, info) => {
+        const newX = startPosRef.current.x + info.offset.x;
+        const newY = startPosRef.current.y + info.offset.y;
+        onMove({ x: newX, y: newY });
+      }}
     >
-      <motion.div
-        className="gov-window-titlebar"
-        style={{ cursor: "grab" }}
-        drag
-        dragMomentum={false}
-        onDragStart={() => {
-          startPosRef.current = { ...window.pos };
-        }}
-        onDragEnd={(event, info) => {
-          const newX = startPosRef.current.x + info.offset.x;
-          const newY = startPosRef.current.y + info.offset.y;
-          onMove({ x: newX, y: newY });
-        }}
-      >
+      <div className="gov-window-titlebar" style={{ cursor: "grab" }}>
         <span className="gov-window-title">{window.title}</span>
         <div className="gov-window-buttons">
           <button type="button" onClick={onMinimize}>_</button>
           <button type="button" onClick={onClose}>X</button>
         </div>
-      </motion.div>
+      </div>
 
       <div className="gov-window-content">
         {window.content}
       </div>
-    </div>
+    </motion.div>
   );
 }

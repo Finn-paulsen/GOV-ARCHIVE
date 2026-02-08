@@ -103,26 +103,7 @@ export default function FileExplorer({
       </div>
     );
   }
-  // Filtert den Dateibaum nach dem Suchbegriff (rekursiv)
-  function filterTree(node, search) {
-    if (!search) return node;
-    if (node.type === "file") {
-      return node.name.toLowerCase().includes(search.toLowerCase())
-        ? node
-        : null;
-    }
-    // Ordner: Kinder filtern
-    const filteredChildren = (node.children || [])
-      .map((child) => filterTree(child, search))
-      .filter(Boolean);
-    if (
-      filteredChildren.length > 0 ||
-      node.name.toLowerCase().includes(search.toLowerCase())
-    ) {
-      return { ...node, children: filteredChildren };
-    }
-    return null;
-  }
+  // ...existing code...
 
   // Beispiel-Datenstruktur (kann später dynamisch geladen werden)
   const defaultData = {
@@ -320,7 +301,7 @@ export default function FileExplorer({
     const selectedFile = getSelectedFile();
 
     const [editMode, setEditMode] = useState(false);
-    const [search, setSearch] = useState("");
+    // ...existing code...
     const [focusedPath, setFocusedPath] = useState("root");
     const [dragOverPath, setDragOverPath] = useState(null);
     const [clipboard, setClipboard] = useState(null); // { node, type: 'copy'|'cut', fromPath }
@@ -342,11 +323,8 @@ export default function FileExplorer({
       return arr;
     }
 
-    const filteredTree = filterTree(data, search) || {
-      name: "leer",
-      type: "folder",
-      children: [],
-    };
+    // Kein Filter mehr, zeige immer den kompletten Baum
+    const filteredTree = data;
 
     // ...existing code...
 
@@ -491,19 +469,14 @@ export default function FileExplorer({
           <span className="gov-explorer-title">GOV-ARCHIVE EXPLORER</span>
         </div>
 
-        <input
-          className="gov-explorer-search"
-          placeholder="Suchen..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ maxWidth: 220 }}
-        />
+        {/* Suchfeld entfernt */}
 
 <div className="gov-explorer-list" key={listKey}>
   <FileNode
     node={filteredTree}
     onFileClick={(path) => {
       setSelectedFilePath(path);
+      setFocusedPath(path);
     }}
     onFileDoubleClick={(node) => {
       if (node.type === "file" && onOpenFile) {
@@ -553,7 +526,6 @@ export default function FileExplorer({
       {newItemMode === "file" ? "Dateiname:" : "Ordnername:"}
     </span>
     <input
-      className="gov-explorer-search"
       value={newItemName}
       onChange={(e) => setNewItemName(e.target.value)}
       onKeyDown={(e) => {
@@ -571,7 +543,6 @@ export default function FileExplorer({
 {renameMode && (
   <div className="gov-explorer-rename">
     <input
-      className="gov-explorer-search"
       value={renameValue}
       onChange={(e) => setRenameValue(e.target.value)}
     />
