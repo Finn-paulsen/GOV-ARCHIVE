@@ -248,6 +248,17 @@ export default function FileExplorer() {
     }
   };
 
+  // Hilfsfunktion: Knoten rekursiv entfernen
+  function removeNode(tree, id) {
+    if (!tree.items) return tree;
+    return {
+      ...tree,
+      items: tree.items
+        .filter((item) => item.id !== id)
+        .map((item) => item.isFolder ? removeNode(item, id) : item)
+    };
+  }
+
   const contextOptions = contextMenu && contextMenu.target ? [
     {
       label: 'Umbenennen',
@@ -257,7 +268,7 @@ export default function FileExplorer() {
     {
       label: 'Löschen',
       onClick: () => {
-        // TODO: Löschen-Logik
+        setExplorerData((prev) => removeNode(prev, contextMenu.target.id));
         closeContextMenu();
       },
       disabled: false,
