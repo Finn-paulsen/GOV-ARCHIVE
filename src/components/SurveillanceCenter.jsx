@@ -3,47 +3,47 @@ import "./SurveillanceCenter.css";
 
 // --- KAMERALISTE ---
 const CAMS = [
-  { name: "Treppenhaus", src: "...", type: "gif", status: "online" },
-  { name: "Fahrstuhl", src: "...", type: "gif", status: "online" },
-  { name: "Parkplatz", src: "...", type: "gif", status: "online" },
-  { name: "Hausflur", src: "...", type: "gif", status: "online" },
-  { name: "Garten", src: "...", type: "gif", status: "online" },
-  { name: "Lobby", src: "...", type: "gif", status: "online" },
+  { name: "Treppenhaus", src: null, type: "gif", status: "online" },
+  { name: "Fahrstuhl", src: null, type: "gif", status: "online" },
+  { name: "Parkplatz", src: null, type: "gif", status: "online" },
+  { name: "Hausflur", src: null, type: "gif", status: "online" },
+  { name: "Garten", src: null, type: "gif", status: "online" },
+  { name: "Lobby", src: null, type: "gif", status: "online" },
 
-  { name: "Kantine", src: "...", type: "gif", status: "online" },
-  { name: "Serverraum", src: "...", type: "gif", status: "online" },
-  { name: "Empfang", src: "...", type: "gif", status: "online" },
-  { name: "Archiv", src: "...", type: "gif", status: "online" },
-  { name: "Straßenkreuzung", src: "...", type: "gif", status: "online" },
-  { name: "Bushaltestelle", src: "...", type: "gif", status: "online" },
+  { name: "Kantine", src: null, type: "gif", status: "online" },
+  { name: "Serverraum", src: null, type: "gif", status: "online" },
+  { name: "Empfang", src: null, type: "gif", status: "online" },
+  { name: "Archiv", src: null, type: "gif", status: "online" },
+  { name: "Straßenkreuzung", src: null, type: "gif", status: "online" },
+  { name: "Bushaltestelle", src: null, type: "gif", status: "online" },
 
-  { name: "U-Bahn", src: "...", type: "gif", status: "online" },
-  { name: "Büro", src: "...", type: "gif", status: "online" },
-  { name: "Lager", src: "...", type: "gif", status: "online" },
-  { name: "Werkstatt", src: "...", type: "gif", status: "online" },
-  { name: "Keller", src: "...", type: "gif", status: "online" },
-  { name: "Dach", src: "...", type: "gif", status: "online" },
+  { name: "U-Bahn", src: null, type: "gif", status: "online" },
+  { name: "Büro", src: null, type: "gif", status: "online" },
+  { name: "Lager", src: null, type: "gif", status: "online" },
+  { name: "Werkstatt", src: null, type: "gif", status: "online" },
+  { name: "Keller", src: null, type: "gif", status: "online" },
+  { name: "Dach", src: null, type: "gif", status: "online" },
 
-  { name: "Innenhof", src: "...", type: "gif", status: "online" },
-  { name: "Garage", src: "...", type: "gif", status: "online" },
-  { name: "Supermarkt", src: "...", type: "gif", status: "online" },
-  { name: "Eingang", src: "...", type: "gif", status: "online" },
-  { name: "Ausgang", src: "...", type: "gif", status: "online" },
-  { name: "Brücke", src: "...", type: "gif", status: "online" },
+  { name: "Innenhof", src: null, type: "gif", status: "online" },
+  { name: "Garage", src: null, type: "gif", status: "online" },
+  { name: "Supermarkt", src: null, type: "gif", status: "online" },
+  { name: "Eingang", src: null, type: "gif", status: "online" },
+  { name: "Ausgang", src: null, type: "gif", status: "online" },
+  { name: "Brücke", src: null, type: "gif", status: "online" },
 
-  { name: "Tunnel", src: "...", type: "gif", status: "online" },
-  { name: "Kreisel", src: "...", type: "gif", status: "online" },
-  { name: "Ampel", src: "...", type: "gif", status: "online" },
-  { name: "Schule", src: "...", type: "gif", status: "online" },
-  { name: "Spielplatz", src: "...", type: "gif", status: "online" },
-  { name: "Park", src: "...", type: "gif", status: "online" },
+  { name: "Tunnel", src: null, type: "gif", status: "online" },
+  { name: "Kreisel", src: null, type: "gif", status: "online" },
+  { name: "Ampel", src: null, type: "gif", status: "online" },
+  { name: "Schule", src: null, type: "gif", status: "online" },
+  { name: "Spielplatz", src: null, type: "gif", status: "online" },
+  { name: "Park", src: null, type: "gif", status: "online" },
 
-  { name: "Tankstelle", src: "...", type: "gif", status: "online" },
-  { name: "Bahnhof", src: "...", type: "gif", status: "online" },
-  { name: "Hafen", src: "...", type: "gif", status: "online" },
-  { name: "Zolltor", src: "...", type: "gif", status: "online" },
-  { name: "Grenzposten", src: "...", type: "gif", status: "online" },
-  { name: "Kontrollpunkt", src: "...", type: "gif", status: "online" },
+  { name: "Tankstelle", src: null, type: "gif", status: "online" },
+  { name: "Bahnhof", src: null, type: "gif", status: "online" },
+  { name: "Hafen", src: null, type: "gif", status: "online" },
+  { name: "Zolltor", src: null, type: "gif", status: "online" },
+  { name: "Grenzposten", src: null, type: "gif", status: "online" },
+  { name: "Kontrollpunkt", src: null, type: "gif", status: "online" },
 ];
 
 export default function SurveillanceCenter() {
@@ -81,33 +81,20 @@ export default function SurveillanceCenter() {
             className="surveillance-tile"
             onClick={() => setSelected(i)}
           >
-            <div className={`surveillance-led ${cam.status}`}></div>
-
-            <div className="surveillance-hud">
-              <span className="hud-id">#{String(i + 1).padStart(2, '0')}</span>
-              <span className="hud-dot" />
-              <span className="hud-fps">24 FPS</span>
-              <span className="hud-dot" />
-              <span className="hud-bitrate">2.1 Mbps</span>
-            </div>
-
+            {" "}
+            {/* LED */} <div className={`surveillance-led ${cam.status}`}></div>{" "}
+            {/* Feed */}{" "}
             <div className="surveillance-tile-feed">
-              <img
-                src={cam.src}
-                alt={cam.name}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  filter: "contrast(1.15) brightness(0.9)",
+              {" "}
+            <img src={cam.src || "/images/coming-soon.png"} alt={cam.name} style={{ width: "100%", height: "100%", objectFit: "cover"
                 }}
-              />
-            </div>
-
+              />{" "}
+            </div>{" "}
+            {/* Signal Lost */}{" "}
             {cam.status === "offline" && (
               <div className="signal-lost">SIGNAL LOST</div>
-            )}
-
+            )}{" "}
+            {/* Name */}{" "}
             <div className="surveillance-tile-name">{cam.name}</div>
           </div>
         ))}
@@ -129,37 +116,38 @@ export default function SurveillanceCenter() {
 
       <div
         className={`zoomable ${zoom ? "zoomed" : ""}`}
-        onDoubleClick={() => setZoom(z => !z)}
+        onDoubleClick={() => setZoom((z) => !z)}
         onWheel={(e) => {
           if (e.deltaY < 0) setZoom(true);
           else setZoom(false);
         }}
       >
         {cam.type === "gif" ? (
-          <img
-            src={cam.src}
-            alt={cam.name}
-            style={{
-              width: "100%",
-              maxHeight: 380,
-              objectFit: "cover",
-              background: "#232323",
-            }}
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            src={cam.src}
-            autoPlay
-            loop
-            style={{
-              width: "100%",
-              maxHeight: 380,
-              objectFit: "cover",
-              background: "#232323",
-            }}
-          />
-        )}
+  <img
+    src={cam.src || "/images/coming-soon.png"}
+    alt={cam.name}
+    style={{
+      width: "100%",
+      maxHeight: 380,
+      objectFit: "cover",
+      background: "#232323"
+    }}
+  />
+) : (
+  <video
+    ref={videoRef}
+    src={cam.src || "/images/coming-soon.png"}
+    autoPlay
+    loop
+    style={{
+      width: "100%",
+      maxHeight: 380,
+      objectFit: "cover",
+      background: "#232323"
+    }}
+  />
+)}
+
       </div>
 
       <div className="surveillance-controls">
