@@ -38,6 +38,34 @@ const ARCHIVE = generateArchive()
 
 export default function ArchiveViewer() {
   const [selected, setSelected] = useState(null)
+  const [search, setSearch] = useState("");
+  const [searchDate, setSearchDate] = useState(null);
+
+  // Hilfsfunktion: Datum parsen (TT.MM.JJJJ)
+  function parseDate(input) {
+    const match = input.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+    if (!match) return null;
+    const day = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10);
+    const year = parseInt(match[3], 10);
+    if (year < 2002 || year > 2026) return null;
+    if (month < 1 || month > 12) return null;
+    if (day < 1 || day > 28) return null;
+    return { year, month, day };
+  }
+
+  // Ergebnisse für das eingegebene Datum suchen
+  let results = [];
+  if (searchDate) {
+    const { year, month, day } = searchDate;
+    if (
+      ARCHIVE[year] &&
+      ARCHIVE[year][month] &&
+      ARCHIVE[year][month][day]
+    ) {
+      results = ARCHIVE[year][month][day];
+    }
+  }
 
   // Aufnahmeintervall (Demo: alle 4-6 Stunden)
   const aufnahmeIntervall = 'alle 6 Stunden'
@@ -56,14 +84,31 @@ export default function ArchiveViewer() {
       <div className="archive-header">VIDEOARCHIV</div>
       <div className="archive-main">
         <div className="archive-nav">
-          {/* Suchfeld entfernt */}
           <div className="archive-nav-section" style={{marginTop:12}}>
             <div>Aufnahmeintervall:</div>
             <div style={{color:'#ffbf47',fontWeight:700}}>{aufnahmeIntervall}</div>
           </div>
+          <div className="archive-nav-section" style={{marginTop:24}}>
+            <div>Datumssuche:</div>
+            <input
+              type="text"
+              placeholder="TT.MM.JJJJ"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === "Enter") {
+                  const parsed = parseDate(search);
+                  setSearchDate(parsed);
+                }
+              }}
+              style={{width:120,marginTop:4,padding:4,borderRadius:4,border:'1px solid #444',background:'#232323',color:'#fff'}}
+            />
+          </div>
         </div>
         <div className="archive-results">
-          {!selected && results.length === 0 && <div className="archive-hint">Bitte Datum im Format TT.MM.JJJJ eingeben und Enter drücken…</div>}
+          {!selected && (!searchDate || results.length === 0) && (
+            <div className="archive-hint">Bitte Datum im Format TT.MM.JJJJ eingeben und Enter drücken…</div>
+          )}
           {!selected && results.length > 0 && (
             <div className="archive-table">
               <div className="archive-table-head">
