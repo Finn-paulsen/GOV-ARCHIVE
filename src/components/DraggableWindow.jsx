@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 export default function DraggableWindow({
   window,
+  getWindowContent,
   onFocus,
   onMove,
   onClose,
@@ -35,7 +36,7 @@ export default function DraggableWindow({
           onMove({ x: newX, y: newY });
         }}
       >
-        {window.content}
+        {getWindowContent && getWindowContent(window)}
       </motion.div>
     );
   }
@@ -70,7 +71,7 @@ export default function DraggableWindow({
       </div>
 
       <div className="gov-window-content">
-        {window.content}
+        {getWindowContent && getWindowContent(window)}
       </div>
     </motion.div>
   );

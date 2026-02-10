@@ -90,20 +90,23 @@ export default function ArchiveViewer() {
           </div>
           <div className="archive-nav-section" style={{marginTop:24}}>
             <div>Datumssuche:</div>
-            <input
-              type="text"
-              name="dateSearch"
-              placeholder="TT.MM.JJJJ"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  const parsed = parseDate(search);
-                  setSearchDate(parsed);
-                }
-              }}
-              style={{width:120,marginTop:4,padding:4,borderRadius:4,border:'1px solid #444',background:'#232323',color:'#fff'}}
-            />
+            <label htmlFor="archive-search">Suche:
+              <input
+                id="archive-search"
+                type="text"
+                name="dateSearch"
+                placeholder="TT.MM.JJJJ"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === "Enter") {
+                    const parsed = parseDate(search);
+                    setSearchDate(parsed);
+                  }
+                }}
+                style={{width:120,marginTop:4,padding:4,borderRadius:4,border:'1px solid #444',background:'#232323',color:'#fff'}}
+              />
+            </label>
           </div>
         </div>
         <div className="archive-results">

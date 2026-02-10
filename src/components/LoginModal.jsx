@@ -153,12 +153,34 @@ export default function LoginModal({ onSuccess }) {
           </div>
         </div>
         {!lockdown ? (
-          <form onSubmit={handleSubmit} className="terminal-login-form">
-            <label className="terminal-label">Benutzername</label>
-            <input ref={userRef} className="terminal-input" name="username" value={user} onChange={e => { setUser(e.target.value); playKey() }} disabled={busy} autoComplete="username" />
-            <label className="terminal-label">Passwort</label>
-            <input type="password" className="terminal-input" name="password" value={pass} onChange={e => { setPass(e.target.value); playKey() }} disabled={busy} autoComplete="current-password" />
-            <button className="terminal-btn" type="submit" disabled={busy || !user || !pass}>ANMELDEN</button>
+          <form onSubmit={handleSubmit} className="terminal-login-form" style={{ alignItems: 'center' }}>
+            <label htmlFor="login-username" style={{ width: '100%', textAlign: 'left', marginBottom: '8px' }}>Benutzername:
+              <input
+                id="login-username"
+                ref={userRef}
+                className="terminal-input"
+                name="username"
+                value={user}
+                onChange={e => { setUser(e.target.value); playKey() }}
+                disabled={busy}
+                autoComplete="username"
+                style={{ width: '100%', marginTop: '4px' }}
+              />
+            </label>
+            <label htmlFor="login-password" style={{ width: '100%', textAlign: 'left', marginBottom: '8px' }}>Passwort:
+              <input
+                id="login-password"
+                type="password"
+                className="terminal-input"
+                name="password"
+                value={pass}
+                onChange={e => { setPass(e.target.value); playKey() }}
+                disabled={busy}
+                autoComplete="current-password"
+                style={{ width: '100%', marginTop: '4px' }}
+              />
+            </label>
+            <button className="terminal-btn" type="submit" disabled={busy || !user || !pass} style={{ width: '100%', marginTop: '16px' }}>ANMELDEN</button>
           </form>
         ) : (
           <div className="terminal-lockdown">

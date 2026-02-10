@@ -5,7 +5,7 @@ import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
-import TerminalXterm from './TerminalXterm';
+import GovReactTerminal from './GovReactTerminal';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 import terminalIcon from './assets/terminal-icon.png';
@@ -15,6 +15,8 @@ function makeId() { return Math.random().toString(36).slice(2, 9); }
 
 export default function FensterManager({ bootComplete, onLogout }) {
   const [windows, setWindows] = useState([]);
+  // Terminal-State als Ref
+  const terminalStateRef = useRef({ input: '', history: [] });
   const [zCounter, setZCounter] = useState(10);
   const [clock, setClock] = useState(new Date());
   const [showStart, setShowStart] = useState(false);
@@ -38,16 +40,40 @@ export default function FensterManager({ bootComplete, onLogout }) {
   }, []);
 
   function openWindow(opts) {
-    const newWindow = {
-      id: makeId(),
-      title: opts.title,
-      type: opts.type ?? 'custom',
-      content: opts.content,
-      pos: { x: 100, y: 100 },
-      z: zCounter,
-      minimized: false,
-    };
-    setWindows([...windows, newWindow]);
+    setWindows(ws => {
+      // Terminal: State stabil halten
+      if (opts.type === 'terminal') {
+        // Prüfe, ob schon ein Terminal offen ist
+        const existing = ws.find(w => w.type === 'terminal' && !w.minimized);
+        if (existing) return ws;
+        return [
+          ...ws,
+          {
+            id: makeId(),
+            title: opts.title,
+            type: opts.type ?? 'custom',
+            content: opts.content,
+            pos: { x: 100, y: 100 },
+            z: zCounter,
+            minimized: false,
+            terminalState: { input: '', history: [] },
+          }
+        ];
+      }
+      // Andere Fenster
+      return [
+        ...ws,
+        {
+          id: makeId(),
+          title: opts.title,
+          type: opts.type ?? 'custom',
+          content: opts.content,
+          pos: { x: 100, y: 100 },
+          z: zCounter,
+          minimized: false,
+        }
+      ];
+    });
     setZCounter(zCounter + 1);
   }
 
@@ -55,7 +81,11 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
-    if (w.type === 'terminal') return <TerminalXterm onClose={() => closeWindow(w.id)} />;
+    if (w.type === 'terminal') {
+      return <GovReactTerminal
+        onClose={() => closeWindow(w.id)}
+      />;
+    }
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
@@ -131,10 +161,8 @@ export default function FensterManager({ bootComplete, onLogout }) {
         {windows.map(w => !w.minimized && (
           <DraggableWindow
             key={w.id}
-            window={{
-              ...w,
-              content: getWindowContent(w)
-            }}
+            window={w}
+            getWindowContent={getWindowContent}
             onFocus={() => focusWindow(w.id)}
             onMove={pos => setWindows(ws => ws.map(win => win.id === w.id ? { ...win, pos } : win))}
             onClose={() => closeWindow(w.id)}

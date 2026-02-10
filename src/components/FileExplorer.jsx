@@ -85,6 +85,9 @@ function Folder({ explorer, onAdd, onOpenFile, onContextMenu, renderLabel, selec
         </div>
         {showInput && (
           <div className="gov-input-row">
+            <label htmlFor="file-search">Suche:
+              <input id="file-search" />
+            </label>
             <input
               className="gov-input"
               name="newItem"
@@ -380,52 +383,58 @@ export default function FileExplorer() {
     // Umbenennen
     if (renameTarget && renameTarget.id === item.id) {
       return (
-        <input
-          className="gov-input gov-rename-input"
-          name="renameItem"
-          autoFocus
-          value={renameValue}
-          onChange={handleRenameChange}
-          onBlur={handleRenameSubmit}
-          onKeyDown={handleRenameKeyDown}
-          style={{ width: Math.max(80, renameValue.length * 8) }}
-        />
+        <label htmlFor="file-new">Neue Datei:
+          <input
+            id="file-new"
+            className="gov-input gov-rename-input"
+            name="renameItem"
+            autoFocus
+            value={renameValue}
+            onChange={handleRenameChange}
+            onBlur={handleRenameSubmit}
+            onKeyDown={handleRenameKeyDown}
+            style={{ width: Math.max(80, renameValue.length * 8) }}
+          />
+        </label>
       );
     }
     // Neu
     if (newTarget && newTarget.id === item.id && item.isFolder) {
       if (newType) {
         return (
-          <input
-            className="gov-input gov-rename-input"
-            name="newType"
-            autoFocus
-            placeholder={newType === 'folder' ? 'Neuer Ordner' : 'Neue Datei.txt'}
-            value={newInputValue}
-            onChange={e => setNewInputValue(e.target.value)}
-            onBlur={() => {
-              if (newInputValue.trim()) {
-                handleAdd(item.id, newInputValue, newType === 'folder');
-              }
-              setNewInputValue("");
-              setNewTarget(null);
-              setNewType(null);
-            }}
-            onKeyDown={e => {
-              if (e.key === 'Enter' && newInputValue.trim()) {
-                handleAdd(item.id, newInputValue, newType === 'folder');
+          <label htmlFor="file-rename">Umbenennen:
+            <input
+              id="file-rename"
+              className="gov-input gov-rename-input"
+              name="newType"
+              autoFocus
+              placeholder={newType === 'folder' ? 'Neuer Ordner' : 'Neue Datei.txt'}
+              value={newInputValue}
+              onChange={e => setNewInputValue(e.target.value)}
+              onBlur={() => {
+                if (newInputValue.trim()) {
+                  handleAdd(item.id, newInputValue, newType === 'folder');
+                }
                 setNewInputValue("");
                 setNewTarget(null);
                 setNewType(null);
-              }
-              if (e.key === 'Escape') {
-                setNewInputValue("");
-                setNewTarget(null);
-                setNewType(null);
-              }
-            }}
-            style={{ width: Math.max(80, newInputValue.length * 8) }}
-          />
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && newInputValue.trim()) {
+                  handleAdd(item.id, newInputValue, newType === 'folder');
+                  setNewInputValue("");
+                  setNewTarget(null);
+                  setNewType(null);
+                }
+                if (e.key === 'Escape') {
+                  setNewInputValue("");
+                  setNewTarget(null);
+                  setNewType(null);
+                }
+              }}
+              style={{ width: Math.max(80, newInputValue.length * 8) }}
+            />
+          </label>
         );
       }
       // Auswahl Buttons
