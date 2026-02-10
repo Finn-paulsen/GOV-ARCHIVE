@@ -15,6 +15,31 @@ export default function DraggableWindow({
     startPosRef.current = window.pos;
   }, [window.pos]);
 
+  if (window.type === 'terminal') {
+    return (
+      <motion.div
+        style={{
+          position: "absolute",
+          left: window.pos.x,
+          top: window.pos.y,
+          zIndex: z,
+        }}
+        drag
+        dragMomentum={false}
+        onDragStart={() => {
+          startPosRef.current = { ...window.pos };
+        }}
+        onDragEnd={(event, info) => {
+          const newX = startPosRef.current.x + info.offset.x;
+          const newY = startPosRef.current.y + info.offset.y;
+          onMove({ x: newX, y: newY });
+        }}
+      >
+        {window.content}
+      </motion.div>
+    );
+  }
+  // ...existing code...
   return (
     <motion.div
       className="gov-window"

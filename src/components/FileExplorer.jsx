@@ -87,6 +87,7 @@ function Folder({ explorer, onAdd, onOpenFile, onContextMenu, renderLabel, selec
           <div className="gov-input-row">
             <input
               className="gov-input"
+              name="newItem"
               autoFocus
               value={inputValue}
               onChange={handleInput}
@@ -381,6 +382,7 @@ export default function FileExplorer() {
       return (
         <input
           className="gov-input gov-rename-input"
+          name="renameItem"
           autoFocus
           value={renameValue}
           onChange={handleRenameChange}
@@ -396,6 +398,7 @@ export default function FileExplorer() {
         return (
           <input
             className="gov-input gov-rename-input"
+            name="newType"
             autoFocus
             placeholder={newType === 'folder' ? 'Neuer Ordner' : 'Neue Datei.txt'}
             value={newInputValue}

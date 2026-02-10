@@ -92,6 +92,7 @@ export default function ArchiveViewer() {
             <div>Datumssuche:</div>
             <input
               type="text"
+              name="dateSearch"
               placeholder="TT.MM.JJJJ"
               value={search}
               onChange={e => setSearch(e.target.value)}

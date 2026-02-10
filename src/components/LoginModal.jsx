@@ -155,9 +155,9 @@ export default function LoginModal({ onSuccess }) {
         {!lockdown ? (
           <form onSubmit={handleSubmit} className="terminal-login-form">
             <label className="terminal-label">Benutzername</label>
-            <input ref={userRef} className="terminal-input" value={user} onChange={e => { setUser(e.target.value); playKey() }} disabled={busy} autoComplete="username" />
+            <input ref={userRef} className="terminal-input" name="username" value={user} onChange={e => { setUser(e.target.value); playKey() }} disabled={busy} autoComplete="username" />
             <label className="terminal-label">Passwort</label>
-            <input type="password" className="terminal-input" value={pass} onChange={e => { setPass(e.target.value); playKey() }} disabled={busy} autoComplete="current-password" />
+            <input type="password" className="terminal-input" name="password" value={pass} onChange={e => { setPass(e.target.value); playKey() }} disabled={busy} autoComplete="current-password" />
             <button className="terminal-btn" type="submit" disabled={busy || !user || !pass}>ANMELDEN</button>
           </form>
         ) : (

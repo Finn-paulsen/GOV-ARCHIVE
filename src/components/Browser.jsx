@@ -104,7 +104,7 @@ export default function Browser(){
           <button onClick={goForward} disabled={pos>=history.length-1}>{'>'}</button>
           <button onClick={()=>{load()}} title="Laden">⟳</button>
         </div>
-        <input className="address" value={url} onChange={e=>setUrl(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')load()}} />
+        <input className="address" name="address" value={url} onChange={e=>setUrl(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')load()}} />
         <label className="live-toggle"><input type="checkbox" checked={live} onChange={e=>setLive(e.target.checked)} /> Live (lokaler Proxy)</label>
         <button onClick={archiveCurrent}>Archiv+</button>
         <button onClick={showArchive}>Archiv anzeigen</button>

@@ -461,11 +461,11 @@
 		flex-direction: column;
 		gap: 6px;
 		z-index: 20000;
-		min-width: 160px;
 	}
 	.gov-startmenu button {
 		background: none;
 		color: #f4f4e6;
+		background: transparent;
 		border: none;
 		text-align: left;
 		font-size: 1.09rem;
@@ -575,6 +575,11 @@
 		font-family: inherit;
 		box-shadow: 0 0 24px #2a1a00;
 	}
+.gov-window[data-terminal="true"] {
+	background: transparent;
+	border: none;
+	box-shadow: none;
+}
 	.gov-window-titlebar {
 		display: flex;
 		justify-content: space-between;

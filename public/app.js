@@ -139,9 +139,7 @@
     if(appId === 'about' || appId === 'about-system'){
       return `<h3>Retro Regierungsrechner</h3><p>Demo Oberfläche im Stil von Windows 98/XP.</p>`;
     }
-    if(appId === 'terminal'){
-      return `<p>Terminal (Demo) — keine echte Shell.</p>`;
-    }
+    // Terminal-Fenster wird nicht mehr erzeugt
     return `<p>App: ${appId}</p>`;
   }
 

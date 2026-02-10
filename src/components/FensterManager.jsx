@@ -55,7 +55,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
-  if (w.type === 'terminal') return <TerminalXterm onClose={() => closeWindow(w.id)} />;
+    if (w.type === 'terminal') return <TerminalXterm onClose={() => closeWindow(w.id)} />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
