@@ -5,7 +5,7 @@ import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
-import Terminal from './Terminal';
+import TerminalXterm from './TerminalXterm';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 import terminalIcon from './assets/terminal-icon.png';
@@ -55,7 +55,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
-    if (w.type === 'terminal') return <Terminal onClose={() => closeWindow(w.id)} />;
+  if (w.type === 'terminal') return <TerminalXterm onClose={() => closeWindow(w.id)} />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
