@@ -52,14 +52,12 @@
 		font-weight: 900;
 		color: #ffbf47;
 		.gov-terminal-window {
-			position: fixed;
-			left: 20vw;
-			top: 10vh;
+			position: absolute;
 			width: 600px;
 			height: 400px;
-			background: #181c1f;
-			color: #e0e0e0;
-			border: 2px solid #444;
+			background: #fff;
+			color: #222;
+			border: 2px solid #0078d7;
 			border-radius: 8px;
 			box-shadow: 0 8px 32px #000a;
 			display: flex;

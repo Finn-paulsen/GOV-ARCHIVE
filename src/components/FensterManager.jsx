@@ -5,10 +5,10 @@ import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
-import GovReactTerminal from './GovReactTerminal';
+// GovReactTerminal import removed
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
-import terminalIcon from './assets/terminal-icon.png';
+// terminalIcon removed
 // motion nur einmal importieren!
 
 function makeId() { return Math.random().toString(36).slice(2, 9); }
@@ -41,25 +41,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
 
   function openWindow(opts) {
     setWindows(ws => {
-      // Terminal: State stabil halten
-      if (opts.type === 'terminal') {
-        // Prüfe, ob schon ein Terminal offen ist
-        const existing = ws.find(w => w.type === 'terminal' && !w.minimized);
-        if (existing) return ws;
-        return [
-          ...ws,
-          {
-            id: makeId(),
-            title: opts.title,
-            type: opts.type ?? 'custom',
-            content: opts.content,
-            pos: { x: 100, y: 100 },
-            z: zCounter,
-            minimized: false,
-            terminalState: { input: '', history: [] },
-          }
-        ];
-      }
+      // Terminal logic removed
       // Andere Fenster
       return [
         ...ws,
@@ -81,16 +63,12 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
-    if (w.type === 'terminal') {
-      return <GovReactTerminal
-        onClose={() => closeWindow(w.id)}
-      />;
-    }
+    // Terminal logic removed
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
   function closeWindow(id) {
-    setWindows(windows.filter(w => w.id !== id));
+    setWindows(ws => ws.filter(w => w.id !== id));
   }
 
   function focusWindow(id) {
@@ -153,7 +131,6 @@ export default function FensterManager({ bootComplete, onLogout }) {
           <span className="gov-icon-label">Dateien</span>
         </div>
         <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'GOV-Terminal', type: 'terminal' })}>
-          <img src={terminalIcon} alt="Terminal" style={{ width: 32, height: 32, display: 'block', margin: '0 auto' }} />
           <span className="gov-icon-label">Terminal</span>
         </div>
       </div>
@@ -164,7 +141,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
             window={w}
             getWindowContent={getWindowContent}
             onFocus={() => focusWindow(w.id)}
-            onMove={pos => setWindows(ws => ws.map(win => win.id === w.id ? { ...win, pos } : win))}
+            onMove={pos => setWindows(ws => ws.map(win => win.id === w.id ? { ...win, pos: { x: Math.round(pos.x), y: Math.round(pos.y) } } : win))}
             onClose={() => closeWindow(w.id)}
             onMinimize={() => toggleMinimize(w.id)}
             z={w.z}
