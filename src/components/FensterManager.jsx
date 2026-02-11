@@ -5,7 +5,7 @@ import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
-// GovReactTerminal import removed
+import GovTerminal from './GovTerminal.jsx';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 // terminalIcon removed
@@ -15,8 +15,6 @@ function makeId() { return Math.random().toString(36).slice(2, 9); }
 
 export default function FensterManager({ bootComplete, onLogout }) {
   const [windows, setWindows] = useState([]);
-  // Terminal-State als Ref
-  const terminalStateRef = useRef({ input: '', history: [] });
   const [zCounter, setZCounter] = useState(10);
   const [clock, setClock] = useState(new Date());
   const [showStart, setShowStart] = useState(false);
@@ -63,7 +61,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
-    // Terminal logic removed
+  if (w.type === 'terminal') return <GovTerminal />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
