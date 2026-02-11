@@ -1,6 +1,4 @@
-import React, { useRef, useEffect } from "react";
-import { motion, useDragControls } from "framer-motion";
-
+import React, { useRef } from "react";
 export default function DraggableWindow({
   window,
   getWindowContent,
@@ -10,57 +8,53 @@ export default function DraggableWindow({
   onMinimize,
   z
 }) {
-  const startPosRef = useRef(window.pos);
-  const dragControls = useDragControls();
-  // Store mouse position at drag start
-  const dragMouseStart = useRef({ x: 0, y: 0 });
+  const dragging = useRef(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+  const windowStart = useRef({ x: 0, y: 0 });
 
-  useEffect(() => {
-    startPosRef.current = window.pos;
-  }, [window.pos]);
+  // Mouse event handlers
+  const handleMouseDown = (e) => {
+    e.stopPropagation();
+    onFocus && onFocus();
+    dragging.current = true;
+    dragStart.current = { x: e.clientX, y: e.clientY };
+    windowStart.current = { ...window.pos };
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
 
-  // ...existing code...
-  // ...existing code...
+  const handleMouseMove = (e) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    onMove({
+      x: windowStart.current.x + dx,
+      y: windowStart.current.y + dy
+    });
+  };
+
+  const handleMouseUp = () => {
+    dragging.current = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  };
+
   return (
-    <motion.div
+    <div
       className="gov-window"
       style={{
         position: "absolute",
         left: window.pos.x,
         top: window.pos.y,
         zIndex: z,
+        userSelect: dragging.current ? 'none' : 'auto',
       }}
       onMouseDown={onFocus}
-      drag
-      dragMomentum={false}
-      dragListener={false}
-      dragControls={dragControls}
-      onDragStart={(event, info) => {
-        startPosRef.current = { ...window.pos };
-        if (info && info.point) {
-          dragMouseStart.current = { x: info.point.x, y: info.point.y };
-        } else if (event && event.touches && event.touches[0]) {
-          dragMouseStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-        } else if (event && event.clientX !== undefined) {
-          dragMouseStart.current = { x: event.clientX, y: event.clientY };
-        }
-      }}
-      onDragEnd={(event, info) => {
-        let endX = info && info.point ? info.point.x : (event && event.clientX !== undefined ? event.clientX : 0);
-        let endY = info && info.point ? info.point.y : (event && event.clientY !== undefined ? event.clientY : 0);
-        const dx = endX - dragMouseStart.current.x;
-        const dy = endY - dragMouseStart.current.y;
-        const newX = startPosRef.current.x + dx;
-        const newY = startPosRef.current.y + dy;
-        onMove({ x: newX, y: newY });
-      }}
     >
       <div
         className="gov-window-titlebar"
         style={{ cursor: "grab" }}
-        onPointerDown={e => {
-          dragControls.start(e);
-        }}
+        onMouseDown={handleMouseDown}
       >
         <span className="gov-window-title">{window.title}</span>
         <div className="gov-window-buttons">
@@ -72,6 +66,6 @@ export default function DraggableWindow({
       <div className="gov-window-content">
         {getWindowContent && getWindowContent(window)}
       </div>
-    </motion.div>
+    </div>
   );
 }
