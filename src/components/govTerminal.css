@@ -1,3 +1,30 @@
+.gov-terminal-input-sim {
+  display: inline-block;
+  min-width: 8px;
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+  background: none;
+  border: none;
+  font-size: inherit;
+  vertical-align: baseline;
+  letter-spacing: 0.01em;
+}
+
+.gov-terminal-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  background: #d4d2b0;
+  margin-left: 1px;
+  vertical-align: bottom;
+  animation: none;
+}
+
+.gov-terminal-cursor-hide {
+  background: transparent;
+}
+
 .gov-terminal-window {
   background: #111;
   border: 2px solid #444;
@@ -6,49 +33,61 @@
   font-family: 'IBM Plex Mono', 'Source Code Pro', monospace;
   border-radius: 0;
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  max-width: 100vw;
 }
 
 .gov-terminal-header {
   background: #181818;
   color: #d4d2b0;
   font-weight: bold;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-bottom: 2px solid #444;
   border-radius: 0;
   letter-spacing: 0.05em;
+  font-size: 1.1rem;
+  text-align: left;
+  user-select: none;
 }
 
 .gov-terminal-body {
   background: #0c0c0c;
   color: #c8c8c8;
-  padding: 16px;
-  min-height: 220px;
+  padding: 18px 18px 12px 18px;
+  flex: 1 1 auto;
   border-radius: 0;
   font-size: 15px;
+  overflow-y: auto;
+  min-height: 220px;
 }
 
 .gov-terminal-line {
   color: #d4d2b0;
   margin-bottom: 2px;
   white-space: pre-wrap;
+  font-family: inherit;
 }
 
 .gov-terminal-error {
   color: #b33a3a;
   font-weight: bold;
   margin-bottom: 2px;
+  font-family: inherit;
 }
 
 .gov-terminal-input-row {
   display: flex;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .gov-terminal-prompt {
   color: #d4d2b0;
-  margin-right: 6px;
+  margin-right: 8px;
   font-weight: bold;
+  font-family: inherit;
 }
 
 .gov-terminal-input {
@@ -58,8 +97,10 @@
   outline: none;
   font-family: inherit;
   font-size: 15px;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: 0;
   box-shadow: none;
   width: 70%;
+  min-width: 120px;
+  max-width: 100%;
 }
