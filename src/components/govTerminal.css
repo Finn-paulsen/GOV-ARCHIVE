@@ -1,3 +1,7 @@
+.gov-terminal-selection {
+  background: #444;
+  color: #fff;
+}
 .gov-terminal-input-sim {
   display: inline-block;
   min-width: 8px;
@@ -11,11 +15,12 @@
   letter-spacing: 0.01em;
 }
 
+
 .gov-terminal-cursor {
   display: inline-block;
   width: 10px;
   height: 1.2em;
-  background: #d4d2b0;
+  background: #ffbf47;
   margin-left: 1px;
   vertical-align: bottom;
   animation: none;
