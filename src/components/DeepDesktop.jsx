@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import './DeepDesktop.css';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import FolderIcon from '@mui/icons-material/Folder';
+import StorageIcon from '@mui/icons-material/Storage';
+import PersonIcon from '@mui/icons-material/Person';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import LanIcon from '@mui/icons-material/Lan';
 
 const DEEP_PROGRAMS = [
-  { name: "Secure Terminal", icon: "🖥️" },
-  { name: "Encrypted Docs", icon: "📄" },
-  { name: "Server Connect", icon: "🔗" },
-  { name: "Test Environment", icon: "🧪" },
+  { name: "Systemkonsole (BA-III Shell)", icon: <TerminalIcon fontSize="large" /> },
+  { name: "Aktenverwaltung", icon: <FolderIcon fontSize="large" /> },
+  { name: "Datenbank (BA-DB/INT)", icon: <StorageIcon fontSize="large" /> },
+  { name: "Benutzerverwaltung", icon: <PersonIcon fontSize="large" /> },
+  { name: "Beratungsmodul (Dialogsystem)", icon: <SupportAgentIcon fontSize="large" /> },
+  { name: "Systemmonitor", icon: <AssessmentIcon fontSize="large" /> },
+  { name: "Schnittstellenverwaltung", icon: <LanIcon fontSize="large" /> },
 ];
 
 export default function DeepDesktop({ onLogout }) {
@@ -66,7 +76,7 @@ export default function DeepDesktop({ onLogout }) {
       <div className="deep-desktop-icons">
         {DEEP_PROGRAMS.map(p => (
           <div className="deep-desktop-icon" key={p.name}>
-            <span className="deep-icon-symbol">{p.icon}</span>
+            <span className="deep-icon-symbol" style={{ color: '#00ff00' }}>{p.icon}</span>
             <span className="deep-icon-label">{p.name}</span>
           </div>
         ))}
