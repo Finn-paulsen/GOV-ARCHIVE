@@ -1,0 +1,104 @@
+.deep-login-bg {
+  background: #001a00;
+  color: #00ff00;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.deep-login-form {
+  background: #002800;
+  border: 2px solid #00ff00;
+  padding: 32px 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+}
+.deep-login-title {
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+  font-family: monospace;
+  text-align: center;
+}
+.deep-login-error {
+  color: #ff3333;
+  margin-top: 12px;
+  font-family: monospace;
+  text-align: center;
+}
+.deep-login-form input {
+  margin-bottom: 12px;
+  background: #001a00;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 6px 10px;
+}
+.deep-login-form button {
+  background: #00ff00;
+  color: #001a00;
+  border: none;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 8px 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.deep-desktop-bg {
+  background: #001a00;
+  color: #00ff00;
+  min-height: 100vh;
+  font-family: monospace;
+}
+.deep-desktop-header {
+  background: #002800;
+  color: #00ff00;
+  padding: 18px 24px;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #00ff00;
+  text-align: left;
+}
+.deep-desktop-icons {
+  display: flex;
+  gap: 32px;
+  padding: 40px 24px;
+}
+.deep-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.deep-icon-symbol {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+.deep-taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: #002800;
+  color: #00ff00;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 24px;
+  border-top: 2px solid #00ff00;
+}
+.deep-taskbar-logout {
+  background: #00ff00;
+  color: #001a00;
+  border: none;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.deep-taskbar-label {
+  font-size: 1rem;
+}

@@ -13,7 +13,7 @@ import DraggableWindow from './DraggableWindow';
 
 function makeId() { return Math.random().toString(36).slice(2, 9); }
 
-export default function FensterManager({ bootComplete, onLogout }) {
+export default function FensterManager({ bootComplete, onLogout, onDeepAccess }) {
   const [windows, setWindows] = useState([]);
   const [zCounter, setZCounter] = useState(10);
   const [clock, setClock] = useState(new Date());
@@ -39,8 +39,17 @@ export default function FensterManager({ bootComplete, onLogout }) {
 
   function openWindow(opts) {
     setWindows(ws => {
-      // Terminal logic removed
-      // Andere Fenster
+      // Prüfe, ob Fenster dieses Typs schon existiert
+      const existing = ws.find(w => w.type === (opts.type ?? 'custom'));
+      if (existing) {
+        // Fenster in den Vordergrund holen und ggf. wiederherstellen
+        return ws.map(w =>
+          w.id === existing.id
+            ? { ...w, minimized: false, z: zCounter }
+            : w
+        );
+      }
+      // Neues Fenster erzeugen
       return [
         ...ws,
         {
@@ -61,7 +70,7 @@ export default function FensterManager({ bootComplete, onLogout }) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
-  if (w.type === 'terminal') return <GovTerminal />;
+    if (w.type === 'terminal') return <GovTerminal onDeepAccess={onDeepAccess} />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 

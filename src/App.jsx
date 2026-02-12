@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
+
 import FensterManager from './components/FensterManager';
 import LoginModal from './components/LoginModal';
+import DeepDesktop from './components/DeepDesktop';
 
 export default function App() {
-  // Lokale States für Login und View
+  // Login und Schicht-State
   const [loginComplete, setLoginComplete] = useState(false);
-  const [view, setView] = useState('desktop');
+  const [deepMode, setDeepMode] = useState(false);
 
   function handleLogout() {
     setLoginComplete(false);
+    setDeepMode(false);
+  }
+
+  // Umschalten auf DeepDesktop
+  function handleDeepAccess() {
+    setDeepMode(true);
   }
 
   return (
@@ -18,9 +26,14 @@ export default function App() {
         <LoginModal onSuccess={() => setLoginComplete(true)} />
       )}
 
-      {/* Desktop nach Login */}
-      {loginComplete && (
-        <FensterManager view={view} onChange={setView} bootComplete={true} onLogout={handleLogout} />
+      {/* Geheimer Desktop */}
+      {loginComplete && deepMode && (
+        <DeepDesktop onLogout={() => setDeepMode(false)} />
+      )}
+
+      {/* Normaler Desktop */}
+      {loginComplete && !deepMode && (
+        <FensterManager bootComplete={true} onLogout={handleLogout} onDeepAccess={handleDeepAccess} />
       )}
     </div>
   );
