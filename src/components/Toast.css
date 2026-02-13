@@ -1,0 +1,25 @@
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #ffbf47;
+  border: 1px solid #ffbf47;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-family: monospace;
+  z-index: 10000;
+  box-shadow: 0 2px 12px #000a;
+  opacity: 0.97;
+  pointer-events: none;
+}
+.toast-error {
+  color: #ff6a47;
+  border-color: #ff6a47;
+}
+.toast-info {
+  color: #47bfff;
+  border-color: #47bfff;
+}

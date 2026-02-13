@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { getUsers } from '../utils/userStore'
 import './terminal.css'
 import seal from '../assets/seal.svg'
 import { v4 as uuidv4 } from 'uuid'
@@ -12,6 +13,7 @@ import { motion } from 'framer-motion'
 // Demo creds
 const VALID_USER = 'demo'
 const VALID_PASS = 'demo'
+// Benutzerliste für Login kommt jetzt aus dem UserStore
 
 // Small WebAudio helpers
 function makeClickAudio() {
@@ -109,7 +111,13 @@ export default function LoginModal({ onSuccess }) {
     // final check
     await simulateDelay(700)
     const ts = new Date().toISOString()
-    if (user === VALID_USER && pass === VALID_PASS) {
+    // Prüfe gegen User-Liste (username oder name, und Passwort)
+    const users = getUsers();
+    const found = users.find(u =>
+      (u.username?.toLowerCase() === user.toLowerCase() || u.name?.toLowerCase() === user.toLowerCase())
+      && u.password === pass
+    );
+    if ((user === VALID_USER && pass === VALID_PASS) || found) {
       setMessage('Zugriff gewährt. Initialisiere System...')
       beep.current && beep.current(1000, 140)
       writeAudit({ts, user, action: 'login', result: 'success', info: navigator.userAgent})

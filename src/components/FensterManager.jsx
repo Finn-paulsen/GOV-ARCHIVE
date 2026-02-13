@@ -6,6 +6,8 @@ import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
 import GovTerminal from './GovTerminal.jsx';
+import MailClient from './MailClient';
+import UserManager from './UserManager';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 // terminalIcon removed
@@ -60,10 +62,15 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
           pos: { x: 100, y: 100 },
           z: zCounter,
           minimized: false,
+          maximized: false,
         }
       ];
     });
     setZCounter(zCounter + 1);
+  }
+
+  function toggleMaximize(id) {
+    setWindows(ws => ws.map(w => w.id === id ? { ...w, maximized: !w.maximized } : w));
   }
 
   function getWindowContent(w) {
@@ -71,6 +78,8 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
     if (w.type === 'terminal') return <GovTerminal onDeepAccess={onDeepAccess} />;
+    if (w.type === 'mail') return <MailClient />;
+    if (w.type === 'users') return <UserManager />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
@@ -137,7 +146,16 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
           <span className="gov-icon-symbol">📁</span>
           <span className="gov-icon-label">Dateien</span>
         </div>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'E-Mail', type: 'mail' })}>
+          <span className="gov-icon-symbol">✉️</span>
+          <span className="gov-icon-label">E-Mail</span>
+        </div>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Benutzerverwaltung', type: 'users' })}>
+          <span className="gov-icon-symbol">👤</span>
+          <span className="gov-icon-label">Benutzer</span>
+        </div>
         <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'GOV-Terminal', type: 'terminal' })}>
+          <span className="gov-icon-symbol">🖥️</span>
           <span className="gov-icon-label">Terminal</span>
         </div>
       </div>
@@ -151,6 +169,7 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
             onMove={pos => setWindows(ws => ws.map(win => win.id === w.id ? { ...win, pos: { x: Math.round(pos.x), y: Math.round(pos.y) } } : win))}
             onClose={() => closeWindow(w.id)}
             onMinimize={() => toggleMinimize(w.id)}
+            onMaximize={() => toggleMaximize(w.id)}
             z={w.z}
           />
         ))}

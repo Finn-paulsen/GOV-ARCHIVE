@@ -6,6 +6,7 @@ export default function DraggableWindow({
   onMove,
   onClose,
   onMinimize,
+  onMaximize,
   z
 }) {
   const dragging = useRef(false);
@@ -39,31 +40,45 @@ export default function DraggableWindow({
     document.removeEventListener('mouseup', handleMouseUp);
   };
 
+  const isMaximized = window.maximized;
   return (
     <div
-      className="gov-window"
-      style={{
-        position: "absolute",
-        left: window.pos.x,
-        top: window.pos.y,
-        zIndex: z,
-        userSelect: dragging.current ? 'none' : 'auto',
-      }}
+      className={`gov-window${isMaximized ? ' maximized' : ''}`}
+      style={
+        isMaximized
+          ? {
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: z,
+              userSelect: dragging.current ? 'none' : 'auto',
+            }
+          : {
+              position: 'absolute',
+              left: window.pos.x,
+              top: window.pos.y,
+              zIndex: z,
+              userSelect: dragging.current ? 'none' : 'auto',
+            }
+      }
       onMouseDown={onFocus}
     >
       <div
         className="gov-window-titlebar"
-        style={{ cursor: "grab" }}
-        onMouseDown={handleMouseDown}
+        style={{ cursor: isMaximized ? 'default' : 'grab' }}
+        onMouseDown={isMaximized ? undefined : handleMouseDown}
       >
         <span className="gov-window-title">{window.title}</span>
         <div className="gov-window-buttons">
           <button type="button" onClick={onMinimize}>_</button>
+          <button type="button" onClick={onMaximize}>{isMaximized ? '🗗' : '🗖'}</button>
           <button type="button" onClick={onClose}>X</button>
         </div>
       </div>
 
-      <div className="gov-window-content">
+      <div className="gov-window-content" style={isMaximized ? {height: 'calc(100vh - 36px)'} : {}}>
         {getWindowContent && getWindowContent(window)}
       </div>
     </div>
