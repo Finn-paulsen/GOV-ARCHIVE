@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef, useEffect } from "react";
 import "./govTerminal.css";
 import DeepDesktop from "./DeepDesktop";
@@ -22,19 +20,7 @@ const COMMANDS = {
     "whoami      - Zeigt aktuellen Nutzer",
     "ls, dir     - Listet Akten/Dateien auf",
     "cat <file>  - Zeigt Akteninhalt an",
-    "shred <file>- Akte unwiderruflich vernichten",
-    "dossier <id>- Zeigt Dossier zu Aktenzeichen",
-    "logout      - Sitzung beenden",
-    "sysinfo     - Systemstatus anzeigen",
-    "clearance   - Zeigt Vertraulichkeitsstufe",
-    "coffee      - ...",
-    ""
-  ],
-  info: [
-    "GOV-ARCHIVE Terminal v2.3",
-    "Behörden-Terminal Simulation (1998-2005)",
-    "Systemstatus: STABIL",
-    "Vertraulichkeitsstufe: VS-NfD"
+    // absichtlich keine Erwähnung von eternalblue
   ],
   whoami: [
     "Aktueller Nutzer: GOV-USER (Rolle: Sachbearbeiter)"
@@ -84,6 +70,7 @@ export default function GovTerminal({ onDeepAccess }) {
   ]);
   const [deepMode, setDeepMode] = useState(false);
   const [input, setInput] = useState("");
+  const [savedInput, setSavedInput] = useState("");
   const [error, setError] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
   const terminalRef = useRef(null);
@@ -106,6 +93,9 @@ export default function GovTerminal({ onDeepAccess }) {
     terminalRef.current && terminalRef.current.focus();
   }
 
+  // Backdoor-Status
+  const [eternalblueInstalled, setEternalblueInstalled] = useState(false);
+  const [eternalblueCode, setEternalblueCode] = useState(null);
   function handleCommand(cmd) {
     if (cmd === "securelogin") {
       setLines(l => [
@@ -121,9 +111,67 @@ export default function GovTerminal({ onDeepAccess }) {
         "",
         "Dienstkontenverwaltung – Anmeldung erforderlich",
         "Status: GESPERRT",
-        "",
-        "Bitte Zugangsdaten eingeben:",
       ]);
+      setError("");
+      return;
+    }
+
+    // Simulierter Backdoor-Flow
+    if (cmd === "apt install eternalblue") {
+      if (eternalblueInstalled) {
+        setLines(l => [...l, PROMPT + " " + cmd, "eternalblue ist bereits installiert."]);
+        setError("");
+        return;
+      }
+      // Animierte apt-Installation
+      const steps = [
+        "Lese Paketlisten... ",
+        "Baue Abhängigkeitsbaum auf... ",
+        "Lese Statusinformationen... ",
+        "Vorbereitung zum Entpacken von eternalblue (v0.9.2-legacy) ...",
+        "Entpacke eternalblue (v0.9.2-legacy) ...",
+        "Richte eternalblue (v0.9.2-legacy) ein ...",
+        "eternalblue (v0.9.2-legacy) wurde installiert.",
+      ];
+      const barLength = 24;
+      let progress = 0;
+      setLines(l => [...l, PROMPT + " " + cmd]);
+      function animateStep(i) {
+        if (i < steps.length - 1) {
+          setTimeout(() => {
+            progress = Math.min(barLength, Math.floor(((i + 1) / (steps.length - 1)) * barLength));
+            const bar = `[${"#".repeat(progress)}${" ".repeat(barLength - progress)}] ${(progress / barLength * 100).toFixed(0)}%`;
+            setLines(l => {
+              // Entferne alten Balken, falls vorhanden
+              let l2 = l.filter(line => !line.startsWith("["));
+              return [...l2, steps[i], bar];
+            });
+            animateStep(i + 1);
+          }, 400 + Math.random() * 300);
+        } else {
+          setTimeout(() => {
+            setLines(l => {
+              let l2 = l.filter(line => !line.startsWith("["));
+              return [...l2, steps[i]];
+            });
+            setEternalblueInstalled(true);
+            setError("");
+          }, 600);
+        }
+      }
+      animateStep(0);
+      return;
+    }
+    if (cmd === "eternalblue unlock") {
+      if (!eternalblueInstalled) {
+        setLines(l => [...l, PROMPT + " " + cmd, "Befehl nicht gefunden: eternalblue. Tipp: apt install eternalblue"]);
+        setError("");
+        return;
+      }
+      // Generiere einen festen (ungepatchten) Zugangscode
+      const code = "BA-INT-2003-17";
+      setLines(l => [...l, PROMPT + " " + cmd, "[WARNUNG] Legacy-Backdoor aktiviert!", "Zugangscode generiert:", code, "(Hinweis: Diese Schwachstelle ist ungepatcht)", "", "Bitte Zugangsdaten eingeben:"]);
+      setEternalblueCode(code);
       setError("");
       setAwaitingDeepPassword(true);
       return;
@@ -146,6 +194,19 @@ export default function GovTerminal({ onDeepAccess }) {
         setLines(l => [...l, "Zugang verweigert. Ungültige Zugangsdaten."]);
       }
       setError("");
+      // Backdoor: Akzeptiere eternalblueCode als Zugangscode
+      if (cmd === eternalblueCode) {
+        setLines(l => [
+          ...l,
+          "Zugang gewährt. AuthGate/BA-III: Anmeldung erfolgreich.",
+          "Hinweis: Zugriff über diese Schnittstelle wird protokolliert.",
+          "",
+          "Wechsel in internes Subsystem..."
+        ]);
+        setTimeout(() => {
+          if (onDeepAccess) onDeepAccess();
+        }, 1200);
+      }
       return;
     }
     if (cmd === "clear") {
@@ -158,6 +219,7 @@ export default function GovTerminal({ onDeepAccess }) {
     if (cmd.length > 0) {
       setHistory(h => [...h, cmd]);
       setHistoryIndex(-1);
+      setSavedInput("");
     }
     if (cmd === "backup" || cmd === "mount tape") {
       setLines(l => [...l, PROMPT + " " + cmd, "System busy, try again later."]);
@@ -186,6 +248,19 @@ export default function GovTerminal({ onDeepAccess }) {
     }
     if (cmd.startsWith("cat ")) {
       setLines(l => [...l, PROMPT + " " + cmd, `[VS-NfD] Inhalt von ${cmd.split(" ")[1]}... (gekürzt)`]);
+      setError("");
+      return;
+    }
+    if (cmd === "secscan" || cmd === "smbscan") {
+      setLines(l => [
+        ...l,
+        PROMPT + " " + cmd,
+        "[SECURITY SCAN]",
+        "Gefundene Schwachstelle: CVE-2017-0144 (EternalBlue)",
+        "Status: UNGEPATCHT",
+        "SMBv1 aktiv – Exploit möglich!",
+        "Empfehlung: Patch einspielen (MS17-010)"
+      ]);
       setError("");
       return;
     }
@@ -238,41 +313,47 @@ export default function GovTerminal({ onDeepAccess }) {
       return;
     }
     if (e.key === "ArrowUp") {
-      if (history.length > 0) {
-        setHistoryIndex(idx => {
-          let newIdx = idx;
-          if (idx === -1) {
-            newIdx = history.length - 1;
-          } else {
-            newIdx = Math.max(0, idx - 1);
-          }
-          setInput(history[newIdx] || "");
-          setSelection({ start: null, end: null });
-          setCursorPos((history[newIdx] || "").length);
-          return newIdx;
-        });
+  if (history.length > 0) {
+    setHistoryIndex(idx => {
+      let newIdx = idx;
+      if (idx === -1) {
+        setSavedInput(input); // Save current input before navigating history
+        newIdx = history.length - 1;
+      } else {
+        newIdx = Math.max(0, idx - 1);
       }
-      e.preventDefault();
-      return;
-    }
-    if (e.key === "ArrowDown") {
-      if (history.length > 0) {
-        setHistoryIndex(idx => {
-          let newIdx = idx;
-          if (idx === -1) {
-            newIdx = -1;
-          } else {
-            newIdx = Math.min(history.length - 1, idx + 1);
-          }
-          setInput(newIdx >= 0 ? history[newIdx] : "");
-          setSelection({ start: null, end: null });
-          setCursorPos(newIdx >= 0 ? (history[newIdx] || "").length : 0);
-          return newIdx;
-        });
+      setInput(history[newIdx] || "");
+      setSelection({ start: null, end: null });
+      setCursorPos((history[newIdx] || "").length);
+      return newIdx;
+    });
+  }
+  e.preventDefault();
+  return;
+}
+if (e.key === "ArrowDown") {
+  if (history.length > 0) {
+    setHistoryIndex(idx => {
+      let newIdx = idx;
+      if (idx === -1) {
+        return -1;
+      } else if (idx === history.length - 1) {
+        setInput(savedInput);
+        setSelection({ start: null, end: null });
+        setCursorPos(savedInput.length);
+        return -1;
+      } else {
+        newIdx = Math.min(history.length - 1, idx + 1);
+        setInput(history[newIdx] || "");
+        setSelection({ start: null, end: null });
+        setCursorPos((history[newIdx] || "").length);
+        return newIdx;
       }
-      e.preventDefault();
-      return;
-    }
+    });
+  }
+  e.preventDefault();
+  return;
+}
     if (e.key === "Enter") {
       handleCommand(input.trim());
       setInput("");

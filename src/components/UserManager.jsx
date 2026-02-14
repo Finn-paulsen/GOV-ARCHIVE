@@ -305,38 +305,63 @@ export default function UserManager({ onRequestClose }) {
       <div className="user-manager-content">
         {tab === 'teams' && (
           <div className="user-teams-tab">
-            <h2>Abteilungen & Teams</h2>
-            <table className="teams-table">
-              <thead>
-                <tr>
-                  <th>Abteilung</th>
-                  <th>Beschreibung</th>
-                  <th>Mitglieder</th>
-                  <th>Verantwortliche(r)</th>
-                  <th>Aktionen</th>
-                </tr>
-              </thead>
-              <tbody>
-                {GROUPS_LIST.map(group => {
-                  const members = users.filter(u => u.group === group.id);
-                  // Verantwortlicher: Erster Admin in Gruppe, sonst erster User
-                  const responsible = members.find(u => u.role === 'Admin') || members[0];
-                  return (
-                    <tr key={group.id}>
-                      <td>{group.name}</td>
-                      <td>{group.description}</td>
-                      <td>
-                        {members.length === 0 ? <span style={{color:'#888'}}>–</span> : members.map(u => u.name).join(', ')}
-                      </td>
-                      <td>{responsible ? responsible.name : <span style={{color:'#888'}}>–</span>}</td>
-                      <td>
-                        <button onClick={() => handleEditGroup(group.id)}>Mitglieder verwalten</button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <h2 style={{marginBottom: '1.2rem', display: 'flex', alignItems: 'center', gap: 10}}>
+              <span role="img" aria-label="Teams">👥</span> Abteilungen & Teams
+            </h2>
+            <div className="teams-table-wrapper">
+              <table className="teams-table">
+                <thead>
+                  <tr>
+                    <th>Abteilung</th>
+                    <th>Beschreibung</th>
+                    <th>Mitglieder</th>
+                    <th>Verantwortliche(r)</th>
+                    <th>Aktionen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {GROUPS_LIST.map(group => {
+                    const members = users.filter(u => u.group === group.id);
+                    const responsible = members.find(u => u.role === 'Admin') || members[0];
+                    return (
+                      <tr key={group.id} className={members.length === 0 ? 'team-row-empty' : ''}>
+                        <td style={{fontWeight:'bold', color:'#2a6baf'}}>{group.name}</td>
+                        <td style={{maxWidth:220, whiteSpace:'pre-line', opacity:0.92}}>{group.description}</td>
+                        <td>
+                          {members.length === 0 ? <span style={{color:'#bbb'}}>–</span> :
+                            <div className="team-members-list">
+                              {members.map(u => (
+                                <span key={u.id} className="team-member-chip">{u.name}</span>
+                              ))}
+                            </div>
+                          }
+                        </td>
+                        <td>
+                          {responsible ? (
+                            <span style={{
+                              fontWeight: 'bold',
+                              color: '#1761a0',
+                              background: 'none',
+                              padding: 0,
+                              fontSize: '1.04em',
+                              whiteSpace: 'nowrap',
+                              display: 'inline-block',
+                              verticalAlign: 'middle',
+                              letterSpacing: '0.01em'
+                            }}>{responsible.name}</span>
+                          ) : <span style={{color:'#bbb'}}>–</span>}
+                        </td>
+                        <td>
+                          <button className="team-action-btn" title="Mitglieder verwalten" onClick={() => handleEditGroup(group.id)}>
+                            <span role="img" aria-label="Verwalten">⚙️</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
             {showGroupEditModal && (
               <GroupEditModal
                 group={GROUPS_LIST.find(g => g.id === editingGroupId)}

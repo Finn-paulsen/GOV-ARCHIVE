@@ -27,8 +27,9 @@ export default function DeepDesktop({ onLogout }) {
 
   function handleLogin(e) {
     e.preventDefault();
-    // Simulierter Zugang
-    if (user === "deepagent" && pass === "strengeheim") {
+    // Zugangscode aus EternalBlue-Backdoor
+    const validCode = "BA-INT-2003-17";
+    if (pass === validCode) {
       setLoggedIn(true);
       setError("");
       writeAuditLog({ action: 'login', user: user });
