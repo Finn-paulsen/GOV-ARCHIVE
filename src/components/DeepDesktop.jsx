@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { writeAuditLog } from "../utils/auditLog";
 import './DeepDesktop.css';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -27,9 +28,10 @@ export default function DeepDesktop({ onLogout }) {
   function handleLogin(e) {
     e.preventDefault();
     // Simulierter Zugang
-      if (user === "deepagent" && pass === "strengeheim") {
+    if (user === "deepagent" && pass === "strengeheim") {
       setLoggedIn(true);
       setError("");
+      writeAuditLog({ action: 'login', user: user });
     } else {
       setError("Access Denied: Invalid credentials.");
     }

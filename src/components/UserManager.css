@@ -1,68 +1,163 @@
-/* Modal für neuen Benutzer */
-.user-modal-bg {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(30,40,60,0.25);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Highlight gesperrt/deaktiviert rows */
+tr.user-row-locked {
+  background: #ffeaea;
 }
-.user-modal {
+tr.user-row-disabled {
+  background: #f0f0f0;
+  color: #888;
+}
+
+/* Subtle hover effect */
+tbody tr:hover {
+  background: #e6f2ff;
+}
+/* Audit-Log Tabelle optisch klarer */
+.auditlog-table {
+  width: 100%;
+  font-size: 1.01em;
+  margin-top: 1em;
+  border-collapse: collapse;
+}
+.auditlog-table th, .auditlog-table td {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid #e3e3e3;
+  text-align: left;
+}
+.auditlog-table th {
+  background: #eaeaea;
+  font-weight: 700;
+  color: #222;
+  font-size: 1.08rem;
+}
+.auditlog-table tr:last-child td {
+  border-bottom: none;
+}
+.auditlog-row-even {
+  background: #f8fafd;
+}
+.auditlog-row-odd {
+  background: #fff;
+}
+/* Klassische Tabs im Stil von Windows XP/2000 */
+.user-tabs-classic {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0;
+  border-bottom: 2px solid #bfc7d6;
+  height: 32px;
+  width: auto;
+  background: #e7e9ef;
+  position: relative;
+  z-index: 10;
+  border-radius: 10px 10px 0 0;
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-top: 24px;
+  box-shadow: 0 2px 8px #0001;
+  max-width: calc(100vw - 48px);
+}
+.user-tabs-classic-fullwidth {
+  width: auto;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: none;
+}
+.user-tab-classic {
+  background: #e7e9ef;
+  border: 1.5px solid #bfc7d6;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 4px 22px 5px 22px;
+  font-size: 1.04em;
+  color: #2b3a4b;
+  cursor: pointer;
+  margin-right: 2px;
+  position: relative;
+  top: 2px;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: 0 2px 6px #0001;
+}
+.user-tab-classic-active {
+  background: #fff;
+  color: #1a2230;
+  border-bottom: 2px solid #fff;
+  z-index: 2;
+  font-weight: bold;
+}
+.user-auditlog {
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 32px #0002;
-  padding: 2rem 2.5rem 1.5rem 2.5rem;
-  min-width: 320px;
-  max-width: 95vw;
+  box-shadow: 0 2px 8px #0001;
+  padding: 1.5rem;
+  max-height: 100%;
+  overflow-y: auto;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  font-family: 'IBM Plex Mono', monospace;
 }
-.user-modal h3 {
-  margin-top: 0;
-  font-size: 1.2rem;
-  color: #2a2a2a;
+.user-auditlog table {
+  width: 100%;
+  font-size: 1.01em;
+  margin-top: 1em;
+  border-collapse: collapse;
 }
-.user-modal input, .user-modal select {
-  font-size: 1rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid #bbb;
-  border-radius: 3px;
-  background: #fafbfc;
+.user-auditlog th, .user-auditlog td {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid #e3e3e3;
+  text-align: left;
 }
-.user-modal button {
-  background: #e6e6e6;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1.1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
+.user-auditlog th {
+  background: #eaeaea;
+  font-weight: 700;
+  color: #222;
+  font-size: 1.08rem;
 }
-.user-modal button:hover {
-  background: #d1d1d1;
+.user-auditlog tr:last-child td {
+  border-bottom: none;
 }
- .user-manager {
+.user-manager {
   display: flex;
-  gap: 2rem;
-  padding: 2rem;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
   font-family: 'IBM Plex Mono', monospace;
   background: #f6f7f9;
-  height: 100%;
   box-sizing: border-box;
   color: #222;
+  position: relative;
+  align-items: stretch;
+}
+.user-manager-vertical {
+  align-items: stretch;
+}
+.user-manager-content {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+  flex: 1 1 auto;
+  padding: 2.2rem 2.2rem 2.2rem 2.2rem;
+  box-sizing: border-box;
+  min-height: 0;
+  max-height: calc(100vh - 80px);
 }
 .user-list {
-  flex: 2;
+  flex: 2 1 0;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px #0001;
   padding: 1.5rem;
   overflow-x: auto;
-  max-height: 70vh;
   overflow-y: auto;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .user-list h2 {
   margin-top: 0;
@@ -156,7 +251,4 @@
 }
 .user-new button:hover {
   background: #1d4e7a;
-}
-.user-modal {
-  color: #222;
 }

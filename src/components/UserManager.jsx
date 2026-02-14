@@ -1,211 +1,511 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+// ...existing imports...
+
+// Group membership modal state
+// (hooks are declared after the main import below)
 import Toast from "./Toast";
 import LoadingOverlay from "./LoadingOverlay";
-import { GROUPS_LIST } from "../utils/userData";
+import { GROUPS_LIST, generateUserData } from "../utils/userData";
 import { getUsers, setUsers, addUser, updateUser, deleteUser } from "../utils/userStore";
-import './UserManager.css';
 
-export default function UserManager() {
+
+
+import GovUserEditor from "./GovUserEditor";
+import CriticalActionModal from "./CriticalActionModal";
+import GroupEditModal from "./GroupEditModal";
+import { writeAuditLog, getAuditLog } from "../utils/auditLog";
+import './UserManager.css';
+import './ldapSync.css';
+
+
+
+export default function UserManager({ onRequestClose }) {
+      // Group membership modal state
+      const [showGroupEditModal, setShowGroupEditModal] = useState(false);
+      const [editingGroupId, setEditingGroupId] = useState(null);
+
+      function handleEditGroup(groupId) {
+        setEditingGroupId(groupId);
+        setShowGroupEditModal(true);
+      }
+
+      function handleSaveGroupMembers(selectedUserIds) {
+        // Remove group from all users, then add to selected
+        const groupId = editingGroupId;
+        const updated = users.map(u =>
+          selectedUserIds.includes(u.id)
+            ? { ...u, group: groupId, groupName: GROUPS_LIST.find(g => g.id === groupId)?.name }
+            : (u.group === groupId ? { ...u, group: '', groupName: '' } : u)
+        );
+        setUsers(updated);
+        setUsersState(updated);
+        setShowGroupEditModal(false);
+        setEditingGroupId(null);
+        setToast({ text: 'Mitglieder aktualisiert.', type: 'success' });
+        setTimeout(() => setToast(null), 1800);
+      }
+    // Export/Import
+    const fileInputRef = useRef();
+
+    function exportUsersCSV() {
+      const replacer = (key, value) => value === null ? '' : value;
+      const header = ["name","username","groupName","status","permissions","lastLogin","loginAttempts"];
+      const csv = [header.join(",")].concat(
+        users.map(u => header.map(field => {
+          let val = u[field];
+          if (Array.isArray(val)) return '"' + val.join(';') + '"';
+          if (typeof val === 'string' && val.includes(',')) return '"' + val + '"';
+          return val ?? '';
+        }).join(","))
+      ).join("\r\n");
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'benutzerliste.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function handleImportClick() {
+      fileInputRef.current?.click();
+    }
+
+    function importUsersCSV(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const text = evt.target.result;
+        const lines = text.split(/\r?\n/).filter(Boolean);
+        const [header, ...rows] = lines;
+        const fields = header.split(',');
+        const imported = rows.map(row => {
+          const vals = row.split(',');
+          const obj = {};
+          fields.forEach((f, i) => {
+            let v = vals[i] || '';
+            if (f === 'permissions') v = v.replace(/"/g, '').split(';').filter(Boolean);
+            obj[f] = v;
+          });
+          obj.id = Math.random().toString(36).slice(2, 10);
+          obj.created = new Date().toISOString().split('T')[0];
+          return obj;
+        });
+        setUsersState(prev => [...prev, ...imported]);
+        setUsers([...users, ...imported]);
+        setToast({ text: `Import erfolgreich: ${imported.length} Benutzer.`, type: 'success' });
+        setTimeout(() => setToast(null), 1800);
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
   const [users, setUsersState] = useState(getUsers());
+  const [tab, setTab] = useState('users');
+  const [auditLog, setAuditLog] = useState([]);
   const [ldapSyncing, setLdapSyncing] = useState(false);
+  const [ldapProgress, setLdapProgress] = useState(0);
   const [toast, setToast] = useState(null);
   const [editing, setEditing] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewUserModal, setShowNewUserModal] = useState(false);
-  const [newUser, setNewUser] = useState({
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    group: GROUPS_LIST[0].id,
-    status: "aktiv",
-    mustChangePassword: false,
-    cannotChangePassword: false,
-    passwordNeverExpires: false,
-    accountDisabled: false,
-  });
+  const [dirty, setDirty] = useState(false);
+  const [showCriticalModal, setShowCriticalModal] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
+
+  React.useEffect(() => {
+    if (tab === 'audit') {
+      setAuditLog(getAuditLog().slice().reverse());
+    }
+  }, [tab, users]);
 
   function handleEdit(user) {
     setEditing({ ...user });
     setShowEditModal(true);
   }
-  function handleSaveEdit() {
-    const updated = users.map(u => u.id === editing.id ? editing : u);
-    setUsers(updated);
-    setUsersState(updated);
-    updateUser(editing);
-    setEditing(null);
-    setShowEditModal(false);
+  const [showCriticalRightsModal, setShowCriticalRightsModal] = useState(false);
+  const [pendingRightsEdit, setPendingRightsEdit] = useState(null);
+
+  function handleSaveEdit(editedUser) {
+    // If rights or role changed, require confirmation
+    const original = users.find(u => u.id === editedUser.id);
+    if (original && (original.role !== editedUser.role || JSON.stringify(original.permissions) !== JSON.stringify(editedUser.permissions))) {
+      setPendingRightsEdit(editedUser);
+      setShowCriticalRightsModal(true);
+      return;
+    }
+    doSaveEdit(editedUser);
   }
 
+  function doSaveEdit(editedUser) {
+    const updated = users.map(u => u.id === editedUser.id ? editedUser : u);
+    setUsers(updated);
+    setUsersState(updated);
+    updateUser(editedUser);
+    writeAuditLog({ action: 'edit', user: 'admin', targetUser: editedUser.username });
+    setEditing(null);
+    setShowEditModal(false);
+    setDirty(true);
+  }
+
+  function handleConfirmRightsEdit(auth) {
+    if (pendingRightsEdit) {
+      doSaveEdit(pendingRightsEdit);
+      setPendingRightsEdit(null);
+      setShowCriticalRightsModal(false);
+    }
+  }
+
+  function handleCancelRightsCritical() {
+    setPendingRightsEdit(null);
+    setShowCriticalRightsModal(false);
+  }
+
+  const [showCriticalPwModal, setShowCriticalPwModal] = useState(false);
+  const [pendingPwUser, setPendingPwUser] = useState(null);
+
   function handlePasswordReset(user) {
+    setPendingPwUser(user);
+    setShowCriticalPwModal(true);
+  }
+
+  function handleConfirmPwReset(auth) {
+    // Optionally: validate password/token here
+    const user = pendingPwUser;
     setToast({ text: `Passwort für ${user.username} wurde zurückgesetzt.`, type: 'success' });
+    writeAuditLog({ action: 'reset-password', user: 'admin', targetUser: user.username });
     setTimeout(() => setToast(null), 1800);
+    setShowCriticalPwModal(false);
+    setPendingPwUser(null);
+  }
+
+  function handleCancelPwCritical() {
+    setShowCriticalPwModal(false);
+    setPendingPwUser(null);
   }
   function handleDelete(id) {
+    setPendingDeleteId(id);
+    setShowCriticalModal(true);
+  }
+
+  function handleConfirmDelete(auth) {
+    // Optionally: validate password/token here
+    const id = pendingDeleteId;
+    const userToDelete = users.find(u => u.id === id);
     const updated = users.filter(u => u.id !== id);
     setUsers(updated);
     setUsersState(updated);
     deleteUser(id);
+    writeAuditLog({ action: 'delete', user: 'admin', targetUser: userToDelete?.username });
+    setDirty(true);
+    setShowCriticalModal(false);
+    setPendingDeleteId(null);
+    setToast({ text: `Benutzer ${userToDelete?.username} gelöscht.`, type: 'success' });
+    setTimeout(() => setToast(null), 1800);
   }
-  function handleNewUser() {
+
+  function handleCancelCritical() {
+    setShowCriticalModal(false);
+    setPendingDeleteId(null);
+  }
+  function handleNewUser(newUserData) {
     const user = {
-      ...newUser,
+      ...newUserData,
       id: Math.random().toString(36).slice(2, 10),
-      groupName: GROUPS_LIST.find(g => g.id === newUser.group)?.name,
-      permissions: newUser.group === 'admin' ? ['read', 'write', 'delete', 'manage'] : ['read', 'write'],
+      groupName: GROUPS_LIST.find(g => g.id === newUserData.group)?.name,
+      permissions: newUserData.role === 'Admin' ? ['read', 'write', 'delete', 'manage'] : ['read', 'write'],
       created: new Date().toISOString().split('T')[0],
     };
     addUser(user);
     setUsersState(getUsers());
-    setNewUser({
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      group: GROUPS_LIST[0].id,
-      status: "aktiv",
-      mustChangePassword: false,
-      cannotChangePassword: false,
-      passwordNeverExpires: false,
-      accountDisabled: false,
-    });
+    writeAuditLog({ action: 'create', user: 'admin', targetUser: user.username });
     setShowNewUserModal(false);
+    setDirty(true);
   }
 
+  const [showCriticalLdapModal, setShowCriticalLdapModal] = useState(false);
+  const [pendingLdap, setPendingLdap] = useState(false);
+
   function handleLdapSync() {
-    // Simuliere: Nur wenn sich User geändert haben, lade neu
-    // (hier: einfach alles überschreiben, außer manuell angelegte User)
-    const { generateUserData } = require('../utils/userData');
+    setPendingLdap(true);
+    setShowCriticalLdapModal(true);
+  }
+
+  function handleConfirmLdapSync(auth) {
+    setShowCriticalLdapModal(false);
+    setPendingLdap(false);
+    writeAuditLog({ action: 'ldap-sync', user: 'admin' });
+    // Simuliere: Immer Sync durchführen, unabhängig von Änderungen
     const synced = generateUserData(10);
     const all = [...synced];
     users.forEach(u => {
       if (!all.some(su => su.username === u.username)) all.push(u);
     });
-    const changed = all.length !== users.length || all.some((u, i) => u.username !== users[i]?.username);
-    if (changed) {
-      setLdapSyncing(true);
-      setTimeout(() => {
-        setUsersState(all);
-        setUsers(all);
-        setLdapSyncing(false);
-      }, 1800);
-    } else {
-      setToast({ text: 'Keine Änderungen gefunden.', type: 'info' });
-      setTimeout(() => setToast(null), 1800);
-    }
+    setLdapSyncing(true);
+    setLdapProgress(0);
+    // Simulierter Fortschritt
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 18 + 7;
+      setLdapProgress(Math.min(progress, 100));
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setUsersState(all);
+          setUsers(all);
+          setLdapSyncing(false);
+          setDirty(false);
+          setLdapProgress(0);
+        }, 400);
+      }
+    }, 220);
+  }
+
+  function handleCancelLdapCritical() {
+    setShowCriticalLdapModal(false);
+    setPendingLdap(false);
+  }
+
+  // Callback für FensterManager, um zu prüfen, ob geschlossen werden darf
+  React.useImperativeHandle(onRequestClose?.ref, () => ({
+    canClose: () => !dirty,
+    dirty,
+  }), [dirty]);
+
+  // Hilfsfunktion: Browser/OS aus User-Agent extrahieren
+  function parseUserAgent(ua) {
+    if (!ua) return "-";
+    // Einfache Extraktion: Browser und OS
+    let browser = "";
+    let os = "";
+    if (ua.includes("Chrome")) browser = "Chrome";
+    else if (ua.includes("Firefox")) browser = "Firefox";
+    else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+    else if (ua.includes("Edge")) browser = "Edge";
+    else if (ua.includes("Trident") || ua.includes("MSIE")) browser = "IE";
+    else browser = ua.split("/")[0];
+    if (ua.includes("Windows NT 10")) os = "Windows 10";
+    else if (ua.includes("Windows NT 6.1")) os = "Windows 7";
+    else if (ua.includes("Mac OS X")) os = "macOS";
+    else if (ua.includes("Linux")) os = "Linux";
+    else os = "?";
+    return `${browser} (${os})`;
   }
 
   return (
-    <div className="user-manager">
-      <div className="user-list">
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <h2>Benutzerverwaltung</h2>
-          <div>
-            <button onClick={() => setShowNewUserModal(true)} style={{marginRight:'0.7em'}}>Neuen Benutzer anlegen</button>
-            <button style={{background:'#2a6baf',color:'#fff'}} onClick={handleLdapSync}>LDAP Sync</button>
-          </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Benutzername</th>
-              <th>Gruppe</th>
-              <th>Status</th>
-              <th>Berechtigungen</th>
-              <th>Optionen</th>
-              <th>Aktionen</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.username}</td>
-                <td>{user.groupName}</td>
-                <td>{user.status}</td>
-                <td>{(user.permissions || []).join(", ")}</td>
-                <td>
-                  <ul style={{margin:0,padding:0,listStyle:'none',fontSize:'0.95em'}}>
-                    {user.mustChangePassword && <li>🔑 Passwort ändern</li>}
-                    {user.cannotChangePassword && <li>🚫 Kein Passwortwechsel</li>}
-                    {user.passwordNeverExpires && <li>♾️ Nie ablaufend</li>}
-                    {user.accountDisabled && <li>⛔ Deaktiviert</li>}
-                    {!(user.mustChangePassword||user.cannotChangePassword||user.passwordNeverExpires||user.accountDisabled) && <li>–</li>}
-                  </ul>
-                </td>
-                <td>
-                  <>
-                    <button onClick={() => handleEdit(user)}>Bearbeiten</button>
-                    <button onClick={() => handleDelete(user.id)}>Löschen</button>
-                  </>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="user-manager user-manager-vertical">
+      <div className="user-tabs-classic user-tabs-classic-fullwidth">
+        <div className={tab==='users' ? "user-tab-classic user-tab-classic-active" : "user-tab-classic"} onClick={()=>setTab('users')}>Benutzer</div>
+        <div className={tab==='teams' ? "user-tab-classic user-tab-classic-active" : "user-tab-classic"} onClick={()=>setTab('teams')}>Abteilungen/Teams</div>
+        <div className={tab==='devices' ? "user-tab-classic user-tab-classic-active" : "user-tab-classic"} onClick={()=>setTab('devices')}>Geräte/Logins</div>
+        <div className={tab==='audit' ? "user-tab-classic user-tab-classic-active" : "user-tab-classic"} onClick={()=>setTab('audit')}>Audit-Log</div>
       </div>
-      {ldapSyncing && <LoadingOverlay text="LDAP Sync läuft..." />}
-      {toast && <Toast text={toast.text} type={toast.type} />}
-      {showEditModal && editing && (
-        <div className="user-modal-bg">
-          <div className="user-modal">
-            <h3>Benutzer bearbeiten</h3>
-            <input placeholder="Name" value={editing.name} onChange={e => setEditing({ ...editing, name: e.target.value })} />
-            <input placeholder="Benutzername" value={editing.username} onChange={e => setEditing({ ...editing, username: e.target.value })} />
-            <input placeholder="E-Mail" value={editing.email} onChange={e => setEditing({ ...editing, email: e.target.value })} />
-            <input placeholder="Passwort" type="text" value={editing.password || ''} onChange={e => setEditing({ ...editing, password: e.target.value })} />
-            <select value={editing.group} onChange={e => setEditing({ ...editing, group: e.target.value, groupName: GROUPS_LIST.find(g => g.id === e.target.value)?.name })}>
-              {GROUPS_LIST.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-            </select>
-            <select value={editing.status} onChange={e => setEditing({ ...editing, status: e.target.value })}>
-              <option value="aktiv">aktiv</option>
-              <option value="gesperrt">gesperrt</option>
-              <option value="in Prüfung">in Prüfung</option>
-            </select>
-            <div style={{marginTop:'0.5em',marginBottom:'0.5em',display:'flex',flexDirection:'column',gap:'2px'}}>
-              <label><input type="checkbox" checked={editing.mustChangePassword} onChange={e => setEditing({ ...editing, mustChangePassword: e.target.checked })}/> Passwort bei nächster Anmeldung ändern</label>
-              <label><input type="checkbox" checked={editing.cannotChangePassword} onChange={e => setEditing({ ...editing, cannotChangePassword: e.target.checked })}/> Benutzer kann Kennwort nicht ändern</label>
-              <label><input type="checkbox" checked={editing.passwordNeverExpires} onChange={e => setEditing({ ...editing, passwordNeverExpires: e.target.checked })}/> Kennwort läuft nie ab</label>
-              <label><input type="checkbox" checked={editing.accountDisabled} onChange={e => setEditing({ ...editing, accountDisabled: e.target.checked })}/> Konto ist deaktiviert</label>
+      <div className="user-manager-content">
+        {tab === 'teams' && (
+          <div className="user-teams-tab">
+            <h2>Abteilungen & Teams</h2>
+            <table className="teams-table">
+              <thead>
+                <tr>
+                  <th>Abteilung</th>
+                  <th>Beschreibung</th>
+                  <th>Mitglieder</th>
+                  <th>Verantwortliche(r)</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {GROUPS_LIST.map(group => {
+                  const members = users.filter(u => u.group === group.id);
+                  // Verantwortlicher: Erster Admin in Gruppe, sonst erster User
+                  const responsible = members.find(u => u.role === 'Admin') || members[0];
+                  return (
+                    <tr key={group.id}>
+                      <td>{group.name}</td>
+                      <td>{group.description}</td>
+                      <td>
+                        {members.length === 0 ? <span style={{color:'#888'}}>–</span> : members.map(u => u.name).join(', ')}
+                      </td>
+                      <td>{responsible ? responsible.name : <span style={{color:'#888'}}>–</span>}</td>
+                      <td>
+                        <button onClick={() => handleEditGroup(group.id)}>Mitglieder verwalten</button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            {showGroupEditModal && (
+              <GroupEditModal
+                group={GROUPS_LIST.find(g => g.id === editingGroupId)}
+                members={users.filter(u => u.group === editingGroupId)}
+                allUsers={users}
+                onSave={handleSaveGroupMembers}
+                onCancel={() => { setShowGroupEditModal(false); setEditingGroupId(null); }}
+              />
+            )}
+          </div>
+        )}
+        {tab === 'users' && (
+          <div className="user-list">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <h2>Benutzerverwaltung</h2>
+              <div style={{display:'flex',gap:'0.5em',alignItems:'center'}}>
+                <button onClick={() => setShowNewUserModal(true)}>Neuen Benutzer anlegen</button>
+                <button style={{background:'#2a6baf',color:'#fff'}} onClick={handleLdapSync}>LDAP Sync</button>
+                <button onClick={exportUsersCSV}>Export (CSV)</button>
+                <button onClick={handleImportClick}>Import (CSV)</button>
+                <input type="file" accept=".csv" ref={fileInputRef} style={{display:'none'}} onChange={importUsersCSV} />
+              </div>
             </div>
-            <div style={{display:'flex',gap:'1em',marginTop:'1em'}}>
-              <button onClick={handleSaveEdit} style={{background:'#2a6baf',color:'#fff'}}>Speichern</button>
-              <button onClick={()=>{setShowEditModal(false);setEditing(null);}}>Abbrechen</button>
-              <button style={{background:'#e6e6e6',color:'#2a6baf'}} onClick={() => handlePasswordReset(editing)}>Passwort zurücksetzen</button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Benutzername</th>
+                  <th>Gruppe</th>
+                  <th>Status</th>
+                  <th>Berechtigungen</th>
+                  <th>Letzte Anmeldung</th>
+                  <th>Anmeldeversuche</th>
+                  <th>Optionen</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(user => (
+                  <tr key={user.id}
+                    className={
+                      user.accountDisabled ? 'user-row-disabled' :
+                      user.status === 'gesperrt' ? 'user-row-locked' : ''
+                    }
+                  >
+                    <td>{user.name}</td>
+                    <td>
+                      {user.username}
+                      {user.accountDisabled && <span title="Deaktiviert" style={{marginLeft:4}}>⛔</span>}
+                      {user.status === 'gesperrt' && <span title="Gesperrt" style={{marginLeft:2}}>🔒</span>}
+                      {user.mustChangePassword && <span title="Passwort muss geändert werden" style={{marginLeft:2}}>🔑</span>}
+                    </td>
+                    <td>
+                      {user.groupName}
+                      {user.role === 'Admin' && <span title="Administrator" style={{marginLeft:4,background:'#2a6baf',color:'#fff',borderRadius:3,padding:'0 4px',fontSize:'0.85em'}}>Admin</span>}
+                    </td>
+                    <td>{user.status}</td>
+                    <td>{(user.permissions || []).join(", ")}</td>
+                    <td>{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-'}</td>
+                    <td>{user.loginAttempts || 0}</td>
+                    <td>
+                      <ul style={{margin:0,padding:0,listStyle:'none',fontSize:'0.95em'}}>
+                        {user.mustChangePassword && <li>🔑 Passwort ändern</li>}
+                        {user.cannotChangePassword && <li>🚫 Kein Passwortwechsel</li>}
+                        {user.passwordNeverExpires && <li>♾️ Nie ablaufend</li>}
+                        {user.accountDisabled && <li>⛔ Deaktiviert</li>}
+                        {!(user.mustChangePassword||user.cannotChangePassword||user.passwordNeverExpires||user.accountDisabled) && <li>–</li>}
+                      </ul>
+                    </td>
+                    <td>
+                      <>
+                        <button onClick={() => handleEdit(user)}>Bearbeiten</button>
+                        <button onClick={() => handleDelete(user.id)}>Löschen</button>
+                      </>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {tab === 'audit' && (
+          <div className="user-auditlog">
+            <h2>Audit-Log</h2>
+            <table className="auditlog-table">
+              <thead>
+                <tr>
+                  <th>Zeit</th>
+                  <th>Aktion</th>
+                  <th>Benutzer</th>
+                  <th>Ziel</th>
+                  <th>Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                {auditLog.length === 0 ? (
+                  <tr><td colSpan={5} style={{textAlign:'center',color:'#888'}}>Keine Einträge vorhanden</td></tr>
+                ) : auditLog.map((log,i) => (
+                  <tr key={i} className={i%2===0 ? 'auditlog-row-even' : 'auditlog-row-odd'}>
+                    <td>{new Date(log.ts).toLocaleString()}</td>
+                    <td>{log.action}</td>
+                    <td>{log.user}</td>
+                    <td>{log.targetUser||"-"}</td>
+                    <td>{parseUserAgent(log.info)||"-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      {ldapSyncing && (
+        <div className="ldap-overlay">
+          <div className="ldap-progress-window">
+            <div className="ldap-progress-title">LDAP Sync läuft...</div>
+            <div className="ldap-progress-bar-bg">
+              <div className="ldap-progress-bar" style={{width: ldapProgress + '%'}}></div>
             </div>
+            <div className="ldap-progress-label">{Math.round(ldapProgress)}%</div>
           </div>
         </div>
       )}
+      {toast && <Toast text={toast.text} type={toast.type} />}
+      {showEditModal && editing && (
+        <GovUserEditor
+          user={editing}
+          onSave={handleSaveEdit}
+          onCancel={() => { setShowEditModal(false); setEditing(null); }}
+          lastLogin={editing.lastLogin}
+          lastChangedBy={editing.lastChangedBy}
+        />
+      )}
       {showNewUserModal && (
-        <div className="user-modal-bg">
-          <div className="user-modal">
-            <h3>Neuen Benutzer anlegen</h3>
-            <input placeholder="Name" value={newUser.name} onChange={e => setNewUser({ ...newUser, name: e.target.value })} />
-            <input placeholder="Benutzername" value={newUser.username} onChange={e => setNewUser({ ...newUser, username: e.target.value })} />
-            <input placeholder="E-Mail" value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} />
-            <input placeholder="Passwort" type="text" value={newUser.password} onChange={e => setNewUser({ ...newUser, password: e.target.value })} />
-            <select value={newUser.group} onChange={e => setNewUser({ ...newUser, group: e.target.value })}>
-              {GROUPS_LIST.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-            </select>
-            <select value={newUser.status} onChange={e => setNewUser({ ...newUser, status: e.target.value })}>
-              <option value="aktiv">aktiv</option>
-              <option value="gesperrt">gesperrt</option>
-              <option value="in Prüfung">in Prüfung</option>
-            </select>
-            <div style={{marginTop:'0.5em',marginBottom:'0.5em',display:'flex',flexDirection:'column',gap:'2px'}}>
-              <label><input type="checkbox" checked={newUser.mustChangePassword} onChange={e => setNewUser({ ...newUser, mustChangePassword: e.target.checked })}/> Passwort bei nächster Anmeldung ändern</label>
-              <label><input type="checkbox" checked={newUser.cannotChangePassword} onChange={e => setNewUser({ ...newUser, cannotChangePassword: e.target.checked })} /> Benutzer kann Kennwort nicht ändern</label>
-              <label><input type="checkbox" checked={newUser.passwordNeverExpires} onChange={e => setNewUser({ ...newUser, passwordNeverExpires: e.target.checked })}/> Kennwort läuft nie ab</label>
-              <label><input type="checkbox" checked={newUser.accountDisabled} onChange={e => setNewUser({ ...newUser, accountDisabled: e.target.checked })}/> Konto ist deaktiviert</label>
-            </div>
-            <div style={{display:'flex',gap:'1em',marginTop:'1em'}}>
-              <button onClick={handleNewUser} style={{background:'#2a6baf',color:'#fff'}}>Übernehmen</button>
-              <button onClick={()=>setShowNewUserModal(false)}>Abbrechen</button>
-            </div>
-          </div>
-        </div>
+        <GovUserEditor
+          onSave={handleNewUser}
+          onCancel={() => setShowNewUserModal(false)}
+        />
+      )}
+      {showCriticalModal && (
+        <CriticalActionModal
+          actionLabel="Löschen dieses Benutzers bestätigen"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelCritical}
+          requireToken={true}
+        />
+      )}
+      {showCriticalPwModal && (
+        <CriticalActionModal
+          actionLabel="Passwort-Reset für Benutzer bestätigen"
+          onConfirm={handleConfirmPwReset}
+          onCancel={handleCancelPwCritical}
+          requireToken={true}
+        />
+      )}
+      {showCriticalRightsModal && (
+        <CriticalActionModal
+          actionLabel="Rechte-/Rollenänderung bestätigen"
+          onConfirm={handleConfirmRightsEdit}
+          onCancel={handleCancelRightsCritical}
+          requireToken={true}
+        />
+      )}
+      {showCriticalLdapModal && (
+        <CriticalActionModal
+          actionLabel="LDAP Sync bestätigen"
+          onConfirm={handleConfirmLdapSync}
+          onCancel={handleCancelLdapCritical}
+          requireToken={true}
+        />
       )}
     </div>
   );

@@ -73,17 +73,33 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
     setWindows(ws => ws.map(w => w.id === id ? { ...w, maximized: !w.maximized } : w));
   }
 
+  // Refs für spezielle Fenster
+  const userManagerRef = useRef();
+
   function getWindowContent(w) {
     if (w.type === 'explorer') return <FileExplorer />;
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
     if (w.type === 'terminal') return <GovTerminal onDeepAccess={onDeepAccess} />;
     if (w.type === 'mail') return <MailClient />;
-    if (w.type === 'users') return <UserManager />;
+    if (w.type === 'users') return <UserManager onRequestClose={{ ref: userManagerRef }} />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
+  // Modal-Logik für LDAP Sync Hinweis
+  const [pendingCloseId, setPendingCloseId] = useState(null);
+  const [showLdapModal, setShowLdapModal] = useState(false);
+
   function closeWindow(id) {
+    // Wenn UserManager, prüfe dirty-State
+    const win = windows.find(w => w.id === id);
+    if (win?.type === 'users' && userManagerRef.current) {
+      if (userManagerRef.current.dirty) {
+        setPendingCloseId(id);
+        setShowLdapModal(true);
+        return;
+      }
+    }
     setWindows(ws => ws.filter(w => w.id !== id));
   }
 
@@ -173,11 +189,18 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
             z={w.z}
           />
         ))}
-
-
-
-        
       </AnimatePresence>
+      {showLdapModal && (
+        <div className="gov-modal-bg">
+          <div className="gov-modal">
+            <div className="gov-modal-title">LDAP Sync erforderlich</div>
+            <div className="gov-modal-content">Es wurden Änderungen an der Benutzerverwaltung vorgenommen. Bitte führen Sie einen LDAP Sync durch, bevor Sie das Fenster schließen.</div>
+            <div className="gov-modal-actions">
+              <button onClick={() => setShowLdapModal(false)}>OK</button>
+            </div>
+          </div>
+        </div>
+      )}
       {showStart && (
         <div className="gov-startmenu">
           <button onClick={handleLogout}>Abmelden</button>

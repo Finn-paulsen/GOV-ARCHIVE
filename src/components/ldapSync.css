@@ -1,0 +1,47 @@
+.ldap-overlay {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(32,48,64,0.35);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ldap-progress-window {
+  background: #e7e9ef;
+  border: 2px solid #2b3a4b;
+  border-radius: 6px;
+  min-width: 320px;
+  box-shadow: 0 8px 32px #0008;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 32px 36px 22px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ldap-progress-title {
+  font-weight: bold;
+  color: #2b3a4b;
+  font-size: 1.18em;
+  margin-bottom: 18px;
+}
+.ldap-progress-bar-bg {
+  width: 220px;
+  height: 18px;
+  background: #cfd3da;
+  border-radius: 5px;
+  border: 1.5px solid #b0b8c0;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.ldap-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #2b3a4b 60%, #4b5a6b 100%);
+  border-radius: 5px;
+  transition: width 0.2s;
+}
+.ldap-progress-label {
+  color: #4b5a6b;
+  font-size: 1em;
+  margin-top: 2px;
+}

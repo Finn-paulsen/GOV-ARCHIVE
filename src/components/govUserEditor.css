@@ -1,0 +1,104 @@
+/*
+  govUserEditor.css
+  Authentischer Regierungs-/Militärstil, an Windows 2000/XP angelehnt
+*/
+.gov-user-editor-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(16,24,32,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gov-user-editor-window {
+  background: #e7e9ef;
+  border: 2px solid #2b3a4b;
+  border-radius: 6px;
+  min-width: 420px;
+  box-shadow: 0 8px 32px #0008;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.gov-user-editor-titlebar {
+  background: linear-gradient(90deg, #2b3a4b 80%, #4b5a6b 100%);
+  color: #fff;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-bottom: 1.5px solid #1a2230;
+  border-radius: 4px 4px 0 0;
+  letter-spacing: 0.5px;
+}
+.gov-user-editor-form {
+  padding: 18px 22px 10px 22px;
+}
+.gov-user-editor-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+}
+.gov-user-editor-fields label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.98em;
+  color: #1a2230;
+}
+.gov-user-editor-fields input,
+.gov-user-editor-fields select {
+  margin-top: 2px;
+  padding: 4px 7px;
+  border: 1.5px solid #b0b8c0;
+  border-radius: 3px;
+  background: #f7f8fa;
+  font-size: 1em;
+  color: #1a2230;
+  outline: none;
+  transition: border 0.2s;
+}
+.gov-user-editor-fields input:focus,
+.gov-user-editor-fields select:focus {
+  border-color: #2b3a4b;
+}
+.gov-user-editor-checkboxes {
+  grid-column: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  gap: 2px;
+}
+.gov-user-editor-checkboxes label {
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.97em;
+  color: #2b3a4b;
+}
+.gov-user-editor-checkboxes input[type="checkbox"] {
+  margin-right: 7px;
+}
+.gov-user-editor-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+.gov-user-editor-footer button {
+  background: linear-gradient(180deg, #e7e9ef 60%, #cfd3da 100%);
+  border: 1.5px solid #2b3a4b;
+  border-radius: 3px;
+  color: #1a2230;
+  font-weight: 500;
+  padding: 5px 18px;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 1px 2px #0002;
+  transition: background 0.2s, border 0.2s;
+}
+.gov-user-editor-footer button:hover {
+  background: #dbe2ea;
+  border-color: #1a2230;
+}
+.gov-user-editor-meta {
+  margin-top: 10px;
+  font-size: 0.93em;
+  color: #4b5a6b;
+  text-align: right;
+}

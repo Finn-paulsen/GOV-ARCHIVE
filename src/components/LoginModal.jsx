@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { getUsers } from '../utils/userStore'
+import { getUsers, updateUser } from '../utils/userStore'
+import { writeAuditLog } from "../utils/auditLog";
+import ForcePasswordChangeModal from './ForcePasswordChangeModal';
 import './terminal.css'
 import seal from '../assets/seal.svg'
 import { v4 as uuidv4 } from 'uuid'
@@ -58,6 +60,7 @@ export default function LoginModal({ onSuccess }) {
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
   const [failCount, setFailCount] = useState(0)
+  const [forcePwUser, setForcePwUser] = useState(null);
   const [lockdown, setLockdown] = useState(false)
   const [alertMsg, setAlertMsg] = useState('')
   const userRef = useRef(null)
@@ -85,64 +88,139 @@ export default function LoginModal({ onSuccess }) {
     return new Promise(r => setTimeout(r, ms))
   }
 
-  async function writeAudit(entry){
-    try{
-      const key = 'audit_log_v1'
-      const cur = (await localforage.getItem(key)) || []
-      cur.push(entry)
-      await localforage.setItem(key, cur)
-    }catch(e){ console.error('audit log failed', e) }
+
+  // Audit-Log-Eintrag zusätzlich in localStorage für UserManager-Tab
+  function writeAudit(entry) {
+    try {
+      writeAuditLog({
+        action: entry.action,
+        user: entry.user,
+        targetUser: entry.targetUser,
+        info: entry.info
+      });
+    } catch (e) { console.error('audit log failed', e); }
+  }
+
+  async function fetchIp() {
+    try {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      return data.ip;
+    } catch {
+      return '-';
+    }
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    if (busy) return
-    setBusy(true)
-    setMessage('Verbindung herstellen...')
-    await simulateDelay(700 + Math.random() * 500)
-    setMessage('Authentifizierung läuft')
-    // dot animation
-    for (let i = 0; i < 3; i++){
-      await simulateDelay(450)
-      setMessage(prev => prev + '.')
-      beep.current && beep.current(500, 60)
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setMessage('Verbindung herstellen...');
+    await simulateDelay(700 + Math.random() * 500);
+    setMessage('Authentifizierung läuft');
+    for (let i = 0; i < 3; i++) {
+      await simulateDelay(450);
+      setMessage(prev => prev + '.');
+      beep.current && beep.current(500, 60);
     }
-
-    // final check
-    await simulateDelay(700)
-    const ts = new Date().toISOString()
-    // Prüfe gegen User-Liste (username oder name, und Passwort)
+    await simulateDelay(700);
+    const ts = new Date().toISOString();
+    const ip = await fetchIp();
     const users = getUsers();
     const found = users.find(u =>
       (u.username?.toLowerCase() === user.toLowerCase() || u.name?.toLowerCase() === user.toLowerCase())
-      && u.password === pass
     );
-    if ((user === VALID_USER && pass === VALID_PASS) || found) {
-      setMessage('Zugriff gewährt. Initialisiere System...')
-      beep.current && beep.current(1000, 140)
-      writeAudit({ts, user, action: 'login', result: 'success', info: navigator.userAgent})
-      await simulateDelay(900)
-      onSuccess && onSuccess()
-      setFailCount(0)
+    // Account gesperrt?
+    if (found && found.accountLocked) {
+      setMessage('Account gesperrt. Bitte wenden Sie sich an den Administrator.');
+      setBusy(false);
+      return;
+    }
+    // Passwort prüfen
+    const pwOk = found && found.password === pass;
+    if ((user === VALID_USER && pass === VALID_PASS)) {
+      setMessage('Zugriff gewährt. Initialisiere System...');
+      beep.current && beep.current(1000, 140);
+      writeAudit({ ts, user, action: 'login', result: 'success', info: navigator.userAgent, ip });
+      await simulateDelay(900);
+      onSuccess && onSuccess();
+      setFailCount(0);
+    } else if (found && pwOk) {
+      if (found.mustChangePassword) {
+        setForcePwUser(found);
+        setBusy(false);
+        setMessage('');
+        setPass('');
+        return;
+      }
+      // Anmeldeversuche und letztes Login speichern
+      const updated = {
+        ...found,
+        loginAttempts: 0,
+        lastLogin: ts,
+        lastLoginIp: ip
+      };
+      updateUser(updated);
+      setMessage('Zugriff gewährt. Initialisiere System...');
+      beep.current && beep.current(1000, 140);
+      writeAudit({ ts, user, action: 'login', result: 'success', info: navigator.userAgent, ip });
+      await simulateDelay(900);
+      onSuccess && onSuccess();
+      setFailCount(0);
+    } else if (found) {
+      // Fehlversuch zählen, ggf. sperren
+      const fails = (found.loginAttempts || 0) + 1;
+      const locked = fails >= 5;
+      const updated = {
+        ...found,
+        loginAttempts: fails,
+        accountLocked: locked
+      };
+      updateUser(updated);
+      setFailCount(fails);
+      setMessage(locked ? 'Account gesperrt nach zu vielen Fehlversuchen.' : 'Authentifizierung fehlgeschlagen. Bitte erneut.');
+      beep.current && beep.current(240, 120);
+      writeAudit({ ts, user: user || '(leer)', action: locked ? 'lock-account' : 'login', result: 'failure', info: navigator.userAgent, ip });
+      setBusy(false);
+      await simulateDelay(400);
+      setPass('');
+      userRef.current && userRef.current.focus();
+      if (fails >= 3 && !locked) {
+        setLockdown(true);
+        setAlertMsg('ALARM: Mehrfache unbefugte Zugriffsversuche erkannt! Der Vorfall wurde an die Sicherheitszentrale übermittelt. Die Vernichtung von Datenträgern ist strengstens untersagt. Alle Aktivitäten werden forensisch gesichert.');
+        beep.current && beep.current(120, 600);
+        toast.error('Sicherheitsalarm: Unbefugter Zugriff gemeldet!', { position: 'top-center', autoClose: 8000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: false });
+      }
     } else {
-      const newFail = failCount + 1
-      setFailCount(newFail)
-  setMessage('Authentifizierung fehlgeschlagen. Bitte erneut.')
-      beep.current && beep.current(240, 120)
-      writeAudit({ts, user: user || '(leer)', action: 'login', result: 'failure', info: navigator.userAgent})
-      setBusy(false)
-      await simulateDelay(400)
-      setPass('')
-      userRef.current && userRef.current.focus()
+      const newFail = failCount + 1;
+      setFailCount(newFail);
+      setMessage('Authentifizierung fehlgeschlagen. Bitte erneut.');
+      beep.current && beep.current(240, 120);
+      writeAudit({ ts, user: user || '(leer)', action: 'login', result: 'failure', info: navigator.userAgent, ip });
+      setBusy(false);
+      await simulateDelay(400);
+      setPass('');
+      userRef.current && userRef.current.focus();
       if (newFail >= 3) {
-        setLockdown(true)
-        setAlertMsg('ALARM: Mehrfache unbefugte Zugriffsversuche erkannt! Der Vorfall wurde an die Sicherheitszentrale übermittelt. Die Vernichtung von Datenträgern ist strengstens untersagt. Alle Aktivitäten werden forensisch gesichert.')
-        beep.current && beep.current(120, 600)
-        toast.error('Sicherheitsalarm: Unbefugter Zugriff gemeldet!', { position: 'top-center', autoClose: 8000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: false })
+        setLockdown(true);
+        setAlertMsg('ALARM: Mehrfache unbefugte Zugriffsversuche erkannt! Der Vorfall wurde an die Sicherheitszentrale übermittelt. Die Vernichtung von Datenträgern ist strengstens untersagt. Alle Aktivitäten werden forensisch gesichert.');
+        beep.current && beep.current(120, 600);
+        toast.error('Sicherheitsalarm: Unbefugter Zugriff gemeldet!', { position: 'top-center', autoClose: 8000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: false });
       }
     }
   }
 
+  if (forcePwUser) {
+    return <ForcePasswordChangeModal user={forcePwUser} onChangePassword={async (newPass) => {
+      // Update User
+      const updated = { ...forcePwUser, password: newPass, mustChangePassword: false };
+      updateUser(updated);
+      setForcePwUser(null);
+      setUser(updated.username);
+      setPass("");
+      setMessage("Passwort erfolgreich geändert. Bitte erneut anmelden.");
+    }} />;
+  }
   return (
     <div className="login-overlay" role="dialog" aria-modal="true">
       <div className="terminal-login-box">
