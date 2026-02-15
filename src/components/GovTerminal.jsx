@@ -96,7 +96,75 @@ export default function GovTerminal({ onDeepAccess }) {
   // Backdoor-Status
   const [eternalblueInstalled, setEternalblueInstalled] = useState(false);
   const [eternalblueCode, setEternalblueCode] = useState(null);
+  const [awaitingAptConfirm, setAwaitingAptConfirm] = useState(false);
+  // Speichert, ob apt-Installation läuft
+  const aptInstallState = useRef({ running: false });
+
   function handleCommand(cmd) {
+    // Bestätigung für apt install eternalblue
+    if (awaitingAptConfirm) {
+      setAwaitingAptConfirm(false);
+      if (cmd.toLowerCase() === "j" || cmd.toLowerCase() === "y") {
+        aptInstallState.current.running = true;
+        setLines(l => [...l, "Holen:1 http://repo.bwarchiv.mil/internal stable/main amd64 eternalblue 0.9.2-legacy [1.024 kB]"]);
+        setTimeout(() => {
+          setLines(l => [...l, "Installiere zusätzliches Paket: progress (für Fortschrittsanzeige)..."]);
+          setTimeout(() => {
+            // Ladebalken
+            const barLength = 24;
+            let progress = 0;
+            let barLine = "";
+            function animateBar(i) {
+              if (i <= barLength) {
+                progress = i;
+                barLine = `[${"▓".repeat(progress)}${"░".repeat(barLength - progress)}] ${(progress / barLength * 100).toFixed(0)}%`;
+                setLines(l => {
+                  let l2 = l.filter(line => !line.startsWith("["));
+                  return [...l2, barLine];
+                });
+                setTimeout(() => animateBar(i + 1), 80 + Math.random() * 60);
+              } else {
+                setTimeout(() => {
+                  setLines(l => {
+                    let l2 = l.filter(line => !line.startsWith("["));
+                    return [...l2, "Vormals nicht ausgewähltes Paket eternalblue wird gewählt."];
+                  });
+                  setTimeout(() => {
+                    setLines(l => [...l, "(Lese Datenbank ... 123456 Dateien und Verzeichnisse sind derzeit installiert.)"]);
+                    setTimeout(() => {
+                      setLines(l => [...l, "Vorbereitung zum Entpacken von .../eternalblue_0.9.2-legacy_amd64.deb ..."]);
+                      setTimeout(() => {
+                        setLines(l => [...l, "Entpacken von eternalblue (0.9.2-legacy) ..."]);
+                        setTimeout(() => {
+                          setLines(l => [...l, "eternalblue (0.9.2-legacy) wird eingerichtet ..."]);
+                          setTimeout(() => {
+                            setLines(l => [...l, "Trigger für man-db (2.8.3-2ubuntu0.1) werden verarbeitet ..."]);
+                            setTimeout(() => {
+                              setLines(l => [...l, "eternalblue (0.9.2-legacy) wurde installiert."]);
+                              setEternalblueInstalled(true);
+                              setError("");
+                              aptInstallState.current.running = false;
+                            }, 600);
+                          }, 600);
+                        }, 600);
+                      }, 600);
+                    }, 600);
+                  }, 600);
+                }, 600);
+              }
+            }
+            animateBar(0);
+          }, 900);
+        }, 900);
+      } else if (cmd.toLowerCase() === "n") {
+        setLines(l => [...l, "Abbruch durch Benutzer."]);
+        setError("");
+      } else {
+        setLines(l => [...l, "Ungültige Eingabe. Möchten Sie fortfahren? [J/n]"]);
+        setAwaitingAptConfirm(true);
+      }
+      return;
+    }
     if (cmd === "securelogin") {
       setLines(l => [
         PROMPT + " securelogin",
@@ -123,43 +191,20 @@ export default function GovTerminal({ onDeepAccess }) {
         setError("");
         return;
       }
-      // Animierte apt-Installation
-      const steps = [
-        "Lese Paketlisten... ",
-        "Baue Abhängigkeitsbaum auf... ",
-        "Lese Statusinformationen... ",
-        "Vorbereitung zum Entpacken von eternalblue (v0.9.2-legacy) ...",
-        "Entpacke eternalblue (v0.9.2-legacy) ...",
-        "Richte eternalblue (v0.9.2-legacy) ein ...",
-        "eternalblue (v0.9.2-legacy) wurde installiert.",
-      ];
-      const barLength = 24;
-      let progress = 0;
-      setLines(l => [...l, PROMPT + " " + cmd]);
-      function animateStep(i) {
-        if (i < steps.length - 1) {
+      setLines(l => [...l, PROMPT + " " + cmd, "Paketlisten werden gelesen... Fertig"]);
+      setTimeout(() => {
+        setLines(l => [...l, "Abhängigkeitsbaum wird aufgebaut... Fertig"]);
+        setTimeout(() => {
+          setLines(l => [...l, "Statusinformationen werden eingelesen... Fertig"]);
           setTimeout(() => {
-            progress = Math.min(barLength, Math.floor(((i + 1) / (steps.length - 1)) * barLength));
-            const bar = `[${"#".repeat(progress)}${" ".repeat(barLength - progress)}] ${(progress / barLength * 100).toFixed(0)}%`;
-            setLines(l => {
-              // Entferne alten Balken, falls vorhanden
-              let l2 = l.filter(line => !line.startsWith("["));
-              return [...l2, steps[i], bar];
-            });
-            animateStep(i + 1);
-          }, 400 + Math.random() * 300);
-        } else {
-          setTimeout(() => {
-            setLines(l => {
-              let l2 = l.filter(line => !line.startsWith("["));
-              return [...l2, steps[i]];
-            });
-            setEternalblueInstalled(true);
-            setError("");
-          }, 600);
-        }
-      }
-      animateStep(0);
+            setLines(l => [...l, "\x1b[33mWARNUNG:\x1b[0m Das Paket 'eternalblue' stammt aus einer nicht vertrauenswürdigen Quelle."]);
+            setTimeout(() => {
+              setLines(l => [...l, "Die folgenden Pakete werden installiert:", "  eternalblue", "Möchten Sie fortfahren? [J/n]"]);
+              setAwaitingAptConfirm(true);
+            }, 900);
+          }, 900);
+        }, 900);
+      }, 900);
       return;
     }
     if (cmd === "eternalblue unlock") {

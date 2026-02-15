@@ -8,6 +8,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LanIcon from '@mui/icons-material/Lan';
+import HiveMindIcon from './HiveMindIcon';
+import HiveMindMap from './HiveMindMap';
+
 
 const DEEP_PROGRAMS = [
   { name: "Systemkonsole (BA-III Shell)", icon: <TerminalIcon fontSize="large" /> },
@@ -17,6 +20,7 @@ const DEEP_PROGRAMS = [
   { name: "Beratungsmodul (Dialogsystem)", icon: <SupportAgentIcon fontSize="large" /> },
   { name: "Systemmonitor", icon: <AssessmentIcon fontSize="large" /> },
   { name: "Schnittstellenverwaltung", icon: <LanIcon fontSize="large" /> },
+  { name: "Hive Mind", icon: <HiveMindIcon style={{ width: 40, height: 40 }} /> },
 ];
 
 export default function DeepDesktop({ onLogout }) {
@@ -24,6 +28,7 @@ export default function DeepDesktop({ onLogout }) {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
+  const [showHiveMind, setShowHiveMind] = useState(false);
 
   function handleLogin(e) {
     e.preventDefault();
@@ -65,6 +70,7 @@ export default function DeepDesktop({ onLogout }) {
               placeholder="Zugangscode"
               value={pass}
               onChange={e => setPass(e.target.value)}
+              autoComplete="current-password"
             />
             <button type="submit">Anmelden</button>
             {error && <div className="deep-login-error">{error}</div>}
@@ -75,15 +81,37 @@ export default function DeepDesktop({ onLogout }) {
 
   return (
     <div className="deep-desktop-bg">
-      <div className="deep-desktop-header">STRIKT GEHEIME SCHICHT - Bundesarchiv</div>
+      <div className="deep-desktop-header">Zentral Computer</div>
       <div className="deep-desktop-icons">
         {DEEP_PROGRAMS.map(p => (
-          <div className="deep-desktop-icon" key={p.name}>
-            <span className="deep-icon-symbol" style={{ color: '#00ff00' }}>{p.icon}</span>
+          <div
+            className="deep-desktop-icon"
+            key={p.name}
+            onClick={() => {
+              if (p.name === "Hive Mind") setShowHiveMind(true);
+            }}
+          >
+            <span className="deep-icon-symbol">{p.icon}</span>
             <span className="deep-icon-label">{p.name}</span>
           </div>
         ))}
       </div>
+      {showHiveMind && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(20,45,20,0.92)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <HiveMindMap onClose={() => setShowHiveMind(false)} />
+        </div>
+      )}
       <div className="deep-taskbar">
         <button className="deep-taskbar-logout" onClick={onLogout}>Logout</button>
         <span className="deep-taskbar-label">Clearance: STRENG GEHEIM</span>
