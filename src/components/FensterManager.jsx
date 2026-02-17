@@ -1,14 +1,15 @@
-// React und Hooks nur einmal importieren!
 import { motion, AnimatePresence } from 'framer-motion';
 // Zustand-Store entfernt
 import SurveillanceCenter from './SurveillanceCenter';
 import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
-import GovTerminal from './GovTerminal.jsx';
+import GovTerminal, { setDatabaseBrowserOpener, setExploitLabOpener } from './GovTerminal.jsx';
 import MailClient from './MailClient';
 import UserManager from './UserManager';
 import HiveMindWindow from './HiveMindWindow';
+import DatabaseBrowser from './DatabaseBrowser';
+import ExploitLab from './ExploitLab';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 // terminalIcon removed
@@ -76,6 +77,24 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
 
   // Refs für spezielle Fenster
   const userManagerRef = useRef();
+  
+  // Set up database browser and exploit lab openers
+  useEffect(() => {
+    setDatabaseBrowserOpener(() => {
+      openWindow({ 
+        title: 'Datenbank-Browser - POLIZEI-DB-NRW', 
+        type: 'database',
+        content: <DatabaseBrowser />
+      });
+    });
+    setExploitLabOpener(() => {
+      openWindow({ 
+        title: 'Exploit-Entwicklungslabor', 
+        type: 'exploitlab',
+        content: <ExploitLab />
+      });
+    });
+  }, []);
 
   function getWindowContent(w) {
     if (w.type === 'explorer') return <FileExplorer />;
@@ -85,6 +104,8 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
     if (w.type === 'mail') return <MailClient />;
     if (w.type === 'users') return <UserManager onRequestClose={{ ref: userManagerRef }} />;
     if (w.type === 'hivemind') return <HiveMindWindow />;
+    if (w.type === 'database') return <DatabaseBrowser />;
+    if (w.type === 'exploitlab') return <ExploitLab />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
