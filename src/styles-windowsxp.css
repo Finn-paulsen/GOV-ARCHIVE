@@ -1,0 +1,543 @@
+/* ========================================
+   WINDOWS XP / CLASSIC GOVERNMENT THEME
+   ======================================== */
+
+:root {
+  /* Windows XP Color Palette */
+  --xp-blue: #0054E3;
+  --xp-blue-light: #3A6EA5;
+  --xp-blue-dark: #003399;
+  --xp-title-gradient-start: #0054E3;
+  --xp-title-gradient-end: #3A6EA5;
+  
+  --xp-grey: #ECE9D8;
+  --xp-grey-dark: #D4D0C8;
+  --xp-grey-light: #FFFFFF;
+  --xp-border: #003C74;
+  --xp-border-light: #7A96DF;
+  
+  --xp-green: #00AA00;
+  --xp-text: #000000;
+  --xp-text-light: #555555;
+  
+  /* Classic shadow values */
+  --shadow-sm: 1px 1px 0 rgba(0,0,0,0.1);
+  --shadow-md: 2px 2px 3px rgba(0,0,0,0.3);
+  --shadow-lg: 4px 4px 6px rgba(0,0,0,0.4);
+  
+  /* Button 3D effect */
+  --btn-highlight: #FFFFFF;
+  --btn-shadow-dark: #808080;
+  --btn-shadow-light: #D4D0C8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(180deg, #5A7DBC 0%, #3A6EA5 100%);
+  font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  color: var(--xp-text);
+  overflow: hidden;
+}
+
+/* ========================================
+   WINDOWS XP WINDOW CHROME
+   ======================================== */
+
+.xp-window {
+  background: var(--xp-grey);
+  border: 1px solid var(--xp-border);
+  box-shadow: var(--shadow-lg);
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.xp-window-title {
+  background: linear-gradient(180deg, var(--xp-title-gradient-start) 0%, var(--xp-title-gradient-end) 100%);
+  padding: 3px 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  cursor: move;
+  border-bottom: 1px solid var(--xp-border);
+}
+
+.xp-window-title.inactive {
+  background: linear-gradient(180deg, #7A96DF 0%, #5A7DBC 100%);
+}
+
+.xp-window-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.xp-window-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.xp-window-button {
+  width: 21px;
+  height: 21px;
+  border: 1px solid rgba(255,255,255,0.5);
+  background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  transition: all 0.1s;
+}
+
+.xp-window-button:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 100%);
+}
+
+.xp-window-button:active {
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 100%);
+  transform: translateY(1px);
+}
+
+.xp-window-button.close:hover {
+  background: linear-gradient(180deg, #E81123 0%, #C50F1F 100%);
+  border-color: #A50F1F;
+}
+
+.xp-window-content {
+  background: var(--xp-grey);
+  padding: 0;
+  overflow: auto;
+}
+
+/* ========================================
+   WINDOWS XP BUTTONS
+   ======================================== */
+
+.xp-button {
+  background: linear-gradient(180deg, #FFFFFF 0%, #ECE9D8 100%);
+  border: 1px solid #003C74;
+  border-radius: 3px;
+  padding: 4px 12px;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--xp-text);
+  cursor: pointer;
+  box-shadow: inset -1px -1px 0 var(--btn-shadow-dark),
+              inset 1px 1px 0 var(--btn-highlight);
+  transition: all 0.1s;
+}
+
+.xp-button:hover {
+  background: linear-gradient(180deg, #FFFBF0 0%, #F0ECE0 100%);
+  border-color: #0054E3;
+}
+
+.xp-button:active {
+  background: linear-gradient(180deg, #D4D0C8 0%, #ECE9D8 100%);
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+  transform: translateY(1px);
+}
+
+.xp-button.primary {
+  background: linear-gradient(180deg, #3A6EA5 0%, #0054E3 100%);
+  color: white;
+  border-color: #003C74;
+  font-weight: bold;
+}
+
+.xp-button.primary:hover {
+  background: linear-gradient(180deg, #4A7EB5 0%, #1064F3 100%);
+}
+
+/* ========================================
+   WINDOWS XP TASKBAR
+   ======================================== */
+
+.xp-taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(180deg, #3A6EA5 0%, #1F4E7A 100%);
+  border-top: 1px solid #0054E3;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  z-index: 10000;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.3);
+}
+
+.xp-start-button {
+  height: 26px;
+  background: linear-gradient(180deg, #4A7EB5 0%, #2A5E95 100%);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px 10px 10px 4px;
+  padding: 0 12px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),
+              0 2px 3px rgba(0,0,0,0.2);
+  transition: all 0.15s;
+}
+
+.xp-start-button:hover {
+  background: linear-gradient(180deg, #5A8EC5 0%, #3A6EA5 100%);
+}
+
+.xp-start-button:active {
+  background: linear-gradient(180deg, #2A5E95 0%, #1A4E85 100%);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.xp-start-icon {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #4A7EB5 0%, #2A5E95 50%, #4A7EB5 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.xp-taskbar-divider {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.2) 100%);
+  margin: 0 4px;
+}
+
+.xp-taskbar-windows {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.xp-taskbar-window {
+  height: 24px;
+  min-width: 140px;
+  max-width: 180px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 3px;
+  padding: 0 8px;
+  color: white;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.15s;
+}
+
+.xp-taskbar-window:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%);
+}
+
+.xp-taskbar-window.active {
+  background: linear-gradient(180deg, #5A8EC5 0%, #4A7EB5 100%);
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.xp-system-tray {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  height: 100%;
+  border-left: 1px solid rgba(255,255,255,0.2);
+  margin-left: 4px;
+}
+
+.xp-system-icon {
+  width: 16px;
+  height: 16px;
+  color: white;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.xp-system-icon:hover {
+  opacity: 1;
+}
+
+.xp-clock {
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 2px;
+  background: rgba(0,0,0,0.1);
+}
+
+/* ========================================
+   WINDOWS XP INPUTS
+   ======================================== */
+
+.xp-input {
+  background: white;
+  border: 1px solid #7F9DB9;
+  padding: 3px 4px;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--xp-text);
+  box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+.xp-input:focus {
+  outline: 1px solid var(--xp-blue);
+  border-color: var(--xp-blue);
+}
+
+.xp-textarea {
+  background: white;
+  border: 1px solid #7F9DB9;
+  padding: 4px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: var(--xp-text);
+  resize: vertical;
+  box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+.xp-textarea:focus {
+  outline: 1px solid var(--xp-blue);
+  border-color: var(--xp-blue);
+}
+
+/* ========================================
+   PROGRESS BAR (Windows XP style)
+   ======================================== */
+
+.xp-progress {
+  height: 23px;
+  background: white;
+  border: 1px solid #7F9DB9;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.xp-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    #4AB97A 0%, 
+    #6BCE97 50%, 
+    #4AB97A 100%);
+  background-size: 200% 100%;
+  animation: xp-progress-slide 2s linear infinite;
+  position: relative;
+  transition: width 0.3s ease-out;
+}
+
+@keyframes xp-progress-slide {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.xp-progress-chunks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 8px,
+    rgba(255,255,255,0.3) 8px,
+    rgba(255,255,255,0.3) 10px
+  );
+}
+
+/* ========================================
+   MENU STYLES
+   ======================================== */
+
+.xp-menu {
+  background: var(--xp-grey);
+  border: 1px solid var(--xp-border);
+  box-shadow: var(--shadow-md);
+  padding: 2px;
+  min-width: 180px;
+}
+
+.xp-menu-item {
+  padding: 4px 24px 4px 8px;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xp-menu-item:hover {
+  background: linear-gradient(90deg, #0054E3 0%, #3A6EA5 100%);
+  color: white;
+}
+
+.xp-menu-separator {
+  height: 1px;
+  background: var(--xp-grey-dark);
+  margin: 2px 4px;
+}
+
+/* ========================================
+   SCROLLBAR (Windows XP style)
+   ======================================== */
+
+.xp-scrollbar::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.xp-scrollbar::-webkit-scrollbar-track {
+  background: var(--xp-grey-dark);
+  border-left: 1px solid #808080;
+}
+
+.xp-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #D4D0C8 0%, #FFFFFF 50%, #D4D0C8 100%);
+  border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+.xp-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #C4C0B8 0%, #F0F0F0 50%, #C4C0B8 100%);
+}
+
+.xp-scrollbar::-webkit-scrollbar-button {
+  background: linear-gradient(180deg, #ECE9D8 0%, #D4D0C8 100%);
+  border: 1px solid #808080;
+  height: 16px;
+}
+
+/* ========================================
+   PANEL / GROUP BOX
+   ======================================== */
+
+.xp-panel {
+  background: var(--xp-grey);
+  border: 2px groove #D4D0C8;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+.xp-groupbox {
+  border: 1px solid #7F9DB9;
+  padding: 12px;
+  margin: 8px 0;
+  position: relative;
+}
+
+.xp-groupbox-title {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  background: var(--xp-grey);
+  padding: 0 4px;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes xp-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.xp-fade-in {
+  animation: xp-fade-in 0.2s ease-out;
+}
+
+@keyframes xp-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.xp-slide-up {
+  animation: xp-slide-up 0.3s ease-out;
+}
+
+/* ========================================
+   DESKTOP ICONS
+   ======================================== */
+
+.xp-desktop-icon {
+  width: 75px;
+  text-align: center;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.1s;
+  user-select: none;
+}
+
+.xp-desktop-icon:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.xp-desktop-icon.selected {
+  background: rgba(255,255,255,0.3);
+  border: 1px dotted white;
+}
+
+.xp-desktop-icon-image {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 4px;
+}
+
+.xp-desktop-icon-label {
+  color: white;
+  font-size: 11px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  line-height: 1.2;
+  word-wrap: break-word;
+}
