@@ -1,0 +1,463 @@
+/* Professional Government Control Panel Styling */
+
+:root {
+  /* Professional Government color palette */
+  --terminal-bg: #FFFFFF;
+  --terminal-panel-bg: #F0F0F0;
+  --terminal-text: #000000;
+  --terminal-label: #666666;
+  --terminal-border: #CCCCCC;
+  --terminal-accent: #003366;
+  
+  /* Status colors */
+  --status-green: #006600;
+  --status-amber: #CC6600;
+  --status-red: #CC0000;
+  --status-blue: #0066CC;
+  --status-white: #ffffff;
+  
+  /* Warning/Danger colors */
+  --warning-color: #CC6600;
+  --danger-color: #CC0000;
+  --info-color: #0066CC;
+  --success-color: #006600;
+  
+  /* Government UI colors */
+  --gov-blue-dark: #003366;
+  --gov-blue: #0066CC;
+  --gov-gray: #666666;
+  --gov-light-gray: #F0F0F0;
+  --panel-border: #808080;
+}
+
+.terminal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-modal-content {
+  position: relative;
+  width: 90vw;
+  max-width: 1400px;
+  height: 85vh;
+  background: var(--terminal-bg);
+  border: 3px solid var(--panel-border);
+  border-radius: 0;
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.3),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Professional Window Panel */
+.terminal-screen {
+  position: relative;
+  flex: 1;
+  background: var(--terminal-bg);
+  overflow: hidden;
+  font-family: Arial, Tahoma, sans-serif;
+  color: var(--terminal-text);
+}
+
+/* Remove scan lines and effects - clean professional look */
+.terminal-screen::before {
+  display: none;
+}
+
+.terminal-screen::after {
+  display: none;
+}
+/* Professional screen inner */
+.terminal-screen-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  z-index: 2;
+  background: var(--terminal-bg);
+}
+
+/* Terminal Header - Windows Dialog Style */
+.terminal-header {
+  background: linear-gradient(180deg, var(--gov-blue-dark) 0%, #004080 100%);
+  border-bottom: 1px solid var(--panel-border);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.terminal-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0;
+  text-transform: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.terminal-status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 0;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  border: 1px solid;
+  box-shadow: none;
+  background: white;
+}
+
+.terminal-status-active {
+  background: white;
+  color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.terminal-status-critical {
+  background: var(--danger-color);
+  color: white;
+  border-color: #990000;
+  animation: none;
+}
+
+.terminal-status-offline {
+  background: #999999;
+  color: white;
+  border-color: #666666;
+}
+
+.terminal-timestamp {
+  font-size: 11px;
+  color: white;
+  font-family: Tahoma, Arial, sans-serif;
+  letter-spacing: 0;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 8px;
+  border-radius: 0;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* Terminal Tabs - Windows Tab Style */
+.terminal-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--gov-light-gray);
+  border-bottom: 1px solid var(--terminal-border);
+  padding: 4px 8px 0 8px;
+  overflow-x: auto;
+}
+
+.terminal-tab {
+  background: var(--gov-light-gray);
+  border: 1px solid var(--terminal-border);
+  border-bottom: none;
+  color: var(--terminal-text);
+  padding: 6px 16px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: all 0.1s;
+  border-radius: 0;
+  white-space: nowrap;
+  position: relative;
+  font-family: Arial, Tahoma, sans-serif;
+  box-shadow: none;
+}
+
+.terminal-tab::before {
+  display: none;
+}
+
+.terminal-tab:hover {
+  background: white;
+  color: var(--terminal-text);
+}
+
+.terminal-tab.active {
+  background: white;
+  color: var(--terminal-text);
+  border: 1px solid var(--terminal-border);
+  border-bottom: 1px solid white;
+  margin-bottom: -1px;
+  z-index: 1;
+  box-shadow: none;
+  font-weight: bold;
+}
+
+/* Terminal Footer - Windows Status Bar Style */
+.terminal-footer {
+  background: var(--gov-light-gray);
+  border-top: 1px solid var(--terminal-border);
+  padding: 4px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--terminal-text);
+  min-height: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.terminal-system-info {
+  display: flex;
+  gap: 16px;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.terminal-system-info span {
+  opacity: 1;
+  font-weight: normal;
+  color: var(--terminal-label);
+}
+
+/* Terminal Grid Layout - More Compact for More Controls */
+.terminal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.terminal-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.terminal-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.terminal-grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.terminal-grid-5col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Professional Control Panel */
+.terminal-panel {
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: 0;
+  padding: 12px;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.terminal-panel::before {
+  display: none;
+}
+
+.terminal-panel-header {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--terminal-text);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  background: var(--gov-light-gray);
+  border: 1px solid var(--terminal-border);
+  font-family: Arial, Tahoma, sans-serif;
+  border-left: 3px solid var(--gov-blue);
+}
+
+/* Close Button - Windows Style */
+.terminal-close-btn {
+  background: var(--gov-light-gray);
+  border: 1px solid var(--terminal-border);
+  color: var(--terminal-text);
+  padding: 4px 16px;
+  font-size: 11px;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.1s;
+  font-family: Arial, Tahoma, sans-serif;
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.terminal-close-btn:hover {
+  background: white;
+  border: 1px solid var(--gov-blue);
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8), inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.terminal-close-btn:active {
+  background: var(--gov-light-gray);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+  transform: none;
+}
+
+/* Power-on Animation */
+@keyframes power-on {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.01) scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(0.02) scaleX(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1);
+  }
+}
+
+.terminal-power-on {
+  animation: power-on 0.5s ease-out;
+}
+
+/* Power-off Animation */
+@keyframes power-off {
+  0% {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(0.02) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0) scaleX(1);
+  }
+}
+
+.terminal-power-off {
+  animation: power-off 0.3s ease-in;
+}
+
+/* Remove flicker animation */
+.terminal-screen-inner {
+  animation: none;
+}
+
+/* Remove pulse animations */
+@keyframes pulse-danger {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Scrollbar styling - Windows style */
+.terminal-screen-inner::-webkit-scrollbar {
+  width: 16px;
+}
+
+.terminal-screen-inner::-webkit-scrollbar-track {
+  background: var(--gov-light-gray);
+  border-left: 1px solid var(--terminal-border);
+}
+
+.terminal-screen-inner::-webkit-scrollbar-thumb {
+  background: var(--terminal-border);
+  border: 1px solid var(--panel-border);
+  border-radius: 0;
+}
+
+.terminal-screen-inner::-webkit-scrollbar-thumb:hover {
+  background: var(--gov-gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .terminal-modal-content {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  
+  .terminal-grid,
+  .terminal-grid-2col,
+  .terminal-grid-3col {
+    grid-template-columns: 1fr;
+  }
+  
+  .terminal-tabs {
+    flex-wrap: wrap;
+  }
+}
+
+/* Pulse animation for changing values */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Value change indicator animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.value-changing {
+  animation: pulse 1s infinite;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}

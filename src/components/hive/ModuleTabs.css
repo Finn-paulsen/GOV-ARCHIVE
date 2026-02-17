@@ -1,0 +1,25 @@
+.module-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.module-tabs button {
+  background: #f4f6fa;
+  border: 1px solid #b0b7c3;
+  color: #2a4a7b;
+  font-size: 1rem;
+  padding: 8px 18px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s, color 0.2s;
+}
+.module-tabs button.active {
+  background: #e6e9ef;
+  color: #222;
+  border-bottom: 2px solid #2a4a7b;
+  font-weight: bold;
+}
+.module-tabs button:hover {
+  background: #e6e9ef;
+}

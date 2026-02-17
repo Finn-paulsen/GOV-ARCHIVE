@@ -2,6 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import "./govTerminal.css";
 import DeepDesktop from "./DeepDesktop";
 
+// Callback for opening database browser window
+let openDatabaseBrowserCallback = null;
+export function setDatabaseBrowserOpener(callback) {
+  openDatabaseBrowserCallback = callback;
+}
+
+// Callback for opening exploit lab window
+let openExploitLabCallback = null;
+export function setExploitLabOpener(callback) {
+  openExploitLabCallback = callback;
+}
+
 const PROMPT = "GOV-USER@ARCHIVE:~$";
 const SYSTEM_BANNER = [
   "************************************************************",
@@ -20,6 +32,8 @@ const COMMANDS = {
     "whoami      - Zeigt aktuellen Nutzer",
     "ls, dir     - Listet Akten/Dateien auf",
     "cat <file>  - Zeigt Akteninhalt an",
+    "dbconnect   - Verbindung zur Datenbank (experimentell)",
+    "exploitlab  - Öffnet Exploit-Entwicklungsumgebung",
     // absichtlich keine Erwähnung von eternalblue
   ],
   whoami: [
@@ -106,56 +120,82 @@ export default function GovTerminal({ onDeepAccess }) {
       setAwaitingAptConfirm(false);
       if (cmd.toLowerCase() === "j" || cmd.toLowerCase() === "y") {
         aptInstallState.current.running = true;
-        setLines(l => [...l, "Holen:1 http://repo.bwarchiv.mil/internal stable/main amd64 eternalblue 0.9.2-legacy [1.024 kB]"]);
+        setLines(l => [...l, "Hole:1 http://repo.bwarchiv.mil/internal stable/main amd64 eternalblue 0.9.2-legacy [1.024 kB]"]);
         setTimeout(() => {
-          setLines(l => [...l, "Installiere zusätzliches Paket: progress (für Fortschrittsanzeige)..."]);
+          setLines(l => [...l, "Hole:2 http://repo.bwarchiv.mil/internal stable/main amd64 libexploit-common 2.1.4 [245 kB]"]);
           setTimeout(() => {
-            // Ladebalken
-            const barLength = 24;
-            let progress = 0;
-            let barLine = "";
-            function animateBar(i) {
-              if (i <= barLength) {
-                progress = i;
-                barLine = `[${"▓".repeat(progress)}${"░".repeat(barLength - progress)}] ${(progress / barLength * 100).toFixed(0)}%`;
-                setLines(l => {
-                  let l2 = l.filter(line => !line.startsWith("["));
-                  return [...l2, barLine];
-                });
-                setTimeout(() => animateBar(i + 1), 80 + Math.random() * 60);
-              } else {
+            setLines(l => [...l, "Hole:3 http://repo.bwarchiv.mil/internal stable/main amd64 python3-payloads 1.0.8 [512 kB]"]);
+            setTimeout(() => {
+              setLines(l => [...l, "Es wurden 1.781 kB in 2s heruntergeladen (890 kB/s)"]);
+              setTimeout(() => {
+                setLines(l => [...l, "Installiere zusätzliches Paket: progress (für Fortschrittsanzeige)..."]);
                 setTimeout(() => {
-                  setLines(l => {
-                    let l2 = l.filter(line => !line.startsWith("["));
-                    return [...l2, "Vormals nicht ausgewähltes Paket eternalblue wird gewählt."];
-                  });
-                  setTimeout(() => {
-                    setLines(l => [...l, "(Lese Datenbank ... 123456 Dateien und Verzeichnisse sind derzeit installiert.)"]);
-                    setTimeout(() => {
-                      setLines(l => [...l, "Vorbereitung zum Entpacken von .../eternalblue_0.9.2-legacy_amd64.deb ..."]);
+                  // Enhanced progress bar with percentage and ETA
+                  const barLength = 30;
+                  let progress = 0;
+                  let barLine = "";
+                  function animateBar(i) {
+                    if (i <= barLength) {
+                      progress = i;
+                      const percentage = Math.floor((progress / barLength) * 100);
+                      const eta = Math.max(0, Math.floor((barLength - progress) * 0.3));
+                      barLine = `Entpacken: [${"#".repeat(progress)}${" ".repeat(barLength - progress)}] ${percentage}% ETA: ${eta}s`;
+                      setLines(l => {
+                        let l2 = l.filter(line => !line.startsWith("Entpacken:"));
+                        return [...l2, barLine];
+                      });
+                      setTimeout(() => animateBar(i + 1), 100 + Math.random() * 80);
+                    } else {
                       setTimeout(() => {
-                        setLines(l => [...l, "Entpacken von eternalblue (0.9.2-legacy) ..."]);
+                        setLines(l => {
+                          let l2 = l.filter(line => !line.startsWith("Entpacken:"));
+                          return [...l2, "Vormals nicht ausgewähltes Paket eternalblue wird gewählt."];
+                        });
                         setTimeout(() => {
-                          setLines(l => [...l, "eternalblue (0.9.2-legacy) wird eingerichtet ..."]);
+                          setLines(l => [...l, "(Lese Datenbank ... 123456 Dateien und Verzeichnisse sind derzeit installiert.)"]);
                           setTimeout(() => {
-                            setLines(l => [...l, "Trigger für man-db (2.8.3-2ubuntu0.1) werden verarbeitet ..."]);
+                            setLines(l => [...l, "Vorbereitung zum Entpacken von .../eternalblue_0.9.2-legacy_amd64.deb ..."]);
                             setTimeout(() => {
-                              setLines(l => [...l, "eternalblue (0.9.2-legacy) wurde installiert."]);
-                              setEternalblueInstalled(true);
-                              setError("");
-                              aptInstallState.current.running = false;
-                            }, 600);
-                          }, 600);
-                        }, 600);
-                      }, 600);
-                    }, 600);
-                  }, 600);
-                }, 600);
-              }
-            }
-            animateBar(0);
-          }, 900);
-        }, 900);
+                              setLines(l => [...l, "Entpacken von eternalblue (0.9.2-legacy) ..."]);
+                              setTimeout(() => {
+                                setLines(l => [...l, "Entpacken von libexploit-common (2.1.4) ..."]);
+                                setTimeout(() => {
+                                  setLines(l => [...l, "Entpacken von python3-payloads (1.0.8) ..."]);
+                                  setTimeout(() => {
+                                    setLines(l => [...l, "Richte eternalblue (0.9.2-legacy) ein ..."]);
+                                    setTimeout(() => {
+                                      setLines(l => [...l, "Richte libexploit-common (2.1.4) ein ..."]);
+                                      setTimeout(() => {
+                                        setLines(l => [...l, "Richte python3-payloads (1.0.8) ein ..."]);
+                                        setTimeout(() => {
+                                          setLines(l => [...l, "Trigger für man-db (2.8.3-2ubuntu0.1) werden verarbeitet ..."]);
+                                          setTimeout(() => {
+                                            setLines(l => [...l, "Trigger für libc-bin (2.31-0ubuntu9.2) werden verarbeitet ..."]);
+                                            setTimeout(() => {
+                                              setLines(l => [...l, "", "\x1b[32mInstallation erfolgreich abgeschlossen.\x1b[0m", "", "Die folgenden Pakete sind jetzt verfügbar:", "  eternalblue (0.9.2-legacy)", "  libexploit-common (2.1.4)", "  python3-payloads (1.0.8)", "", "Verwenden Sie 'eternalblue unlock' um das Tool zu aktivieren."]);
+                                              setEternalblueInstalled(true);
+                                              setError("");
+                                              aptInstallState.current.running = false;
+                                            }, 500);
+                                          }, 450);
+                                        }, 400);
+                                      }, 450);
+                                    }, 500);
+                                  }, 450);
+                                }, 500);
+                              }, 450);
+                            }, 500);
+                          }, 500);
+                        }, 500);
+                      }, 400);
+                    }
+                  }
+                  animateBar(0);
+                }, 900);
+              }, 700);
+            }, 600);
+          }, 600);
+        }, 600);
       } else if (cmd.toLowerCase() === "n") {
         setLines(l => [...l, "Abbruch durch Benutzer."]);
         setError("");
@@ -184,7 +224,7 @@ export default function GovTerminal({ onDeepAccess }) {
       return;
     }
 
-    // Simulierter Backdoor-Flow
+    // Simulierter Backdoor-Flow mit realistischerer Installation
     if (cmd === "apt install eternalblue") {
       if (eternalblueInstalled) {
         setLines(l => [...l, PROMPT + " " + cmd, "eternalblue ist bereits installiert."]);
@@ -197,12 +237,21 @@ export default function GovTerminal({ onDeepAccess }) {
         setTimeout(() => {
           setLines(l => [...l, "Statusinformationen werden eingelesen... Fertig"]);
           setTimeout(() => {
-            setLines(l => [...l, "\x1b[33mWARNUNG:\x1b[0m Das Paket 'eternalblue' stammt aus einer nicht vertrauenswürdigen Quelle."]);
+            setLines(l => [...l, "Lese Paketdatenbank..."]);
             setTimeout(() => {
-              setLines(l => [...l, "Die folgenden Pakete werden installiert:", "  eternalblue", "Möchten Sie fortfahren? [J/n]"]);
-              setAwaitingAptConfirm(true);
-            }, 900);
-          }, 900);
+              setLines(l => [...l, "Überprüfe Abhängigkeiten..."]);
+              setTimeout(() => {
+                setLines(l => [...l, "\x1b[33mWARNUNG:\x1b[0m Das Paket 'eternalblue' stammt aus einer nicht vertrauenswürdigen Quelle."]);
+                setTimeout(() => {
+                  setLines(l => [...l, "\x1b[33mWARNUNG:\x1b[0m Dieses Paket wird nicht vom Distributor signiert."]);
+                  setTimeout(() => {
+                    setLines(l => [...l, "", "Die folgenden NEUEN Pakete werden installiert:", "  eternalblue libexploit-common python3-payloads", "", "Die folgenden Pakete werden aktualisiert:", "  openssl libssl1.1", "", "2 aktualisiert, 3 neu installiert, 0 zu entfernen und 0 nicht aktualisiert.", "Es müssen 1.024 kB an Archiven heruntergeladen werden.", "Nach dieser Operation werden 3.567 kB Plattenplatz zusätzlich benutzt.", "", "Möchten Sie fortfahren? [J/n]"]);
+                    setAwaitingAptConfirm(true);
+                  }, 600);
+                }, 500);
+              }, 600);
+            }, 500);
+          }, 600);
         }, 900);
       }, 900);
       return;
@@ -309,6 +358,45 @@ export default function GovTerminal({ onDeepAccess }) {
       setError("");
       return;
     }
+    
+    // Database connection command
+    if (cmd === "dbconnect" || cmd === "db-connect" || cmd === "connect-db") {
+      setLines(l => [
+        ...l,
+        PROMPT + " " + cmd,
+        "Initialisiere Datenbankverbindung...",
+        "Suche nach verfügbaren SQL-Servern im Netzwerk...",
+        "Gefunden: POLIZEI-DB-NRW (192.168.1.247:1433)",
+        "Öffne Datenbank-Browser-Fenster..."
+      ]);
+      setTimeout(() => {
+        if (openDatabaseBrowserCallback) {
+          openDatabaseBrowserCallback();
+        }
+      }, 1500);
+      setError("");
+      return;
+    }
+    
+    // Exploit lab command
+    if (cmd === "exploitlab" || cmd === "exploit-lab" || cmd === "lab") {
+      setLines(l => [
+        ...l,
+        PROMPT + " " + cmd,
+        "Starte Exploit-Entwicklungsumgebung...",
+        "Lade Exploit-Templates...",
+        "Initialisiere Vulnerability Scanner...",
+        "Öffne Exploit Lab..."
+      ]);
+      setTimeout(() => {
+        if (openExploitLabCallback) {
+          openExploitLabCallback();
+        }
+      }, 1500);
+      setError("");
+      return;
+    }
+    
     if (COMMANDS[cmd]) {
       setLines(l => [...l, PROMPT + " " + cmd, ...COMMANDS[cmd]]);
       setError("");

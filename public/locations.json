@@ -1,0 +1,3890 @@
+[
+  {
+    "id": "power-1",
+    "name": "Kraftwerk Nord",
+    "type": "power",
+    "position": [
+      52.52,
+      13.405
+    ],
+    "status": "active",
+    "description": "Kohlekraftwerk, Berlin. Leistung: 1200 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kraftwerk_Reuter",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      },
+      {
+        "timestamp": "2026-01-10T12:00:00Z",
+        "status": "critical"
+      },
+      {
+        "timestamp": "2026-01-12T16:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-2",
+    "name": "Kernkraftwerk Süd",
+    "type": "power",
+    "position": [
+      48.5351,
+      12.982
+    ],
+    "status": "active",
+    "description": "Kernkraftwerk, Nähe Landshut. Leistung: 1400 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kernkraftwerk_Isar",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      },
+      {
+        "timestamp": "2026-01-15T10:00:00Z",
+        "status": "offline"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-3",
+    "name": "Kernkraftwerk Neckarwestheim",
+    "type": "power",
+    "position": [
+      49.0405,
+      9.1753
+    ],
+    "status": "offline",
+    "description": "Kernkraftwerk in Baden-Württemberg. Leistung: 1400 MW. Stillgelegt.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kernkraftwerk_Neckarwestheim",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "offline"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-4",
+    "name": "Kernkraftwerk Brokdorf",
+    "type": "power",
+    "position": [
+      53.8506,
+      9.3458
+    ],
+    "status": "offline",
+    "description": "Kernkraftwerk in Schleswig-Holstein. Leistung: 1480 MW. Stillgelegt.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kernkraftwerk_Brokdorf",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "offline"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-5",
+    "name": "Windpark Nordsee Ost",
+    "type": "power",
+    "position": [
+      54.4167,
+      6.6
+    ],
+    "status": "active",
+    "description": "Offshore-Windpark in der Nordsee. Leistung: 295 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Offshore-Windpark_Nordsee_Ost",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-6",
+    "name": "Windpark Baltic 1",
+    "type": "power",
+    "position": [
+      54.5167,
+      12.6833
+    ],
+    "status": "active",
+    "description": "Offshore-Windpark in der Ostsee. Leistung: 48.3 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Offshore-Windpark_Baltic_1",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-7",
+    "name": "Kraftwerk Mannheim",
+    "type": "power",
+    "position": [
+      49.5044,
+      8.4942
+    ],
+    "status": "active",
+    "description": "Kohlekraftwerk in Mannheim. Leistung: 1675 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Gro%C3%9Fkraftwerk_Mannheim",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-8",
+    "name": "Kraftwerk Jänschwalde",
+    "type": "power",
+    "position": [
+      51.8339,
+      14.4978
+    ],
+    "status": "active",
+    "description": "Braunkohlekraftwerk in Brandenburg. Leistung: 3000 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kraftwerk_J%C3%A4nschwalde",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-9",
+    "name": "Wasserkraftwerk Rheinfelden",
+    "type": "power",
+    "position": [
+      47.5569,
+      7.7903
+    ],
+    "status": "active",
+    "description": "Laufwasserkraftwerk am Rhein. Leistung: 100 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Wasserkraftwerk_Rheinfelden",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-10",
+    "name": "Pumpspeicherwerk Goldisthal",
+    "type": "power",
+    "position": [
+      50.5636,
+      11.0831
+    ],
+    "status": "active",
+    "description": "Pumpspeicherkraftwerk in Thüringen. Leistung: 1060 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Pumpspeicherwerk_Goldisthal",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-11",
+    "name": "Solarpark Senftenberg",
+    "type": "power",
+    "position": [
+      51.5167,
+      14.0167
+    ],
+    "status": "active",
+    "description": "Großer Solarpark in Brandenburg. Leistung: 78 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Solarpark_Senftenberg",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-12",
+    "name": "Kraftwerk Neurath",
+    "type": "power",
+    "position": [
+      51.0639,
+      6.5994
+    ],
+    "status": "active",
+    "description": "Braunkohlekraftwerk in NRW. Leistung: 4400 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kraftwerk_Neurath",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-1",
+    "name": "Flughafen Düsseldorf",
+    "type": "airport",
+    "position": [
+      51.2895,
+      6.7668
+    ],
+    "status": "active",
+    "description": "Düsseldorf Airport, NRW.",
+    "infoUrl": "https://ourairports.com/airports/EDDL/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-2",
+    "name": "Flughafen München",
+    "type": "airport",
+    "position": [
+      48.3538,
+      11.7861
+    ],
+    "status": "active",
+    "description": "Franz Josef Strauß Flughafen, München.",
+    "infoUrl": "https://ourairports.com/airports/EDDM/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-3",
+    "name": "Flughafen Frankfurt",
+    "type": "airport",
+    "position": [
+      50.0379,
+      8.5622
+    ],
+    "status": "active",
+    "description": "Größter Flughafen Deutschlands, Frankfurt am Main.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Frankfurt_Main",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-4",
+    "name": "Flughafen Berlin Brandenburg",
+    "type": "airport",
+    "position": [
+      52.3667,
+      13.5033
+    ],
+    "status": "active",
+    "description": "Hauptstadtflughafen BER, Schönefeld.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Berlin_Brandenburg",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-5",
+    "name": "Flughafen Hamburg",
+    "type": "airport",
+    "position": [
+      53.6304,
+      9.9882
+    ],
+    "status": "active",
+    "description": "Helmut Schmidt Airport, Hamburg.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Hamburg",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-6",
+    "name": "Flughafen Stuttgart",
+    "type": "airport",
+    "position": [
+      48.6899,
+      9.2217
+    ],
+    "status": "active",
+    "description": "Flughafen Stuttgart, Baden-Württemberg.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Stuttgart",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-7",
+    "name": "Flughafen Köln/Bonn",
+    "type": "airport",
+    "position": [
+      50.8659,
+      7.1427
+    ],
+    "status": "active",
+    "description": "Konrad Adenauer Airport, Köln/Bonn.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_K%C3%B6ln/Bonn",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-8",
+    "name": "Flughafen Hannover",
+    "type": "airport",
+    "position": [
+      52.4611,
+      9.6851
+    ],
+    "status": "active",
+    "description": "Flughafen Hannover-Langenhagen, Niedersachsen.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Hannover-Langenhagen",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-9",
+    "name": "Flughafen Nürnberg",
+    "type": "airport",
+    "position": [
+      49.4987,
+      11.0669
+    ],
+    "status": "active",
+    "description": "Albrecht Dürer Airport, Nürnberg.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_N%C3%BCrnberg",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-10",
+    "name": "Flughafen Leipzig/Halle",
+    "type": "airport",
+    "position": [
+      51.4324,
+      12.2416
+    ],
+    "status": "active",
+    "description": "Flughafen Leipzig/Halle, Sachsen.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Leipzig/Halle",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-11",
+    "name": "Flughafen Bremen",
+    "type": "airport",
+    "position": [
+      53.0475,
+      8.7867
+    ],
+    "status": "active",
+    "description": "Hans Koschnick Airport, Bremen.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Bremen",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-12",
+    "name": "Flughafen Dresden",
+    "type": "airport",
+    "position": [
+      51.1328,
+      13.7672
+    ],
+    "status": "active",
+    "description": "Flughafen Dresden International, Sachsen.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Dresden",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-1",
+    "name": "Charité Berlin",
+    "type": "hospital",
+    "position": [
+      52.5232,
+      13.3781
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum, Berlin Mitte.",
+    "infoUrl": "https://www.charite.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-2",
+    "name": "Universitätsklinikum Hamburg-Eppendorf",
+    "type": "hospital",
+    "position": [
+      53.5901,
+      9.9721
+    ],
+    "status": "active",
+    "description": "Großes Klinikum in Hamburg.",
+    "infoUrl": "https://www.uke.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-3",
+    "name": "Universitätsklinikum Heidelberg",
+    "type": "hospital",
+    "position": [
+      49.4178,
+      8.6722
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Heidelberg, Baden-Württemberg.",
+    "infoUrl": "https://www.klinikum.uni-heidelberg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-4",
+    "name": "Klinikum der Universität München",
+    "type": "hospital",
+    "position": [
+      48.1505,
+      11.5705
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in München.",
+    "infoUrl": "https://www.lmu-klinikum.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-5",
+    "name": "Universitätsklinikum Frankfurt",
+    "type": "hospital",
+    "position": [
+      50.0965,
+      8.6703
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Frankfurt am Main.",
+    "infoUrl": "https://www.kgu.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-6",
+    "name": "Universitätsklinikum Köln",
+    "type": "hospital",
+    "position": [
+      50.9274,
+      6.9253
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Köln.",
+    "infoUrl": "https://www.uk-koeln.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-7",
+    "name": "Universitätsklinikum Düsseldorf",
+    "type": "hospital",
+    "position": [
+      51.1925,
+      6.7953
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Düsseldorf.",
+    "infoUrl": "https://www.uniklinik-duesseldorf.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-8",
+    "name": "Universitätsklinikum Leipzig",
+    "type": "hospital",
+    "position": [
+      51.3272,
+      12.3869
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Leipzig.",
+    "infoUrl": "https://www.uniklinikum-leipzig.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-9",
+    "name": "Klinikum Stuttgart",
+    "type": "hospital",
+    "position": [
+      48.7996,
+      9.2003
+    ],
+    "status": "active",
+    "description": "Größtes Krankenhaus in Stuttgart.",
+    "infoUrl": "https://www.klinikum-stuttgart.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-10",
+    "name": "Universitätsklinikum Erlangen",
+    "type": "hospital",
+    "position": [
+      49.5989,
+      11.0047
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Erlangen, Bayern.",
+    "infoUrl": "https://www.uk-erlangen.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-1",
+    "name": "Wasserwerk Tegel",
+    "type": "water",
+    "position": [
+      52.5736,
+      13.2936
+    ],
+    "status": "active",
+    "description": "Wasserwerk im Norden Berlins.",
+    "infoUrl": "https://www.bwb.de/de/standorte.php",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-2",
+    "name": "Wasserwerk Friedrichshagen",
+    "type": "water",
+    "position": [
+      52.4514,
+      13.6336
+    ],
+    "status": "active",
+    "description": "Großes Wasserwerk im Osten Berlins.",
+    "infoUrl": "https://www.bwb.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-3",
+    "name": "Klärwerk Hamburg",
+    "type": "water",
+    "position": [
+      53.5511,
+      10.0208
+    ],
+    "status": "active",
+    "description": "Klärwerk in Hamburg.",
+    "infoUrl": "https://www.hamburgwasser.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-4",
+    "name": "Wasserwerk München",
+    "type": "water",
+    "position": [
+      48.0833,
+      11.5
+    ],
+    "status": "active",
+    "description": "Wasserwerk Mangfalltal, München.",
+    "infoUrl": "https://www.swm.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-5",
+    "name": "Kläranlage Köln-Stammheim",
+    "type": "water",
+    "position": [
+      51.0333,
+      6.9833
+    ],
+    "status": "active",
+    "description": "Große Kläranlage in Köln.",
+    "infoUrl": "https://www.stadtwerke-koeln.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-6",
+    "name": "Wasserwerk Frankfurt Hinkelstein",
+    "type": "water",
+    "position": [
+      50.0817,
+      8.6958
+    ],
+    "status": "active",
+    "description": "Wasserwerk in Frankfurt am Main.",
+    "infoUrl": "https://www.mainova.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "gov-1",
+    "name": "Bundeskanzleramt",
+    "type": "gov",
+    "position": [
+      52.5208,
+      13.3695
+    ],
+    "status": "active",
+    "description": "Regierungsgebäude, Berlin.",
+    "infoUrl": "https://www.bundeskanzleramt.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "gov-2",
+    "name": "Bundestag",
+    "type": "gov",
+    "position": [
+      52.5186,
+      13.3761
+    ],
+    "status": "active",
+    "description": "Reichstagsgebäude, Deutscher Bundestag, Berlin.",
+    "infoUrl": "https://www.bundestag.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "gov-3",
+    "name": "Bundesverfassungsgericht",
+    "type": "gov",
+    "position": [
+      49.0136,
+      8.4044
+    ],
+    "status": "active",
+    "description": "Bundesverfassungsgericht in Karlsruhe.",
+    "infoUrl": "https://www.bundesverfassungsgericht.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "gov-4",
+    "name": "Bayerische Staatskanzlei",
+    "type": "gov",
+    "position": [
+      48.1422,
+      11.5831
+    ],
+    "status": "active",
+    "description": "Regierungssitz Bayern, München.",
+    "infoUrl": "https://www.bayern.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "gov-5",
+    "name": "Landtag NRW",
+    "type": "gov",
+    "position": [
+      51.233,
+      6.7728
+    ],
+    "status": "active",
+    "description": "Landtag Nordrhein-Westfalen, Düsseldorf.",
+    "infoUrl": "https://www.landtag.nrw.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-1",
+    "name": "Rechenzentrum Frankfurt",
+    "type": "server",
+    "position": [
+      50.1109,
+      8.6821
+    ],
+    "status": "active",
+    "description": "Großes Internet-Knoten-Rechenzentrum, Frankfurt am Main.",
+    "infoUrl": "https://www.de-cix.net/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-2",
+    "name": "Interxion Frankfurt",
+    "type": "server",
+    "position": [
+      50.1167,
+      8.6333
+    ],
+    "status": "active",
+    "description": "Großes Rechenzentrum in Frankfurt.",
+    "infoUrl": "https://www.interxion.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-3",
+    "name": "Equinix München",
+    "type": "server",
+    "position": [
+      48.1351,
+      11.582
+    ],
+    "status": "active",
+    "description": "Rechenzentrum in München.",
+    "infoUrl": "https://www.equinix.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-4",
+    "name": "Telehouse Frankfurt",
+    "type": "server",
+    "position": [
+      50.1103,
+      8.6847
+    ],
+    "status": "active",
+    "description": "Telehouse Rechenzentrum, Frankfurt.",
+    "infoUrl": "https://www.telehouse.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-5",
+    "name": "e-shelter Berlin",
+    "type": "server",
+    "position": [
+      52.5258,
+      13.4019
+    ],
+    "status": "active",
+    "description": "Rechenzentrum in Berlin.",
+    "infoUrl": "https://www.e-shelter.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-6",
+    "name": "NTT Global Data Center Hamburg",
+    "type": "server",
+    "position": [
+      53.5511,
+      9.9937
+    ],
+    "status": "active",
+    "description": "Rechenzentrum in Hamburg.",
+    "infoUrl": "https://www.global.ntt/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-1",
+    "name": "Feuerwache Köln",
+    "type": "fire",
+    "position": [
+      50.9384,
+      6.9578
+    ],
+    "status": "active",
+    "description": "Zentrale Feuerwache, Köln Innenstadt.",
+    "infoUrl": "https://www.stadt-koeln.de/artikel/00001/index.html",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-2",
+    "name": "Feuerwache Berlin Mitte",
+    "type": "fire",
+    "position": [
+      52.52,
+      13.405
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache Berlin Mitte.",
+    "infoUrl": "https://www.berliner-feuerwehr.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-3",
+    "name": "Feuerwache München",
+    "type": "fire",
+    "position": [
+      48.1466,
+      11.5519
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache München.",
+    "infoUrl": "https://www.muenchen.de/feuerwehr",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-4",
+    "name": "Feuerwache Hamburg Berliner Tor",
+    "type": "fire",
+    "position": [
+      53.5527,
+      10.0244
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache Hamburg.",
+    "infoUrl": "https://www.hamburg.de/feuerwehr/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-5",
+    "name": "Feuerwache Frankfurt",
+    "type": "fire",
+    "position": [
+      50.1109,
+      8.6821
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache Frankfurt am Main.",
+    "infoUrl": "https://www.frankfurt.de/feuerwehr",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-1",
+    "name": "Polizeipräsidium München",
+    "type": "police",
+    "position": [
+      48.1371,
+      11.5754
+    ],
+    "status": "active",
+    "description": "Zentrale Polizeiinspektion, München.",
+    "infoUrl": "https://www.polizei.bayern.de/muenchen/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-2",
+    "name": "Polizeipräsidium Berlin",
+    "type": "police",
+    "position": [
+      52.52,
+      13.3889
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Berlin.",
+    "infoUrl": "https://www.berlin.de/polizei/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-3",
+    "name": "Polizeipräsidium Hamburg",
+    "type": "police",
+    "position": [
+      53.5511,
+      10.0208
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Hamburg.",
+    "infoUrl": "https://www.polizei.hamburg/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-4",
+    "name": "Polizeipräsidium Frankfurt",
+    "type": "police",
+    "position": [
+      50.1109,
+      8.6821
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Frankfurt am Main.",
+    "infoUrl": "https://www.polizei.hessen.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-5",
+    "name": "Polizeipräsidium Köln",
+    "type": "police",
+    "position": [
+      50.9375,
+      6.9603
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Köln.",
+    "infoUrl": "https://koeln.polizei.nrw/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-1",
+    "name": "Gymnasium Eppendorf",
+    "type": "school",
+    "position": [
+      53.5952,
+      9.9786
+    ],
+    "status": "active",
+    "description": "Schule in Hamburg Eppendorf.",
+    "infoUrl": "https://gymnasium-eppendorf.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-2",
+    "name": "Heinrich-Heine-Gymnasium Berlin",
+    "type": "school",
+    "position": [
+      52.4969,
+      13.4406
+    ],
+    "status": "active",
+    "description": "Gymnasium in Berlin Kreuzberg.",
+    "infoUrl": "https://www.hhgym.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-3",
+    "name": "Wilhelmsgymnasium München",
+    "type": "school",
+    "position": [
+      48.1486,
+      11.5764
+    ],
+    "status": "active",
+    "description": "Traditionsreiches Gymnasium in München.",
+    "infoUrl": "https://www.wilhelmsgymnasium.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-4",
+    "name": "Schillerschule Frankfurt",
+    "type": "school",
+    "position": [
+      50.1109,
+      8.6821
+    ],
+    "status": "active",
+    "description": "Gymnasium in Frankfurt am Main.",
+    "infoUrl": "https://www.schillerschule-frankfurt.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-5",
+    "name": "Apostelgymnasium Köln",
+    "type": "school",
+    "position": [
+      50.9364,
+      6.945
+    ],
+    "status": "active",
+    "description": "Gymnasium in Köln.",
+    "infoUrl": "https://www.apostelgymnasium.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-1",
+    "name": "Rathaus Leipzig",
+    "type": "cityhall",
+    "position": [
+      51.3397,
+      12.3731
+    ],
+    "status": "active",
+    "description": "Stadtrathaus, Leipzig Zentrum.",
+    "infoUrl": "https://www.leipzig.de/rathaus/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-2",
+    "name": "Hamburger Rathaus",
+    "type": "cityhall",
+    "position": [
+      53.5503,
+      9.9925
+    ],
+    "status": "active",
+    "description": "Rathaus der Freien und Hansestadt Hamburg.",
+    "infoUrl": "https://www.hamburg.de/rathaus/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-3",
+    "name": "Neues Rathaus München",
+    "type": "cityhall",
+    "position": [
+      48.1374,
+      11.5755
+    ],
+    "status": "active",
+    "description": "Neues Rathaus am Marienplatz, München.",
+    "infoUrl": "https://www.muenchen.de/rathaus/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-4",
+    "name": "Rathaus Köln",
+    "type": "cityhall",
+    "position": [
+      50.9387,
+      6.9583
+    ],
+    "status": "active",
+    "description": "Historisches Rathaus in Köln.",
+    "infoUrl": "https://www.stadt-koeln.de/rathaus/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-5",
+    "name": "Römer Frankfurt",
+    "type": "cityhall",
+    "position": [
+      50.1106,
+      8.6822
+    ],
+    "status": "active",
+    "description": "Historisches Rathaus, Frankfurt am Main.",
+    "infoUrl": "https://www.frankfurt.de/roemer",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-6",
+    "name": "Rathaus Stuttgart",
+    "type": "cityhall",
+    "position": [
+      48.7758,
+      9.1829
+    ],
+    "status": "active",
+    "description": "Rathaus Stuttgart.",
+    "infoUrl": "https://www.stuttgart.de/rathaus/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-7",
+    "name": "Rathaus Düsseldorf",
+    "type": "cityhall",
+    "position": [
+      51.2254,
+      6.7763
+    ],
+    "status": "active",
+    "description": "Rathaus Düsseldorf.",
+    "infoUrl": "https://www.duesseldorf.de/rathaus/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-1",
+    "name": "Kölner Hohenzollernbrücke",
+    "type": "bridge",
+    "position": [
+      50.9413,
+      6.9639
+    ],
+    "status": "active",
+    "description": "Bekannte Eisenbahnbrücke über den Rhein.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Hohenzollernbr%C3%BCcke",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-2",
+    "name": "Elbtunnel Hamburg",
+    "type": "bridge",
+    "position": [
+      53.54,
+      9.9664
+    ],
+    "status": "active",
+    "description": "Alter Elbtunnel in Hamburg.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Alter_Elbtunnel",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-3",
+    "name": "Glienicker Brücke",
+    "type": "bridge",
+    "position": [
+      52.4142,
+      13.0903
+    ],
+    "status": "active",
+    "description": "Historische Brücke zwischen Berlin und Potsdam.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Glienicker_Br%C3%BCcke",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-4",
+    "name": "Oberbaumbrücke Berlin",
+    "type": "bridge",
+    "position": [
+      52.5017,
+      13.4456
+    ],
+    "status": "active",
+    "description": "Wahrzeichen Berlins, Brücke über die Spree.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Oberbaumbr%C3%BCcke",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-5",
+    "name": "Ludwigsbrücke München",
+    "type": "bridge",
+    "position": [
+      48.1331,
+      11.5878
+    ],
+    "status": "active",
+    "description": "Brücke über die Isar in München.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Ludwigsbr%C3%BCcke_(M%C3%BCnchen)",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-6",
+    "name": "Deutzer Brücke Köln",
+    "type": "bridge",
+    "position": [
+      50.9369,
+      6.9653
+    ],
+    "status": "active",
+    "description": "Straßenbrücke über den Rhein in Köln.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Deutzer_Br%C3%BCcke",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-1",
+    "name": "Hamburger Hafen",
+    "type": "port",
+    "position": [
+      53.5461,
+      9.9661
+    ],
+    "status": "active",
+    "description": "Größter Seehafen Deutschlands.",
+    "infoUrl": "https://www.hamburg-port-authority.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-2",
+    "name": "Hafen Bremen",
+    "type": "port",
+    "position": [
+      53.0793,
+      8.8017
+    ],
+    "status": "active",
+    "description": "Wichtiger Seehafen in Norddeutschland.",
+    "infoUrl": "https://www.bremenports.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-3",
+    "name": "Hafen Rostock",
+    "type": "port",
+    "position": [
+      54.0924,
+      12.1086
+    ],
+    "status": "active",
+    "description": "Größter deutscher Ostseehafen.",
+    "infoUrl": "https://www.rostock-port.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-4",
+    "name": "Hafen Kiel",
+    "type": "port",
+    "position": [
+      54.3233,
+      10.1394
+    ],
+    "status": "active",
+    "description": "Wichtiger Ostseehafen in Schleswig-Holstein.",
+    "infoUrl": "https://www.portofkiel.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-5",
+    "name": "Hafen Lübeck",
+    "type": "port",
+    "position": [
+      53.8667,
+      10.6833
+    ],
+    "status": "active",
+    "description": "Ostseehafen in Lübeck.",
+    "infoUrl": "https://www.lhg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-6",
+    "name": "Hafen Duisburg",
+    "type": "port",
+    "position": [
+      51.4344,
+      6.7623
+    ],
+    "status": "active",
+    "description": "Größter Binnenhafen der Welt.",
+    "infoUrl": "https://www.duisport.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-7",
+    "name": "Hafen Frankfurt",
+    "type": "port",
+    "position": [
+      50.0897,
+      8.6428
+    ],
+    "status": "active",
+    "description": "Binnenhafen am Main, Frankfurt.",
+    "infoUrl": "https://www.hafen-frankfurt.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-1",
+    "name": "Umspannwerk Stuttgart",
+    "type": "energy",
+    "position": [
+      48.7758,
+      9.1829
+    ],
+    "status": "active",
+    "description": "Großes Umspannwerk, Stuttgart.",
+    "infoUrl": "https://www.netze-bw.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-2",
+    "name": "Umspannwerk Berlin",
+    "type": "energy",
+    "position": [
+      52.52,
+      13.405
+    ],
+    "status": "active",
+    "description": "Hauptumspannwerk Berlin.",
+    "infoUrl": "https://www.stromnetz.berlin/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-3",
+    "name": "Umspannwerk München",
+    "type": "energy",
+    "position": [
+      48.1351,
+      11.582
+    ],
+    "status": "active",
+    "description": "Umspannwerk in München.",
+    "infoUrl": "https://www.swm.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-4",
+    "name": "Umspannwerk Hamburg",
+    "type": "energy",
+    "position": [
+      53.5511,
+      10.0208
+    ],
+    "status": "active",
+    "description": "Umspannwerk in Hamburg.",
+    "infoUrl": "https://www.stromnetz-hamburg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-5",
+    "name": "Umspannwerk Köln",
+    "type": "energy",
+    "position": [
+      50.9375,
+      6.9603
+    ],
+    "status": "active",
+    "description": "Umspannwerk in Köln.",
+    "infoUrl": "https://www.rheinenergie.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-6",
+    "name": "Umspannwerk Frankfurt",
+    "type": "energy",
+    "position": [
+      50.1109,
+      8.6821
+    ],
+    "status": "active",
+    "description": "Umspannwerk in Frankfurt am Main.",
+    "infoUrl": "https://www.mainova.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-1",
+    "name": "U-Bahnhof Alexanderplatz",
+    "type": "metro",
+    "position": [
+      52.5219,
+      13.4132
+    ],
+    "status": "active",
+    "description": "Großer U-Bahnhof, Berlin Mitte.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Bahnhof_Berlin_Alexanderplatz",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-2",
+    "name": "U-Bahnhof Marienplatz",
+    "type": "metro",
+    "position": [
+      48.1374,
+      11.5755
+    ],
+    "status": "active",
+    "description": "Zentrale U-Bahn-Station in München.",
+    "infoUrl": "https://de.wikipedia.org/wiki/U-Bahnhof_Marienplatz",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-3",
+    "name": "U-Bahnhof Hauptbahnhof Berlin",
+    "type": "metro",
+    "position": [
+      52.5251,
+      13.3694
+    ],
+    "status": "active",
+    "description": "U-Bahnhof am Hauptbahnhof Berlin.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Bahnhof_Berlin_Hauptbahnhof",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-4",
+    "name": "U-Bahnhof Jungfernstieg Hamburg",
+    "type": "metro",
+    "position": [
+      53.5532,
+      9.9934
+    ],
+    "status": "active",
+    "description": "Zentrale U-Bahn-Station in Hamburg.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Jungfernstieg_(U-Bahn-Station)",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-5",
+    "name": "U-Bahnhof Sendlinger Tor",
+    "type": "metro",
+    "position": [
+      48.1348,
+      11.5664
+    ],
+    "status": "active",
+    "description": "U-Bahnhof in München.",
+    "infoUrl": "https://de.wikipedia.org/wiki/U-Bahnhof_Sendlinger_Tor",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-6",
+    "name": "U-Bahnhof Potsdamer Platz",
+    "type": "metro",
+    "position": [
+      52.5096,
+      13.3764
+    ],
+    "status": "active",
+    "description": "U-Bahnhof am Potsdamer Platz, Berlin.",
+    "infoUrl": "https://de.wikipedia.org/wiki/U-Bahnhof_Potsdamer_Platz",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-7",
+    "name": "U-Bahnhof Dom/Römer Frankfurt",
+    "type": "metro",
+    "position": [
+      50.1106,
+      8.6822
+    ],
+    "status": "active",
+    "description": "U-Bahnhof in Frankfurt am Main.",
+    "infoUrl": "https://de.wikipedia.org/wiki/U-Bahnhof_Dom/R%C3%B6mer",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-1",
+    "name": "LMU München",
+    "type": "university",
+    "position": [
+      48.1502,
+      11.5802
+    ],
+    "status": "active",
+    "description": "Ludwig-Maximilians-Universität München.",
+    "infoUrl": "https://www.lmu.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-2",
+    "name": "Universität Heidelberg",
+    "type": "university",
+    "position": [
+      49.4093,
+      8.7056
+    ],
+    "status": "active",
+    "description": "Ruprecht-Karls-Universität Heidelberg, älteste Universität Deutschlands.",
+    "infoUrl": "https://www.uni-heidelberg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-3",
+    "name": "Humboldt-Universität Berlin",
+    "type": "university",
+    "position": [
+      52.5186,
+      13.3933
+    ],
+    "status": "active",
+    "description": "Humboldt-Universität zu Berlin.",
+    "infoUrl": "https://www.hu-berlin.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-4",
+    "name": "TU München",
+    "type": "university",
+    "position": [
+      48.1497,
+      11.5681
+    ],
+    "status": "active",
+    "description": "Technische Universität München.",
+    "infoUrl": "https://www.tum.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-5",
+    "name": "Universität Hamburg",
+    "type": "university",
+    "position": [
+      53.5675,
+      9.9858
+    ],
+    "status": "active",
+    "description": "Universität Hamburg.",
+    "infoUrl": "https://www.uni-hamburg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-6",
+    "name": "Universität Göttingen",
+    "type": "university",
+    "position": [
+      51.5414,
+      9.9356
+    ],
+    "status": "active",
+    "description": "Georg-August-Universität Göttingen.",
+    "infoUrl": "https://www.uni-goettingen.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-7",
+    "name": "Universität Tübingen",
+    "type": "university",
+    "position": [
+      48.5216,
+      9.0576
+    ],
+    "status": "active",
+    "description": "Eberhard Karls Universität Tübingen.",
+    "infoUrl": "https://www.uni-tuebingen.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-8",
+    "name": "Universität Köln",
+    "type": "university",
+    "position": [
+      50.9282,
+      6.9281
+    ],
+    "status": "active",
+    "description": "Universität zu Köln.",
+    "infoUrl": "https://www.uni-koeln.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-9",
+    "name": "RWTH Aachen",
+    "type": "university",
+    "position": [
+      50.7803,
+      6.0781
+    ],
+    "status": "active",
+    "description": "Rheinisch-Westfälische Technische Hochschule Aachen.",
+    "infoUrl": "https://www.rwth-aachen.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-10",
+    "name": "Universität Frankfurt",
+    "type": "university",
+    "position": [
+      50.1282,
+      8.6681
+    ],
+    "status": "active",
+    "description": "Goethe-Universität Frankfurt am Main.",
+    "infoUrl": "https://www.uni-frankfurt.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-11",
+    "name": "Universität Leipzig",
+    "type": "university",
+    "position": [
+      51.3397,
+      12.3731
+    ],
+    "status": "active",
+    "description": "Universität Leipzig.",
+    "infoUrl": "https://www.uni-leipzig.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-12",
+    "name": "TU Berlin",
+    "type": "university",
+    "position": [
+      52.5125,
+      13.3269
+    ],
+    "status": "active",
+    "description": "Technische Universität Berlin.",
+    "infoUrl": "https://www.tu.berlin/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "control-1",
+    "name": "Flugsicherung Langen",
+    "type": "control",
+    "position": [
+      50.0047,
+      8.5989
+    ],
+    "status": "active",
+    "description": "Deutsche Flugsicherung Langen, Kontrollzentrum.",
+    "infoUrl": "https://www.dfs.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "control-2",
+    "name": "Verkehrsleitzentrale Berlin",
+    "type": "control",
+    "position": [
+      52.52,
+      13.405
+    ],
+    "status": "active",
+    "description": "Verkehrskontrollzentrum für Berlin.",
+    "infoUrl": "https://www.berlin.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "control-3",
+    "name": "Netzleitstelle München",
+    "type": "control",
+    "position": [
+      48.1351,
+      11.582
+    ],
+    "status": "active",
+    "description": "Stromnetz-Leitstelle München.",
+    "infoUrl": "https://www.swm.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "control-4",
+    "name": "DB Netz Zentrale Frankfurt",
+    "type": "control",
+    "position": [
+      50.1072,
+      8.6647
+    ],
+    "status": "active",
+    "description": "Deutsche Bahn Netz-Leitstelle Frankfurt.",
+    "infoUrl": "https://www.deutschebahn.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "base-1",
+    "name": "Fliegerhorst Büchel",
+    "type": "base",
+    "position": [
+      50.1736,
+      7.0636
+    ],
+    "status": "active",
+    "description": "Luftwaffenstützpunkt in Rheinland-Pfalz.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Fliegerhorst_B%C3%BCchel",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "base-2",
+    "name": "Bundeswehr Kaserne Wunstorf",
+    "type": "base",
+    "position": [
+      52.45,
+      9.425
+    ],
+    "status": "active",
+    "description": "Luftwaffenstützpunkt in Niedersachsen.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Fliegerhorst_Wunstorf",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "base-3",
+    "name": "Marinestützpunkt Kiel",
+    "type": "base",
+    "position": [
+      54.3233,
+      10.1394
+    ],
+    "status": "active",
+    "description": "Marinehauptquartier in Kiel.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Marinest%C3%BCtzpunkt_Kiel",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-13",
+    "name": "Flughafen Wien",
+    "type": "airport",
+    "position": [
+      48.1103,
+      16.5697
+    ],
+    "status": "active",
+    "description": "Vienna International Airport, Österreich.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Wien-Schwechat",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "AT"
+  },
+  {
+    "id": "airport-14",
+    "name": "Flughafen Zürich",
+    "type": "airport",
+    "position": [
+      47.4647,
+      8.5492
+    ],
+    "status": "active",
+    "description": "Zürich Airport, Schweiz.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Z%C3%BCrich",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "CH"
+  },
+  {
+    "id": "airport-15",
+    "name": "Flughafen Amsterdam Schiphol",
+    "type": "airport",
+    "position": [
+      52.3105,
+      4.7683
+    ],
+    "status": "active",
+    "description": "Amsterdam Airport Schiphol, Niederlande.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Flughafen_Amsterdam_Schiphol",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "NL"
+  },
+  {
+    "id": "power-13",
+    "name": "Kernkraftwerk Cattenom",
+    "type": "power",
+    "position": [
+      49.4164,
+      6.2181
+    ],
+    "status": "active",
+    "description": "Kernkraftwerk in Frankreich, nahe deutscher Grenze. Leistung: 5200 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kernkraftwerk_Cattenom",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "FR"
+  },
+  {
+    "id": "power-14",
+    "name": "Windpark Alpha Ventus",
+    "type": "power",
+    "position": [
+      54.0167,
+      6.5883
+    ],
+    "status": "active",
+    "description": "Erster deutscher Offshore-Windpark. Leistung: 60 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Alpha_ventus",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "power-15",
+    "name": "Kraftwerk Weisweiler",
+    "type": "power",
+    "position": [
+      50.8333,
+      6.3167
+    ],
+    "status": "active",
+    "description": "Braunkohlekraftwerk in NRW. Leistung: 2100 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kraftwerk_Weisweiler",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-11",
+    "name": "Universitätsklinikum Freiburg",
+    "type": "hospital",
+    "position": [
+      48.0097,
+      7.8422
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Freiburg.",
+    "infoUrl": "https://www.uniklinik-freiburg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-12",
+    "name": "Universitätsklinikum Bonn",
+    "type": "hospital",
+    "position": [
+      50.7014,
+      7.1064
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Bonn.",
+    "infoUrl": "https://www.ukbonn.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-13",
+    "name": "Universitätsklinikum Dresden",
+    "type": "hospital",
+    "position": [
+      51.0578,
+      13.7431
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum Carl Gustav Carus Dresden.",
+    "infoUrl": "https://www.uniklinikum-dresden.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-14",
+    "name": "Klinikum Nürnberg",
+    "type": "hospital",
+    "position": [
+      49.4521,
+      11.0767
+    ],
+    "status": "active",
+    "description": "Größtes kommunales Klinikum in Bayern.",
+    "infoUrl": "https://www.klinikum-nuernberg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "hospital-15",
+    "name": "Universitätsklinikum Essen",
+    "type": "hospital",
+    "position": [
+      51.4339,
+      6.9986
+    ],
+    "status": "active",
+    "description": "Universitätsklinikum in Essen.",
+    "infoUrl": "https://www.uk-essen.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-7",
+    "name": "Wasserwerk Düsseldorf",
+    "type": "water",
+    "position": [
+      51.2277,
+      6.7735
+    ],
+    "status": "active",
+    "description": "Wasserwerk in Düsseldorf.",
+    "infoUrl": "https://www.stadtwerke-duesseldorf.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-8",
+    "name": "Kläranlage Stuttgart",
+    "type": "water",
+    "position": [
+      48.7558,
+      9.2178
+    ],
+    "status": "active",
+    "description": "Hauptklärwerk Stuttgart-Mühlhausen.",
+    "infoUrl": "https://www.stuttgart.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "water-9",
+    "name": "Wasserwerk Leipzig",
+    "type": "water",
+    "position": [
+      51.3397,
+      12.3731
+    ],
+    "status": "active",
+    "description": "Wasserwerk in Leipzig.",
+    "infoUrl": "https://www.l.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-7",
+    "name": "Umspannwerk Düsseldorf",
+    "type": "energy",
+    "position": [
+      51.2277,
+      6.7735
+    ],
+    "status": "active",
+    "description": "Umspannwerk in Düsseldorf.",
+    "infoUrl": "https://www.netzgesellschaft-duesseldorf.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-8",
+    "name": "Umspannwerk Leipzig",
+    "type": "energy",
+    "position": [
+      51.3397,
+      12.3731
+    ],
+    "status": "active",
+    "description": "Umspannwerk in Leipzig.",
+    "infoUrl": "https://www.swl.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "energy-9",
+    "name": "Umspannwerk Nürnberg",
+    "type": "energy",
+    "position": [
+      49.4521,
+      11.0767
+    ],
+    "status": "active",
+    "description": "Umspannwerk in Nürnberg.",
+    "infoUrl": "https://www.n-ergie.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-8",
+    "name": "U-Bahnhof Hauptbahnhof München",
+    "type": "metro",
+    "position": [
+      48.1402,
+      11.5586
+    ],
+    "status": "active",
+    "description": "U-Bahnhof am Hauptbahnhof München.",
+    "infoUrl": "https://de.wikipedia.org/wiki/M%C3%BCnchen_Hauptbahnhof",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-9",
+    "name": "U-Bahnhof Olympiazentrum",
+    "type": "metro",
+    "position": [
+      48.1742,
+      11.5514
+    ],
+    "status": "active",
+    "description": "U-Bahnhof am Olympiapark München.",
+    "infoUrl": "https://de.wikipedia.org/wiki/U-Bahnhof_Olympiazentrum",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "metro-10",
+    "name": "U-Bahnhof Friedrichstraße",
+    "type": "metro",
+    "position": [
+      52.5206,
+      13.3869
+    ],
+    "status": "active",
+    "description": "U-Bahnhof Friedrichstraße, Berlin.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Bahnhof_Berlin_Friedrichstra%C3%9Fe",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-8",
+    "name": "Rathaus Hannover",
+    "type": "cityhall",
+    "position": [
+      52.3705,
+      9.7332
+    ],
+    "status": "active",
+    "description": "Neues Rathaus Hannover.",
+    "infoUrl": "https://www.hannover.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-9",
+    "name": "Rathaus Bremen",
+    "type": "cityhall",
+    "position": [
+      53.0755,
+      8.8073
+    ],
+    "status": "active",
+    "description": "Bremer Rathaus, UNESCO-Welterbe.",
+    "infoUrl": "https://www.bremen.de/rathaus",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "cityhall-10",
+    "name": "Rathaus Nürnberg",
+    "type": "cityhall",
+    "position": [
+      49.4537,
+      11.0767
+    ],
+    "status": "active",
+    "description": "Rathaus Nürnberg.",
+    "infoUrl": "https://www.nuernberg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-7",
+    "name": "Rheinbrücke Mainz-Wiesbaden",
+    "type": "bridge",
+    "position": [
+      50.0089,
+      8.3167
+    ],
+    "status": "active",
+    "description": "Theodor-Heuss-Brücke über den Rhein.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Theodor-Heuss-Br%C3%BCcke_(Mainz%E2%80%93Wiesbaden)",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-8",
+    "name": "Fehmarnsundbrücke",
+    "type": "bridge",
+    "position": [
+      54.4167,
+      11.1
+    ],
+    "status": "active",
+    "description": "Brücke zur Insel Fehmarn.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Fehmarnsundbr%C3%BCcke",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "bridge-9",
+    "name": "Rügenbrücke",
+    "type": "bridge",
+    "position": [
+      54.3114,
+      13.1103
+    ],
+    "status": "active",
+    "description": "Brücke zur Insel Rügen.",
+    "infoUrl": "https://de.wikipedia.org/wiki/R%C3%BCgenbr%C3%BCcke",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-6",
+    "name": "Helmholtz-Gymnasium Karlsruhe",
+    "type": "school",
+    "position": [
+      49.0069,
+      8.4037
+    ],
+    "status": "active",
+    "description": "Gymnasium in Karlsruhe.",
+    "infoUrl": "https://www.helmholtz-karlsruhe.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-7",
+    "name": "Ratsgymnasium Osnabrück",
+    "type": "school",
+    "position": [
+      52.2799,
+      8.0472
+    ],
+    "status": "active",
+    "description": "Traditionsreiches Gymnasium in Osnabrück.",
+    "infoUrl": "https://www.ratsgymnasium-os.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "school-8",
+    "name": "Schiller-Gymnasium Berlin",
+    "type": "school",
+    "position": [
+      52.5025,
+      13.3275
+    ],
+    "status": "active",
+    "description": "Gymnasium in Berlin Charlottenburg.",
+    "infoUrl": "https://www.schiller-gymnasium-berlin.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-6",
+    "name": "Feuerwache Stuttgart",
+    "type": "fire",
+    "position": [
+      48.7758,
+      9.1829
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache Stuttgart.",
+    "infoUrl": "https://www.stuttgart.de/feuerwehr",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-7",
+    "name": "Feuerwache Düsseldorf",
+    "type": "fire",
+    "position": [
+      51.2254,
+      6.7763
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache Düsseldorf.",
+    "infoUrl": "https://www.duesseldorf.de/feuerwehr",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "fire-8",
+    "name": "Feuerwache Leipzig",
+    "type": "fire",
+    "position": [
+      51.3397,
+      12.3731
+    ],
+    "status": "active",
+    "description": "Hauptfeuerwache Leipzig.",
+    "infoUrl": "https://www.leipzig.de/feuerwehr",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-6",
+    "name": "Polizeipräsidium Stuttgart",
+    "type": "police",
+    "position": [
+      48.7758,
+      9.1829
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Stuttgart.",
+    "infoUrl": "https://www.polizei-bw.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-7",
+    "name": "Polizeipräsidium Hannover",
+    "type": "police",
+    "position": [
+      52.3705,
+      9.7332
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Hannover.",
+    "infoUrl": "https://www.polizei-hannover.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "police-8",
+    "name": "Polizeipräsidium Düsseldorf",
+    "type": "police",
+    "position": [
+      51.2254,
+      6.7763
+    ],
+    "status": "active",
+    "description": "Polizeipräsidium Düsseldorf.",
+    "infoUrl": "https://duesseldorf.polizei.nrw/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-7",
+    "name": "Google Data Center Frankfurt",
+    "type": "server",
+    "position": [
+      50.1167,
+      8.6333
+    ],
+    "status": "active",
+    "description": "Google Cloud Rechenzentrum in Frankfurt.",
+    "infoUrl": "https://cloud.google.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-8",
+    "name": "Amazon AWS Frankfurt",
+    "type": "server",
+    "position": [
+      50.1103,
+      8.6847
+    ],
+    "status": "active",
+    "description": "Amazon Web Services Rechenzentrum Frankfurt.",
+    "infoUrl": "https://aws.amazon.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "server-9",
+    "name": "Microsoft Azure München",
+    "type": "server",
+    "position": [
+      48.1351,
+      11.582
+    ],
+    "status": "active",
+    "description": "Microsoft Azure Rechenzentrum München.",
+    "infoUrl": "https://azure.microsoft.com/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-8",
+    "name": "Hafen Mannheim",
+    "type": "port",
+    "position": [
+      49.4875,
+      8.466
+    ],
+    "status": "active",
+    "description": "Binnenhafen Mannheim am Rhein.",
+    "infoUrl": "https://www.hafen-mannheim.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-9",
+    "name": "Hafen Karlsruhe",
+    "type": "port",
+    "position": [
+      49.0195,
+      8.3857
+    ],
+    "status": "active",
+    "description": "Rheinhafen Karlsruhe.",
+    "infoUrl": "https://www.rheinhafen-karlsruhe.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "port-10",
+    "name": "Hafen Rotterdam",
+    "type": "port",
+    "position": [
+      51.9225,
+      4.4792
+    ],
+    "status": "active",
+    "description": "Größter Seehafen Europas, Niederlande.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Hafen_Rotterdam",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "NL"
+  },
+  {
+    "id": "university-13",
+    "name": "Universität Bonn",
+    "type": "university",
+    "position": [
+      50.7339,
+      7.1008
+    ],
+    "status": "active",
+    "description": "Rheinische Friedrich-Wilhelms-Universität Bonn.",
+    "infoUrl": "https://www.uni-bonn.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-14",
+    "name": "Universität Stuttgart",
+    "type": "university",
+    "position": [
+      48.7758,
+      9.1829
+    ],
+    "status": "active",
+    "description": "Universität Stuttgart.",
+    "infoUrl": "https://www.uni-stuttgart.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-15",
+    "name": "Universität Freiburg",
+    "type": "university",
+    "position": [
+      48.0097,
+      7.8422
+    ],
+    "status": "active",
+    "description": "Albert-Ludwigs-Universität Freiburg.",
+    "infoUrl": "https://www.uni-freiburg.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "university-16",
+    "name": "Universität Dresden",
+    "type": "university",
+    "position": [
+      51.0278,
+      13.7264
+    ],
+    "status": "active",
+    "description": "Technische Universität Dresden.",
+    "infoUrl": "https://tu-dresden.de/",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ],
+    "country": "DE"
+  },
+  {
+    "id": "airport-fr-1",
+    "name": "Aéroport Paris-Charles de Gaulle",
+    "type": "airport",
+    "position": [
+      49.0097,
+      2.5479
+    ],
+    "status": "active",
+    "country": "FR",
+    "description": "Größter Flughafen Frankreichs, Paris.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Charles_de_Gaulle_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "power-fr-1",
+    "name": "Kernkraftwerk Flamanville",
+    "type": "power",
+    "position": [
+      49.5361,
+      -1.8806
+    ],
+    "status": "active",
+    "country": "FR",
+    "description": "Kernkraftwerk in der Normandie. Leistung: 2660 MW.",
+    "infoUrl": "https://de.wikipedia.org/wiki/Kernkraftwerk_Flamanville",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-fr-1",
+    "name": "Hôpital Pitié-Salpêtrière",
+    "type": "hospital",
+    "position": [
+      48.8392,
+      2.3628
+    ],
+    "status": "active",
+    "country": "FR",
+    "description": "Eines der größten Krankenhäuser Europas, Paris.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Piti%C3%A9-Salp%C3%AAtri%C3%A8re_Hospital",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-fr-1",
+    "name": "Sorbonne Université",
+    "type": "university",
+    "position": [
+      48.8467,
+      2.3564
+    ],
+    "status": "active",
+    "country": "FR",
+    "description": "Renommierte Universität in Paris.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Sorbonne_University",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-fr-1",
+    "name": "Port de Marseille",
+    "type": "port",
+    "position": [
+      43.3614,
+      5.3153
+    ],
+    "status": "active",
+    "country": "FR",
+    "description": "Größter Hafen Frankreichs am Mittelmeer.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Marseille_Provence_Cruise_Terminal",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-uk-1",
+    "name": "London Heathrow Airport",
+    "type": "airport",
+    "position": [
+      51.47,
+      -0.4543
+    ],
+    "status": "active",
+    "country": "UK",
+    "description": "Größter Flughafen Großbritanniens, London.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Heathrow_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "power-uk-1",
+    "name": "Kernkraftwerk Sizewell",
+    "type": "power",
+    "position": [
+      52.2133,
+      1.6206
+    ],
+    "status": "active",
+    "country": "UK",
+    "description": "Kernkraftwerk in Suffolk. Leistung: 1198 MW.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Sizewell_nuclear_power_stations",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-uk-1",
+    "name": "St Thomas' Hospital",
+    "type": "hospital",
+    "position": [
+      51.4983,
+      -0.1178
+    ],
+    "status": "active",
+    "country": "UK",
+    "description": "Großes Krankenhaus in London.",
+    "infoUrl": "https://en.wikipedia.org/wiki/St_Thomas%27_Hospital",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-uk-1",
+    "name": "University of Oxford",
+    "type": "university",
+    "position": [
+      51.7548,
+      -1.2544
+    ],
+    "status": "active",
+    "country": "UK",
+    "description": "Eine der ältesten Universitäten der Welt.",
+    "infoUrl": "https://en.wikipedia.org/wiki/University_of_Oxford",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-uk-1",
+    "name": "Port of London",
+    "type": "port",
+    "position": [
+      51.5074,
+      0.1278
+    ],
+    "status": "active",
+    "country": "UK",
+    "description": "Historischer Hafen von London.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Port_of_London",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-it-1",
+    "name": "Aeroporto di Roma-Fiumicino",
+    "type": "airport",
+    "position": [
+      41.8003,
+      12.2389
+    ],
+    "status": "active",
+    "country": "IT",
+    "description": "Größter Flughafen Italiens, Rom.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Rome%E2%80%93Fiumicino_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-it-1",
+    "name": "Policlinico Gemelli",
+    "type": "hospital",
+    "position": [
+      41.9296,
+      12.4501
+    ],
+    "status": "active",
+    "country": "IT",
+    "description": "Universitätsklinikum in Rom.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Agostino_Gemelli_University_Polyclinic",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-it-1",
+    "name": "Università di Bologna",
+    "type": "university",
+    "position": [
+      44.4949,
+      11.3426
+    ],
+    "status": "active",
+    "country": "IT",
+    "description": "Älteste Universität der westlichen Welt, gegründet 1088.",
+    "infoUrl": "https://en.wikipedia.org/wiki/University_of_Bologna",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-it-1",
+    "name": "Porto di Genova",
+    "type": "port",
+    "position": [
+      44.4056,
+      8.9463
+    ],
+    "status": "active",
+    "country": "IT",
+    "description": "Größter Hafen Italiens.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Port_of_Genoa",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-es-1",
+    "name": "Aeropuerto Adolfo Suárez Madrid-Barajas",
+    "type": "airport",
+    "position": [
+      40.4719,
+      -3.5626
+    ],
+    "status": "active",
+    "country": "ES",
+    "description": "Größter Flughafen Spaniens, Madrid.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Adolfo_Su%C3%A1rez_Madrid%E2%80%93Barajas_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-es-1",
+    "name": "Hospital Clínic de Barcelona",
+    "type": "hospital",
+    "position": [
+      41.3892,
+      2.1542
+    ],
+    "status": "active",
+    "country": "ES",
+    "description": "Großes Universitätsklinikum in Barcelona.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Hospital_Cl%C3%ADnic_de_Barcelona",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-es-1",
+    "name": "Universidad Complutense de Madrid",
+    "type": "university",
+    "position": [
+      40.4489,
+      -3.7278
+    ],
+    "status": "active",
+    "country": "ES",
+    "description": "Größte Universität Spaniens.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Complutense_University_of_Madrid",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-es-1",
+    "name": "Puerto de Barcelona",
+    "type": "port",
+    "position": [
+      41.3514,
+      2.1739
+    ],
+    "status": "active",
+    "country": "ES",
+    "description": "Wichtiger Mittelmeerhafen in Barcelona.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Port_of_Barcelona",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-pl-1",
+    "name": "Warsaw Chopin Airport",
+    "type": "airport",
+    "position": [
+      52.1657,
+      20.9671
+    ],
+    "status": "active",
+    "country": "PL",
+    "description": "Größter Flughafen Polens, Warschau.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Warsaw_Chopin_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-pl-1",
+    "name": "Szpital Uniwersytecki w Krakowie",
+    "type": "hospital",
+    "position": [
+      50.0647,
+      19.945
+    ],
+    "status": "active",
+    "country": "PL",
+    "description": "Universitätsklinikum in Krakau.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Jagiellonian_University_Medical_College",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-pl-1",
+    "name": "Uniwersytet Jagielloński",
+    "type": "university",
+    "position": [
+      50.0614,
+      19.9324
+    ],
+    "status": "active",
+    "country": "PL",
+    "description": "Eine der ältesten Universitäten Europas, Krakau.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Jagiellonian_University",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-no-1",
+    "name": "Oslo Lufthavn",
+    "type": "airport",
+    "position": [
+      60.1939,
+      11.1004
+    ],
+    "status": "active",
+    "country": "NO",
+    "description": "Hauptflughafen Norwegens, Oslo.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Oslo_Airport,_Gardermoen",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-no-1",
+    "name": "Oslo universitetssykehus",
+    "type": "hospital",
+    "position": [
+      59.9139,
+      10.7522
+    ],
+    "status": "active",
+    "country": "NO",
+    "description": "Größtes Krankenhaus Norwegens, Oslo.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Oslo_University_Hospital",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-no-1",
+    "name": "Universitetet i Oslo",
+    "type": "university",
+    "position": [
+      59.94,
+      10.7217
+    ],
+    "status": "active",
+    "country": "NO",
+    "description": "Größte und älteste Universität Norwegens.",
+    "infoUrl": "https://en.wikipedia.org/wiki/University_of_Oslo",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-no-1",
+    "name": "Oslo Havn",
+    "type": "port",
+    "position": [
+      59.905,
+      10.7531
+    ],
+    "status": "active",
+    "country": "NO",
+    "description": "Hafen von Oslo.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Port_of_Oslo",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-se-1",
+    "name": "Stockholm Arlanda Airport",
+    "type": "airport",
+    "position": [
+      59.6519,
+      17.9186
+    ],
+    "status": "active",
+    "country": "SE",
+    "description": "Größter Flughafen Schwedens, Stockholm.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Stockholm_Arlanda_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-se-1",
+    "name": "Karolinska Universitetssjukhuset",
+    "type": "hospital",
+    "position": [
+      59.3489,
+      18.0289
+    ],
+    "status": "active",
+    "country": "SE",
+    "description": "Universitätsklinikum in Stockholm.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Karolinska_University_Hospital",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-se-1",
+    "name": "Uppsala Universitet",
+    "type": "university",
+    "position": [
+      59.8586,
+      17.6389
+    ],
+    "status": "active",
+    "country": "SE",
+    "description": "Älteste Universität Skandinaviens, gegründet 1477.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Uppsala_University",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-dk-1",
+    "name": "Copenhagen Airport",
+    "type": "airport",
+    "position": [
+      55.6181,
+      12.6561
+    ],
+    "status": "active",
+    "country": "DK",
+    "description": "Größter Flughafen Skandinaviens, Kopenhagen.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Copenhagen_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-dk-1",
+    "name": "Rigshospitalet",
+    "type": "hospital",
+    "position": [
+      55.6963,
+      12.5681
+    ],
+    "status": "active",
+    "country": "DK",
+    "description": "Größtes Krankenhaus Dänemarks, Kopenhagen.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Rigshospitalet",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-dk-1",
+    "name": "Københavns Universitet",
+    "type": "university",
+    "position": [
+      55.6797,
+      12.5712
+    ],
+    "status": "active",
+    "country": "DK",
+    "description": "Größte Universität Dänemarks.",
+    "infoUrl": "https://en.wikipedia.org/wiki/University_of_Copenhagen",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-ru-1",
+    "name": "Sheremetyevo International Airport",
+    "type": "airport",
+    "position": [
+      55.9726,
+      37.4147
+    ],
+    "status": "active",
+    "country": "RU",
+    "description": "Größter Flughafen Russlands, Moskau.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Sheremetyevo_International_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "power-ru-1",
+    "name": "Kernkraftwerk Leningrad",
+    "type": "power",
+    "position": [
+      59.8742,
+      29.0442
+    ],
+    "status": "active",
+    "country": "RU",
+    "description": "Kernkraftwerk nahe St. Petersburg. Leistung: 4000 MW.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Leningrad_Nuclear_Power_Plant",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-ru-1",
+    "name": "Sechenov University Hospital",
+    "type": "hospital",
+    "position": [
+      55.7633,
+      37.6181
+    ],
+    "status": "active",
+    "country": "RU",
+    "description": "Großes Universitätsklinikum in Moskau.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Sechenov_University",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-ru-1",
+    "name": "Moscow State University",
+    "type": "university",
+    "position": [
+      55.7033,
+      37.5306
+    ],
+    "status": "active",
+    "country": "RU",
+    "description": "Renommierte Universität in Moskau.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Moscow_State_University",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-ru-1",
+    "name": "Port of Saint Petersburg",
+    "type": "port",
+    "position": [
+      59.9311,
+      30.3609
+    ],
+    "status": "active",
+    "country": "RU",
+    "description": "Größter Hafen Russlands an der Ostsee.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Port_of_Saint_Petersburg",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "airport-kr-1",
+    "name": "Incheon International Airport",
+    "type": "airport",
+    "position": [
+      37.4692,
+      126.4505
+    ],
+    "status": "active",
+    "country": "KR",
+    "description": "Größter Flughafen Südkoreas, Seoul.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Incheon_International_Airport",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "power-kr-1",
+    "name": "Kernkraftwerk Kori",
+    "type": "power",
+    "position": [
+      35.3169,
+      129.2925
+    ],
+    "status": "active",
+    "country": "KR",
+    "description": "Kernkraftwerk in Busan. Leistung: 5881 MW.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Kori_Nuclear_Power_Plant",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "hospital-kr-1",
+    "name": "Seoul National University Hospital",
+    "type": "hospital",
+    "position": [
+      37.5797,
+      126.9994
+    ],
+    "status": "active",
+    "country": "KR",
+    "description": "Großes Universitätsklinikum in Seoul.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Seoul_National_University_Hospital",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "university-kr-1",
+    "name": "Seoul National University",
+    "type": "university",
+    "position": [
+      37.4601,
+      126.952
+    ],
+    "status": "active",
+    "country": "KR",
+    "description": "Renommierteste Universität Südkoreas.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Seoul_National_University",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  {
+    "id": "port-kr-1",
+    "name": "Port of Busan",
+    "type": "port",
+    "position": [
+      35.1028,
+      129.0403
+    ],
+    "status": "active",
+    "country": "KR",
+    "description": "Größter Hafen Südkoreas.",
+    "infoUrl": "https://en.wikipedia.org/wiki/Port_of_Busan",
+    "history": [
+      {
+        "timestamp": "2026-01-01T08:00:00Z",
+        "status": "active"
+      }
+    ]
+  }
+]
