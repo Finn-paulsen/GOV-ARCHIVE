@@ -176,10 +176,6 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
           <span className="gov-icon-symbol">🖥️</span>
           <span className="gov-icon-label">Terminal</span>
         </div>
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'HIVE-MIND Infrastructure', type: 'hivemind' })}>
-          <span className="gov-icon-symbol">🧠</span>
-          <span className="gov-icon-label">HIVE-MIND</span>
-        </div>
       </div>
       <AnimatePresence>
         {windows.map(w => !w.minimized && (

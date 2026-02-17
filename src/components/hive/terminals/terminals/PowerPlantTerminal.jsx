@@ -55,6 +55,20 @@ export default function PowerPlantTerminal({ location, onClose }) {
   const [emergencyMode, setEmergencyMode] = useState(false);
   const [backupGenerator, setBackupGenerator] = useState(false);
   const [fireSuppressionArmed, setFireSuppressionArmed] = useState(true);
+  
+  // Sector-specific temperature controls (NEW)
+  const [sectorTemps, setSectorTemps] = useState({
+    sector1: 320,
+    sector2: 318,
+    sector3: 322,
+    sector4: 319
+  });
+  const [targetSectorTemps, setTargetSectorTemps] = useState({
+    sector1: 320,
+    sector2: 318,
+    sector3: 322,
+    sector4: 319
+  });
 
   // Simulate realistic data changes
   useEffect(() => {
@@ -197,6 +211,44 @@ export default function PowerPlantTerminal({ location, onClose }) {
     setHasUnsavedChanges(true);
     addLogEntry(`Control rod position set to ${newValue}%`);
   };
+  
+  // Handler for sector temperature changes (NEW)
+  const handleSectorTempChange = (sector, newValue) => {
+    setTargetSectorTemps(prev => ({
+      ...prev,
+      [sector]: newValue
+    }));
+    setHasUnsavedChanges(true);
+    addLogEntry(`Sector ${sector.slice(-1)} target temperature set to ${newValue}°C`, 'info');
+  };
+  
+  // Gradually adjust sector temps towards target (NEW)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSectorTemps(prev => {
+        const updated = { ...prev };
+        let changed = false;
+        
+        Object.keys(prev).forEach(sector => {
+          const current = prev[sector];
+          const target = targetSectorTemps[sector];
+          const diff = target - current;
+          
+          if (Math.abs(diff) > 0.5) {
+            updated[sector] = current + (diff * 0.1); // Gradual change
+            changed = true;
+          } else if (Math.abs(diff) > 0.1) {
+            updated[sector] = target;
+            changed = true;
+          }
+        });
+        
+        return changed ? updated : prev;
+      });
+    }, 500);
+    
+    return () => clearInterval(interval);
+  }, [targetSectorTemps]);
 
   const renderReactorControls = () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', padding: '16px' }}>
@@ -414,14 +466,100 @@ export default function PowerPlantTerminal({ location, onClose }) {
         </div>
       </div>
 
-      {/* Reactor Zone Temperatures */}
-      <div className="terminal-panel" style={{ gridColumn: 'span 3' }}>
-        <div className="terminal-panel-header">Reaktorzone Temperaturen</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 8 }}>
-          <DigitalDisplay label="Zone 1" value={(coreTemp * 0.95).toFixed(0) + '°C'} color="green" />
-          <DigitalDisplay label="Zone 2" value={(coreTemp * 1.02).toFixed(0) + '°C'} color="green" />
-          <DigitalDisplay label="Zone 3" value={(coreTemp * 0.98).toFixed(0) + '°C'} color="green" />
-          <DigitalDisplay label="Zone 4" value={(coreTemp * 1.01).toFixed(0) + '°C'} color="green" />
+      {/* Reactor Zone Temperatures with Controls (ENHANCED) */}
+      <div className="terminal-panel" style={{ gridColumn: 'span 5', background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', border: '2px solid #0074D9', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+        <div className="terminal-panel-header" style={{ background: 'linear-gradient(135deg, #001f3f 0%, #0074D9 100%)', color: 'white', padding: '12px', fontSize: '14px', fontWeight: 'bold' }}>
+          🎯 Reaktorzone Temperaturregelung (Echtzeit)
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginTop: 12, padding: '16px' }}>
+          {Object.keys(sectorTemps).map((sector, idx) => {
+            const current = sectorTemps[sector];
+            const target = targetSectorTemps[sector];
+            const diff = target - current;
+            const isChanging = Math.abs(diff) > 0.5;
+            
+            return (
+              <div key={sector} style={{ 
+                background: 'white', 
+                padding: '16px', 
+                borderRadius: '8px', 
+                border: isChanging ? '2px solid #FB8500' : '1px solid #D0D7DE',
+                boxShadow: isChanging ? '0 0 12px rgba(251,133,0,0.3)' : '0 2px 4px rgba(0,0,0,0.05)',
+                transition: 'all 0.3s ease'
+              }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: 8,
+                  paddingBottom: 8,
+                  borderBottom: '2px solid #e9ecef'
+                }}>
+                  <div style={{ fontWeight: 'bold', fontSize: '13px', color: '#001f3f' }}>
+                    Sektor {idx + 1}
+                  </div>
+                  <div style={{ 
+                    fontSize: '10px', 
+                    background: isChanging ? '#FB8500' : '#2DA44E',
+                    color: 'white',
+                    padding: '2px 8px',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                    animation: isChanging ? 'pulse 1s infinite' : 'none'
+                  }}>
+                    {isChanging ? '⚡ ANPASSEN' : '✓ STABIL'}
+                  </div>
+                </div>
+                
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 }}>
+                    <span style={{ fontSize: '11px', color: '#57606A' }}>Aktuell:</span>
+                    <span style={{ 
+                      fontSize: '20px', 
+                      fontWeight: 'bold', 
+                      color: current > 400 ? '#CF222E' : current > 350 ? '#FB8500' : '#2DA44E',
+                      fontFamily: 'monospace'
+                    }}>
+                      {current.toFixed(1)}°C
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <span style={{ fontSize: '11px', color: '#57606A' }}>Ziel:</span>
+                    <span style={{ fontSize: '16px', fontWeight: '600', color: '#0969DA', fontFamily: 'monospace' }}>
+                      {target.toFixed(0)}°C
+                    </span>
+                  </div>
+                </div>
+                
+                <Slider
+                  label="Sollwert"
+                  value={target}
+                  min={250}
+                  max={450}
+                  step={1}
+                  unit="°C"
+                  onChange={(val) => handleSectorTempChange(sector, val)}
+                  disabled={emergencyMode}
+                />
+                
+                {isChanging && (
+                  <div style={{ 
+                    marginTop: 8, 
+                    padding: '6px', 
+                    background: '#FFF3CD',
+                    border: '1px solid #FB8500',
+                    borderRadius: '4px',
+                    fontSize: '10px',
+                    color: '#856404',
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    Δ {diff > 0 ? '+' : ''}{diff.toFixed(1)}°C • Anpassung läuft...
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

@@ -429,3 +429,35 @@
     flex-wrap: wrap;
   }
 }
+
+/* Pulse animation for changing values */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Value change indicator animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.value-changing {
+  animation: pulse 1s infinite;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
