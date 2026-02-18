@@ -197,9 +197,9 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
           <span className="gov-icon-symbol">🖥️</span>
           <span className="gov-icon-label">Terminal</span>
         </div>
-        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'Hive Mind - Infrastructure Monitor', type: 'hivemind' })}>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'HiveMind - Infrastructure Monitor', type: 'hivemind' })}>
           <span className="gov-icon-symbol">🗺️</span>
-          <span className="gov-icon-label">Hive Mind</span>
+          <span className="gov-icon-label">HiveMind</span>
         </div>
       </div>
       <AnimatePresence>
