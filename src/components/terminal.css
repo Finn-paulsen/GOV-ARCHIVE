@@ -676,10 +676,12 @@
 		margin: 60px auto;
 		padding: 32px 32px 24px 32px;
 		position: relative;
+		overflow: hidden;
 	}
 	.terminal-header {
 		text-align: left;
 		margin-bottom: 18px;
+		overflow: hidden;
 	}
 	.terminal-title {
 		font-weight: 900;
@@ -697,6 +699,10 @@
 	.terminal-meta {
 		font-size: 0.97rem;
 		color: #00ff00;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		white-space: normal;
+		max-width: 100%;
 	}
 	.terminal-warning {
 		background: #000;
