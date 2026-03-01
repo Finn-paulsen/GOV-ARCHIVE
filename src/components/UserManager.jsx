@@ -305,9 +305,7 @@ export default function UserManager({ onRequestClose }) {
       <div className="user-manager-content">
         {tab === 'teams' && (
           <div className="user-teams-tab">
-            <h2 style={{marginBottom: '1.2rem', display: 'flex', alignItems: 'center', gap: 10}}>
-              <span role="img" aria-label="Teams">👥</span> Abteilungen & Teams
-            </h2>
+            <h2>Abteilungen &amp; Teams</h2>
             <div className="teams-table-wrapper">
               <table className="teams-table">
                 <thead>
@@ -379,7 +377,7 @@ export default function UserManager({ onRequestClose }) {
               <h2>Benutzerverwaltung</h2>
               <div style={{display:'flex',gap:'0.5em',alignItems:'center'}}>
                 <button onClick={() => setShowNewUserModal(true)}>Neuen Benutzer anlegen</button>
-                <button style={{background:'#2a6baf',color:'#fff'}} onClick={handleLdapSync}>LDAP Sync</button>
+                <button className="btn-primary" onClick={handleLdapSync}>LDAP Sync</button>
                 <button onClick={exportUsersCSV}>Export (CSV)</button>
                 <button onClick={handleImportClick}>Import (CSV)</button>
                 <input type="file" accept=".csv" ref={fileInputRef} style={{display:'none'}} onChange={importUsersCSV} />
@@ -436,6 +434,54 @@ export default function UserManager({ onRequestClose }) {
                         <button onClick={() => handleEdit(user)}>Bearbeiten</button>
                         <button onClick={() => handleDelete(user.id)}>Löschen</button>
                       </>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {tab === 'devices' && (
+          <div className="user-list">
+            <h2>Aktive Sitzungen & Geräte</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Benutzer</th>
+                  <th>Gerät / Hostname</th>
+                  <th>IP-Adresse</th>
+                  <th>Betriebssystem</th>
+                  <th>Zuletzt aktiv</th>
+                  <th>Sitzungs-ID</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { user: 'GOV-USER', host: 'WS-ARCH-04', ip: '10.0.0.4', os: 'Windows XP SP3', last: '12.02.2026 14:03', sid: 'SID-A4F2C1', status: 'aktiv' },
+                  { user: 'admin', host: 'SRV-BARCH-01', ip: '10.0.0.1', os: 'Windows Server 2003', last: '12.02.2026 13:58', sid: 'SID-B8D3E2', status: 'aktiv' },
+                  { user: 'mschroeder', host: 'WS-IT-07', ip: '10.0.0.14', os: 'Windows XP SP3', last: '12.02.2026 09:14', sid: 'SID-C1A9F4', status: 'inaktiv' },
+                  { user: 'hkeller', host: 'WS-REF4B-02', ip: '10.0.0.22', os: 'Windows 2000 Pro', last: '11.02.2026 17:42', sid: 'SID-D7E2B3', status: 'inaktiv' },
+                  { user: 'sberger', host: 'WS-ARCH-09', ip: '10.0.0.31', os: 'Windows XP SP2', last: '11.02.2026 15:01', sid: 'SID-E5C8A1', status: 'inaktiv' },
+                ].map((row, i) => (
+                  <tr key={i} style={{ background: row.status === 'aktiv' ? '#eaf4ea' : undefined }}>
+                    <td style={{ fontWeight: row.status === 'aktiv' ? 'bold' : 'normal' }}>{row.user}</td>
+                    <td>{row.host}</td>
+                    <td style={{ fontFamily: 'monospace' }}>{row.ip}</td>
+                    <td>{row.os}</td>
+                    <td>{row.last}</td>
+                    <td style={{ fontFamily: 'monospace', fontSize: '0.92em', color: '#555' }}>{row.sid}</td>
+                    <td>
+                      <span style={{
+                        background: row.status === 'aktiv' ? '#2d8a3e' : '#999',
+                        color: '#fff',
+                        borderRadius: '3px',
+                        padding: '1px 8px',
+                        fontSize: '0.9em',
+                        fontWeight: 'bold',
+                      }}>
+                        {row.status}
+                      </span>
                     </td>
                   </tr>
                 ))}
