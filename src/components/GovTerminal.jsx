@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./govTerminal.css";
 import DeepDesktop from "./DeepDesktop";
+import { useTerminalPersistence } from "../hooks/useTerminalPersistence";
 
 const PROMPT = "GOV-USER@ARCHIVE:~$";
 const SYSTEM_BANNER = [
@@ -93,6 +94,11 @@ export default function GovTerminal({ onDeepAccess }) {
   const [cursorPos, setCursorPos] = useState(null);
   const [awaitingDeepPassword, setAwaitingDeepPassword] = useState(false);
 
+  // Terminal-Persistierung Hook
+  const { saveCommand } = useTerminalPersistence(history, (savedHistory) => {
+    setHistory(savedHistory);
+  });
+
   useEffect(() => {
     terminalRef.current && terminalRef.current.focus();
   }, []);
@@ -152,6 +158,7 @@ export default function GovTerminal({ onDeepAccess }) {
       setLines([]);
       setError("");
       setHistory(h => h.length ? h : []);
+      saveCommand('clear');
       setHistoryIndex(-1);
       return;
     }
@@ -192,9 +199,11 @@ export default function GovTerminal({ onDeepAccess }) {
     if (COMMANDS[cmd]) {
       setLines(l => [...l, PROMPT + " " + cmd, ...COMMANDS[cmd]]);
       setError("");
+      saveCommand(cmd);
     } else if (cmd.length > 0) {
       setLines(l => [...l, PROMPT + " " + cmd]);
       setError(`FEHLER: Unbekannter Befehl: ${cmd}`);
+      saveCommand(cmd);
     }
   }
 

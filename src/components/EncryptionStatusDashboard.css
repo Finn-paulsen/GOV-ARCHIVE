@@ -1,0 +1,396 @@
+/**
+ * EncryptionStatusDashboard Styles
+ * ENIGMA Integration - Encrypted Drive Management
+ */
+
+.encryption-dashboard {
+  background: #0a0a0a;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  padding: 20px;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+/* Header */
+.encryption-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.encryption-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.dashboard-subtitle {
+  margin: 0;
+  font-size: 12px;
+  color: #00aa00;
+  font-style: italic;
+}
+
+/* Drives Grid */
+.drives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+/* Drive Card */
+.drive-card {
+  background: #1a1a1a;
+  border: 2px solid #003300;
+  border-radius: 4px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.drive-card:hover {
+  border-color: #00ff00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
+}
+
+.drive-card.encrypted {
+  border-color: #006600;
+}
+
+.drive-card.encrypting {
+  border-color: #ffff00;
+  animation: border-pulse 1.5s infinite;
+}
+
+.drive-card.not_encrypted {
+  border-color: #660000;
+}
+
+@keyframes border-pulse {
+  0%, 100% { border-color: #ffff00; }
+  50% { border-color: #999900; }
+}
+
+.drive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.drive-letter {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.drive-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #00ff00;
+}
+
+.drive-size {
+  margin: 0;
+  font-size: 12px;
+  color: #00aa00;
+}
+
+.encryption-status {
+  margin: 10px 0;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #0d0d0d;
+  border: 1px solid #00ff00;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 8px 0;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff00, #00cc00);
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: #000;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.method-label {
+  font-size: 11px;
+  color: #00aa00;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #003300;
+}
+
+/* Drive Actions */
+.drive-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #003300;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #00ff00;
+  background: #003300;
+  color: #00ff00;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.action-btn:hover {
+  background: #005500;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  transform: scale(1.02);
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+.encrypt-btn {
+  border-color: #ffaa00;
+  background: #663300;
+  color: #ffaa00;
+}
+
+.encrypt-btn:hover {
+  background: #885500;
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+}
+
+.backup-btn {
+  border-color: #00ccff;
+  background: #003366;
+  color: #00ccff;
+}
+
+.backup-btn:hover {
+  background: #004488;
+  box-shadow: 0 0 10px rgba(0, 204, 255, 0.4);
+}
+
+/* Detailed View */
+.detailed-view {
+  background: #1a1a1a;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.detailed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 2px solid #00ff00;
+  background: #0d0d0d;
+}
+
+.detailed-header h3 {
+  margin: 0;
+  font-size: 14px;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+.close-details {
+  background: none;
+  border: none;
+  color: #00ff00;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.close-details:hover {
+  color: #ff0000;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.detail-content {
+  padding: 15px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #003300;
+  font-size: 12px;
+}
+
+.detail-row label {
+  color: #00aa00;
+  min-width: 200px;
+  font-weight: bold;
+}
+
+.detail-row span {
+  color: #00ff00;
+  text-align: right;
+  flex: 1;
+}
+
+.key-status {
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+.key-status.backed_up {
+  background: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
+}
+
+.key-status.pending {
+  background: rgba(255, 255, 0, 0.2);
+  color: #ffff00;
+}
+
+.key-status.none {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff0000;
+}
+
+.detail-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #003300;
+}
+
+.detail-section h4 {
+  margin: 0 0 8px 0;
+  color: #00ff00;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detail-section ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.detail-section li {
+  color: #00aa00;
+  font-size: 11px;
+  margin: 4px 0;
+  position: relative;
+  padding-left: 10px;
+}
+
+.detail-section li:before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: #00ff00;
+}
+
+/* System Summary */
+.system-summary {
+  background: #1a1a1a;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
+  padding: 15px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.system-summary h3 {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  letter-spacing: 2px;
+  border-bottom: 1px solid #003300;
+  padding-bottom: 10px;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.stat {
+  background: #0d0d0d;
+  border: 1px solid #003300;
+  padding: 12px;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 11px;
+  color: #00aa00;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .drives-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

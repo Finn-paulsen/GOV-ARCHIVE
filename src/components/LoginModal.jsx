@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Tooltip } from 'react-tooltip'
 import { motion } from 'framer-motion'
+import { useUserProfile } from '../hooks/useUserProfile'
 
 // Demo creds
 const VALID_USER = 'demo'
@@ -62,6 +63,9 @@ export default function LoginModal({ onSuccess }) {
   const click = useRef(null)
   const beep = useRef(null)
 
+  // User Profile Hook
+  const { setLoginUser } = useUserProfile()
+
   // session id + clock
   const sessionId = useRef(uuidv4())
   const [now, setNow] = useState(new Date())
@@ -113,6 +117,15 @@ export default function LoginModal({ onSuccess }) {
       setMessage('Zugriff gewährt. Initialisiere System...')
       beep.current && beep.current(1000, 140)
       writeAudit({ts, user, action: 'login', result: 'success', info: navigator.userAgent})
+      
+      // Speichere User-Profil persistent
+      await setLoginUser({
+        username: user,
+        loginTime: ts,
+        sessionId: sessionId.current,
+        isLoggedIn: true
+      })
+      
       await simulateDelay(900)
       onSuccess && onSuccess()
       setFailCount(0)
