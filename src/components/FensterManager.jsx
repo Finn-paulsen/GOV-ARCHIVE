@@ -6,6 +6,7 @@ import ArchiveViewer from './ArchiveViewer';
 import FileEditor from './FileEditor';
 import FileExplorer from './FileExplorer';
 import GovTerminal from './GovTerminal.jsx';
+import HiveMindArchive from './HiveMindArchive';
 import React, { useState, useRef, useEffect } from 'react';
 import DraggableWindow from './DraggableWindow';
 // terminalIcon removed
@@ -71,6 +72,7 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
     if (w.type === 'surveillance') return <SurveillanceCenter />;
     if (w.type === 'archive') return <ArchiveViewer />;
     if (w.type === 'terminal') return <GovTerminal onDeepAccess={onDeepAccess} />;
+    if (w.type === 'hivemind') return <HiveMindArchive />;
     return typeof w.content === 'function' ? w.content() : w.content;
   }
 
@@ -139,6 +141,10 @@ export default function FensterManager({ bootComplete, onLogout, onDeepAccess })
         </div>
         <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'GOV-Terminal', type: 'terminal' })}>
           <span className="gov-icon-label">Terminal</span>
+        </div>
+        <div className="gov-desktop-icon" onDoubleClick={() => openWindow({ title: 'HIVE-MIND', type: 'hivemind' })}>
+          <span className="gov-icon-symbol">🗺️</span>
+          <span className="gov-icon-label">HIVE-MIND</span>
         </div>
       </div>
       <AnimatePresence>
